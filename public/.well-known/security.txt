@@ -1,0 +1,27 @@
+# Z-PAD Responsible Disclosure Policy
+# Conforms to RFC 9116 (https://www.rfc-editor.org/rfc/rfc9116)
+
+Contact: mailto:security@zettaword.com
+Contact: https://zettaword.com/security
+Expires: 2027-04-19T00:00:00.000Z
+Preferred-Languages: en, pt-BR
+Canonical: https://zpad.io/.well-known/security.txt
+Policy: https://zpad.io/security
+Hiring: https://zettaword.com/careers
+Acknowledgments: https://zpad.io/security/hall-of-fame
+
+# If you believe you have discovered a security vulnerability in Z-PAD,
+# please report it responsibly. We follow a 90-day coordinated disclosure
+# policy and offer rewards for qualifying findings.
+#
+# In-scope:
+#   - *.zpad.io
+#   - *.zettaword.com
+#   - Smart contracts deployed under ZETTA WORD governance
+#
+# Out-of-scope:
+#   - Social engineering
+#   - Physical attacks
+#   - Denial-of-service attacks
+#
+# Please encrypt sensitive reports using our PGP key (see below).
