@@ -6,7 +6,7 @@ import { Search } from 'lucide-react';
 
 import { PROJECTS } from '@/lib/mock-data';
 import { ProjectCard } from '@/components/features/ProjectCard';
-import type { SaleStatus, ChainId } from '@/types';
+import type { Project, SaleStatus, ChainId } from '@/types';
 
 type SortKey = 'ai' | 'raised' | 'participants' | 'ending';
 
@@ -29,7 +29,7 @@ export default function ProjectsPage() {
           p.description.toLowerCase().includes(q)
       );
     }
-    const sorters: Record<SortKey, (a: typeof list[0], b: typeof list[0]) => number> = {
+    const sorters: Record<SortKey, (a: Project, b: Project) => number> = {
       ai: (a, b) => b.aiScore - a.aiScore,
       raised: (a, b) => b.raised - a.raised,
       participants: (a, b) => b.participants - a.participants,

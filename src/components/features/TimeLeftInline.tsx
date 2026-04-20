@@ -9,13 +9,15 @@ interface TimeLeftInlineProps {
   className?: string;
 }
 
+// Stable zero value for SSR: avoids hydration mismatch when Date.now() differs
+// between server render and client hydration. Real value set in useEffect.
+const ZERO = { d: 0, h: 0, m: 0, s: 0, expired: false };
+
 /**
  * Client-side inline countdown — keeps "Ends in 2d 04h" live in SSG/ISR pages.
- * If rendered inside a Server Component, the initial SSR HTML is computed
- * at build time; this component takes over on hydration and ticks every second.
  */
 export function TimeLeftInline({ targetMs, prefix = 'Ends in', className = '' }: TimeLeftInlineProps) {
-  const [t, setT] = useState(() => fmt.timeLeft(targetMs));
+  const [t, setT] = useState(ZERO);
 
   useEffect(() => {
     const tick = () => setT(fmt.timeLeft(targetMs));

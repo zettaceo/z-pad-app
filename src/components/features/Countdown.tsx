@@ -9,8 +9,12 @@ interface CountdownProps {
   className?: string;
 }
 
+// Stable zero value used for SSR so server and client initial renders match,
+// avoiding React hydration mismatch. The real value is set in useEffect.
+const ZERO = { d: 0, h: 0, m: 0, s: 0, expired: false };
+
 export function Countdown({ targetMs, variant = 'boxes', className = '' }: CountdownProps) {
-  const [time, setTime] = useState(() => fmt.timeLeft(targetMs));
+  const [time, setTime] = useState(ZERO);
 
   useEffect(() => {
     const tick = () => setTime(fmt.timeLeft(targetMs));

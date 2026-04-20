@@ -1,3 +1,6 @@
+'use client';
+
+import { useId } from 'react';
 import { cn } from '@/lib/cn';
 
 interface AiScoreProps {
@@ -24,10 +27,14 @@ function getScoreColor(score: number): string {
  * Server-rendered SVG with progressive enhancement for animation.
  */
 export function AiScore({ score, size = 'default', className }: AiScoreProps) {
+  const uid = useId();
   const s = sizeMap[size];
   const circumference = 2 * Math.PI * s.r;
   const offset = circumference - (score / 100) * circumference;
-  const gradId = `aiScore-${size}-${Math.round(score)}`;
+  // uid is stable across SSR/hydration and unique per component instance,
+  // preventing SVG gradient ID collisions when multiple AiScore rings appear
+  // on the same page with identical scores.
+  const gradId = `aiScore-${uid.replace(/:/g, '')}`;
 
   return (
     <div

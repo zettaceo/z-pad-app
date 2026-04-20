@@ -153,17 +153,10 @@ export function ZionFab() {
 
       {open && (
         <div
-          className="fixed bottom-[92px] right-6 w-[380px] max-w-[calc(100vw-48px)] h-[560px] max-h-[calc(100vh-120px)] bg-[rgba(7,13,37,0.95)] backdrop-blur-[24px] border border-white/14 rounded-[20px] shadow-2xl z-[150] flex flex-col overflow-hidden"
-          style={{ animation: 'zionOpen 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+          className="fixed bottom-[92px] right-6 w-[380px] max-w-[calc(100vw-48px)] h-[560px] max-h-[calc(100vh-120px)] bg-[rgba(7,13,37,0.95)] backdrop-blur-[24px] border border-white/14 rounded-[20px] shadow-2xl z-[150] flex flex-col overflow-hidden animate-[zionOpen_0.4s_cubic-bezier(0.34,1.56,0.64,1)]"
           role="dialog"
           aria-labelledby="zion-title"
         >
-          <style jsx>{`
-            @keyframes zionOpen {
-              from { opacity: 0; transform: scale(0.8) translateY(20px); }
-              to { opacity: 1; transform: scale(1) translateY(0); }
-            }
-          `}</style>
 
           {/* Header */}
           <div className="px-[18px] py-4 border-b border-white/10 flex items-center gap-3 bg-gradient-to-br from-cyan-500/5 to-violet-500/5">
