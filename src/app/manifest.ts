@@ -13,7 +13,7 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: 'portrait-primary',
     icons: [
       { src: '/assets/logo-z.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
-      { src: '/assets/logo-z.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
+      { src: '/assets/logo-z.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     categories: ['finance', 'business', 'productivity'],
     lang: 'en',
