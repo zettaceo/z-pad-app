@@ -1,3 +1,7 @@
+// ISR: regenerate the homepage every hour so the featured-project countdown
+// and live-grid statuses reflect current mock timestamps.
+export const revalidate = 3600;
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Plus, Shield, CheckCircle, Lock, Sparkles } from 'lucide-react';

@@ -13,6 +13,11 @@ import { AiScore } from '@/components/features/AiScore';
 import { Countdown } from '@/components/features/Countdown';
 import { TimeLeftInline } from '@/components/features/TimeLeftInline';
 
+// Revalidate every hour so mock timestamps (startsAt/endsAt) in the static
+// HTML don't drift more than ~60 min from real time. Replace with on-demand
+// revalidation once a real data layer is wired up.
+export const revalidate = 3600;
+
 interface Props {
   params: Promise<{ id: string }>;
 }
