@@ -77,7 +77,14 @@ export default function RewardsPage() {
                   Reputation: <strong className="text-cyan-400">{wallet.reputation || 72}/100</strong>
                   {' · '}XP: <strong className="font-[family-name:var(--font-mono)]">{fmt.number(wallet.xp || 2840)} / {fmt.number(xpToNext)}</strong>
                 </div>
-                <div className="h-2.5 bg-white/5 rounded-full overflow-hidden max-w-[480px]">
+                <div
+                  className="h-2.5 bg-white/5 rounded-full overflow-hidden max-w-[480px]"
+                  role="progressbar"
+                  aria-label="XP progress"
+                  aria-valuenow={Math.round(wallet.xp || 2840)}
+                  aria-valuemin={0}
+                  aria-valuemax={xpToNext}
+                >
                   <div
                     className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-[0_0_12px_rgba(0,212,255,0.4)] transition-[width] duration-1000"
                     style={{ width: `${xpProgress}%` }}

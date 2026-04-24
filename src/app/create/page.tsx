@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { z, ZodError } from 'zod';
 import { Rocket, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
+import { useWallet } from '@/lib/wallet-store';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { AiScore } from '@/components/features/AiScore';
@@ -41,6 +42,7 @@ interface FormState {
 }
 
 export default function CreatePage() {
+  const { wallet, openWalletModal } = useWallet();
   const [step, setStep] = useState(1);
   const [deploying, setDeploying] = useState(false);
   const [form, setForm] = useState<FormState>({
@@ -62,7 +64,7 @@ export default function CreatePage() {
 
   const step2Schema = z
     .object({
-      supply: z.string().min(1, 'Total supply required').regex(/^\d+$/, 'Supply must be a whole number'),
+      supply: z.string().min(1, 'Total supply required').regex(/^\d+$/, 'Supply must be a whole number').refine((v) => Number(v) > 0, 'Supply must be greater than 0'),
       presale: z.string(),
       liquidity: z.string(),
       team: z.string(),
@@ -80,11 +82,11 @@ export default function CreatePage() {
 
   const step3Schema = z
     .object({
-      rate: z.string().min(1, 'Rate required'),
-      softCap: z.string().min(1, 'Soft cap required'),
-      hardCap: z.string().min(1, 'Hard cap required'),
-      minBuy: z.string().min(1, 'Min buy required'),
-      maxBuy: z.string().min(1, 'Max buy required'),
+      rate: z.string().min(1, 'Rate required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
+      softCap: z.string().min(1, 'Soft cap required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
+      hardCap: z.string().min(1, 'Hard cap required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
+      minBuy: z.string().min(1, 'Min buy required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
+      maxBuy: z.string().min(1, 'Max buy required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
       startDate: z.string().min(1, 'Start date required'),
       endDate: z.string().min(1, 'End date required'),
     })
@@ -135,6 +137,27 @@ export default function CreatePage() {
       }, 1400);
     }, 1000);
   };
+
+  if (!wallet.connected) {
+    return (
+      <div className="pt-[100px]">
+        <div className="max-w-[1360px] mx-auto px-6 py-20">
+          <div className="max-w-[520px] mx-auto text-center p-10 bg-bg-075 border border-white/10 rounded-[14px]">
+            <Rocket className="w-14 h-14 mx-auto mb-4 text-white/30" />
+            <h3 className="font-[family-name:var(--font-display)] text-xl font-bold mb-3">
+              Connect Wallet &amp; Complete KYC
+            </h3>
+            <p className="text-white/70 mb-6">
+              You must connect your wallet and complete creator KYC to launch a project on Z-PAD.
+            </p>
+            <Button size="lg" onClick={openWalletModal}>
+              Connect Wallet
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const total = Number(form.presale || 0) + Number(form.liquidity || 0) + Number(form.team || 0) + Number(form.marketing || 0);
   const preScore = Math.floor((Math.min(100, Number(form.liquidity || 0) * 1.3) + (Number(form.liquidity) >= 60 ? 95 : 70) - (Number(form.team) > 15 ? 20 : 0) + 85) / 3);
@@ -386,8 +409,8 @@ export default function CreatePage() {
                   </p>
                   <div className="inline-flex flex-col gap-3 p-5 rounded-[14px] bg-cyan-500/[0.04] border border-cyan-500/15 text-left max-w-[500px] w-full">
                     <div>
-                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">Contract Address</div>
-                      <div className="font-[family-name:var(--font-mono)] text-[0.82rem] text-cyan-400 break-all">0x8AaCC38933007eC530c552007E210B4667749DF1</div>
+                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">Contract Address <span className="text-gold-400 normal-case">(demo)</span></div>
+                      <div className="font-[family-name:var(--font-mono)] text-[0.82rem] text-cyan-400 break-all">0x0000000000000000000000000000000000001337</div>
                     </div>
                     <div>
                       <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">Transaction Hash</div>

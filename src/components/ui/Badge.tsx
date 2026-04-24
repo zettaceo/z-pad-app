@@ -5,6 +5,7 @@ type BadgeVariant =
   | 'live'
   | 'upcoming'
   | 'ended'
+  | 'passed'
   | 'hot'
   | 'trending'
   | 'kyc'
@@ -27,6 +28,7 @@ const variantStyles: Record<BadgeVariant, string> = {
   live: 'bg-green-500/15 text-green-400 border-green-500/30',
   upcoming: 'bg-gold-500/10 text-gold-400 border-gold-500/30',
   ended: 'bg-white/5 text-white/50 border-white/10',
+  passed: 'bg-green-500/10 text-green-400 border-green-500/20',
   hot: 'bg-gradient-to-r from-orange-500 to-red-500 text-[#2a0f00] border-transparent font-bold',
   trending: 'bg-orange-500/15 text-orange-500 border-orange-500/30',
   kyc: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
@@ -55,6 +57,7 @@ const defaultLabels: Partial<Record<BadgeVariant, string>> = {
   ai: '✨ AI Verified',
   upcoming: 'Upcoming',
   ended: 'Ended',
+  passed: '✓ Passed',
 };
 
 export function Badge({ variant, children, className }: BadgeProps) {

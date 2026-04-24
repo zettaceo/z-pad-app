@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -9,6 +9,7 @@ import { Wallet, Menu, X, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { fmt } from '@/lib/format';
 import { useWallet } from '@/lib/wallet-store';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 import { WalletModal } from '@/components/features/WalletModal';
 
 const NAV_LINKS = [
@@ -25,6 +26,9 @@ export function Nav() {
   const { wallet, disconnect, openWalletModal } = useWallet();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(mobileMenuRef, mobileOpen);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -181,6 +185,7 @@ export function Nav() {
       {/* Mobile drawer */}
       {mobileOpen && (
         <div
+          ref={mobileMenuRef}
           id="mobile-menu"
           className="fixed inset-0 top-[100px] z-[49] bg-bg-000/98 backdrop-blur-xl p-6 overflow-y-auto lg:hidden"
           role="dialog"

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Sparkles, X, Send } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 import { PROJECTS } from '@/lib/mock-data';
 
 interface Message {
@@ -100,6 +101,9 @@ export function ZionFab() {
   const pathname = usePathname();
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, open);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
@@ -107,6 +111,15 @@ export function ZionFab() {
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 300);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
   const send = (text: string) => {
@@ -153,8 +166,10 @@ export function ZionFab() {
 
       {open && (
         <div
+          ref={dialogRef}
           className="fixed bottom-[92px] right-6 w-[380px] max-w-[calc(100vw-48px)] h-[560px] max-h-[calc(100vh-120px)] bg-[rgba(7,13,37,0.95)] backdrop-blur-[24px] border border-white/14 rounded-[20px] shadow-2xl z-[150] flex flex-col overflow-hidden animate-[zionOpen_0.4s_cubic-bezier(0.34,1.56,0.64,1)]"
           role="dialog"
+          aria-modal="true"
           aria-labelledby="zion-title"
         >
 
