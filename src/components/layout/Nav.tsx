@@ -71,7 +71,7 @@ export function Nav() {
         )}
         aria-label="Primary navigation"
       >
-        <div className="flex items-center h-full gap-2 max-w-[1360px] mx-auto px-6">
+        <div className="flex items-center h-full gap-2 max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 mr-5" aria-label="Z-PAD Home">
             <Image

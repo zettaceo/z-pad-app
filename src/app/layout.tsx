@@ -117,7 +117,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       className={`${syne.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="antialiased">
+      <body className="antialiased overflow-x-hidden">
         {/* WCAG 2.4.1 — skip link */}
         <a
           href="#main"

@@ -59,7 +59,7 @@ export default function HomePage() {
   return (
     <div className="pt-[100px]">
       {/* HERO */}
-      <section className="py-10 md:py-16 relative">
+      <section className="py-10 md:py-16 relative overflow-hidden">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
             <div>
@@ -109,7 +109,7 @@ export default function HomePage() {
             </div>
 
             {/* Rocket */}
-            <div className="relative flex justify-center items-center min-h-[480px] order-first lg:order-last">
+            <div className="relative flex justify-center items-center min-h-[260px] sm:min-h-[360px] lg:min-h-[480px] lg:order-last overflow-hidden">
               <div
                 className="absolute w-[90%] h-[90%] rounded-full opacity-70"
                 style={{
@@ -119,7 +119,7 @@ export default function HomePage() {
                 }}
               />
               <div
-                className="absolute top-1/2 left-1/2 w-full h-full rounded-full border border-dashed border-cyan-500/15 pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full rounded-full border border-dashed border-cyan-500/15 pointer-events-none"
                 style={{
                   animation: 'orbit 40s linear infinite',
                 }}
@@ -128,7 +128,7 @@ export default function HomePage() {
                 <div className="absolute bottom-[15%] left-[20%] w-2.5 h-2.5 rounded-full bg-violet-500 shadow-[0_0_16px_#8b5cf6]" />
               </div>
               <div
-                className="absolute top-1/2 left-1/2 w-[115%] h-[115%] rounded-full border border-dashed border-violet-500/12 pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] rounded-full border border-dashed border-violet-500/12 pointer-events-none"
                 style={{
                   animation: 'orbit 60s linear infinite reverse',
                 }}
@@ -197,7 +197,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="relative p-8 bg-bg-075 border border-white/10 rounded-[20px] overflow-hidden">
+            <div className="relative p-4 sm:p-6 md:p-8 bg-bg-075 border border-white/10 rounded-[20px] overflow-hidden">
               <span className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-cyan-500 via-blue-500 via-cyan-500 to-transparent" style={{ backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }} />
 
               <div className="flex flex-wrap gap-5 md:gap-8 items-start md:items-center mb-7">
@@ -247,7 +247,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 pt-6 border-t border-white/5">
+              <div className="grid md:grid-cols-[1.4fr_1fr] gap-6 md:gap-10 pt-6 border-t border-white/5">
                 <div>
                   <h4 className="text-[0.72rem] text-white/50 uppercase tracking-[0.08em] font-bold mb-3">Raised</h4>
                   <div className="font-[family-name:var(--font-display)] text-[2.4rem] font-extrabold tracking-[-0.025em] leading-none mb-2 bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">
@@ -300,7 +300,7 @@ export default function HomePage() {
               </h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {liveProjects.map((p) => (
               <ProjectCard key={p.id} project={p} />
             ))}
@@ -326,7 +326,7 @@ export default function HomePage() {
               other launchpad combined.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {FEATURES.map((f) => (
               <div
                 key={f.title}
@@ -364,7 +364,7 @@ export default function HomePage() {
               From zero to invested in under 3 minutes.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {HOW_STEPS.map((s) => (
               <div
                 key={s.n}
