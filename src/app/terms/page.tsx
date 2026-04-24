@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { FEES } from '@/config/fees';
+
 export const metadata = { title: 'Terms of Service — Z-PAD' };
 
 export default function TermsPage() {
@@ -34,7 +36,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2 className="font-[family-name:var(--font-display)] text-[1.2rem] font-bold text-white mb-3">5. Platform Fees</h2>
-            <p>Z-PAD charges a 2% fee on successful raises (1% for stakers holding 10,000+ Z tokens). A 0.5 BNB listing fee applies to project creation. Fees are subject to change with 30 days notice.</p>
+            <p>Z-PAD charges a {FEES.platformPct}% fee on successful raises ({FEES.stakerPlatformPct}% for stakers holding {FEES.stakerMinZ.toLocaleString()}+ Z tokens). A {FEES.listingBnb} BNB listing fee applies to project creation. Fees are subject to change with 30 days notice.</p>
           </section>
           <section>
             <h2 className="font-[family-name:var(--font-display)] text-[1.2rem] font-bold text-white mb-3">6. Limitation of Liability</h2>

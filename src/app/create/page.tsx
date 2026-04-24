@@ -7,6 +7,7 @@ import { z, ZodError } from 'zod';
 import { Rocket, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 import { useWallet } from '@/lib/wallet-store';
+import { computeAiPrescore } from '@/lib/ai-prescore';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { AiScore } from '@/components/features/AiScore';
@@ -160,7 +161,7 @@ export default function CreatePage() {
   }
 
   const total = Number(form.presale || 0) + Number(form.liquidity || 0) + Number(form.team || 0) + Number(form.marketing || 0);
-  const preScore = Math.floor((Math.min(100, Number(form.liquidity || 0) * 1.3) + (Number(form.liquidity) >= 60 ? 95 : 70) - (Number(form.team) > 15 ? 20 : 0) + 85) / 3);
+  const preScore = computeAiPrescore({ liquidity: Number(form.liquidity || 0), team: Number(form.team || 0) });
 
   return (
     <div className="pt-[100px]">

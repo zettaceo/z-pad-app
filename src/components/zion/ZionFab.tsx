@@ -7,6 +7,7 @@ import { Sparkles, X, Send } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useFocusTrap } from '@/lib/use-focus-trap';
 import { PROJECTS } from '@/lib/mock-data';
+import { FEES } from '@/config/fees';
 
 interface Message {
   role: 'ai' | 'user';
@@ -67,7 +68,7 @@ function generateResponse(question: string, pathname: string): string {
   }
 
   if (q.includes('fee') || q.includes('cost')) {
-    return 'Z-PAD platform fees: 2% standard on successful raises, 1% for users staking 10,000+ Z (50% discount), 0.5 BNB listing fee for creators. Compared to PinkSale (2-5%) and CEX launchpads, we offer the most competitive rates plus way more features.';
+    return `Z-PAD platform fees: ${FEES.platformPct}% standard on successful raises, ${FEES.stakerPlatformPct}% for users staking ${FEES.stakerMinZ.toLocaleString()}+ Z (${FEES.stakerDiscountPct}% discount), ${FEES.listingBnb} BNB listing fee for creators. Compared to PinkSale (2-5%) and CEX launchpads, we offer the most competitive rates plus way more features.`;
   }
 
   if (q.includes('kyc') || q.includes('verify')) {
@@ -87,7 +88,7 @@ function generateResponse(question: string, pathname: string): string {
   }
 
   if (q.includes('launch') || q.includes('create')) {
-    return 'To launch your project on Z-PAD: Click Create in the nav, follow the 5-step wizard (Info → Tokenomics → Sale → Review → Deploy), complete creator KYC (mandatory), my AI will pre-screen your contract. Launch fee: 0.5 BNB + 2% of raise. Takes ~30 min, no code required.';
+    return `To launch your project on Z-PAD: Click Create in the nav, follow the 5-step wizard (Info → Tokenomics → Sale → Review → Deploy), complete creator KYC (mandatory), my AI will pre-screen your contract. Launch fee: ${FEES.listingBnb} BNB + ${FEES.platformPct}% of raise. Takes ~30 min, no code required.`;
   }
 
   return "That's a great question. Z-PAD's edge comes from combining permissionless launches with institutional-grade vetting, fiat rails, and AI analysis. If you want specific guidance, try asking about a particular project, feature, or mechanism.";

@@ -49,7 +49,7 @@ export function Footer() {
             </div>
             <p className="text-white/70 text-[0.88rem] leading-relaxed max-w-sm mb-5">
               The next-generation decentralized launchpad. Part of the ZETTA ecosystem — connecting
-              banking, wallet, DEX, and blockchain.
+              Z-BANCK, wallet, DEX, and blockchain.
             </p>
             <div className="flex gap-2">
               {[
