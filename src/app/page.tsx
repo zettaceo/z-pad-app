@@ -40,8 +40,8 @@ const FEATURES = [
     desc: 'Fair Launch, Presale, Private, LBP, Bonding Curve — we support everything. Competitors support 1-2.',
   },
   {
-    title: 'Banking Integration',
-    desc: 'Native Z-BANCK integration: invest with fiat balance, receive profits in USD/BRL, use positions as collateral.',
+    title: 'Z-BANCK Integration',
+    desc: 'Native Z-BANCK fintech integration: invest with fiat balance, receive profits in USD/BRL, use positions as collateral.',
   },
 ];
 
@@ -76,7 +76,7 @@ export default function HomePage() {
                 <span className="text-white">You'll Ever Need.</span>
               </h1>
               <p className="text-white/70 text-[1.1rem] leading-relaxed mb-8 max-w-[540px]">
-                Permissionless. AI-vetted. Multi-chain. With native fiat rails, banking integration,
+                Permissionless. AI-vetted. Multi-chain. With native fiat rails, Z-BANCK integration,
                 and refundable sales. Every feature the competition lacks — and then some.
               </p>
               <div className="flex flex-wrap gap-3 mb-10">
