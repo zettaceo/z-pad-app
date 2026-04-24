@@ -1,12 +1,27 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { PROPOSALS } from '@/lib/mock-data';
 import { fmt } from '@/lib/format';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 
+type Vote = 'for' | 'against' | 'abstain';
+
 export default function GovernancePage() {
+  const [votes, setVotes] = useState<Record<string, Vote>>({});
+
+  const castVote = (proposalId: string, vote: Vote) => {
+    if (votes[proposalId]) return;
+    setVotes((v) => ({ ...v, [proposalId]: vote }));
+    const proposal = PROPOSALS.find((p) => p.id === proposalId);
+    toast.success(`Vote cast: ${vote} on "${proposal?.title ?? 'proposal'}"`);
+  };
+
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
@@ -74,7 +89,7 @@ export default function GovernancePage() {
                     <span>·</span><span>{p.status === 'active' ? `Ends in ${fmt.timeLeft(p.endsAt).d}d` : 'Ended'}</span>
                   </div>
                 </div>
-                {p.status === 'active' ? <Badge variant="live">Live</Badge> : <Badge variant="fairlaunch">✓ Passed</Badge>}
+                {p.status === 'active' ? <Badge variant="live">Live</Badge> : <Badge variant="passed" />}
               </div>
               <p className="text-white/70 text-[0.9rem] leading-relaxed mb-4">{p.desc}</p>
 
@@ -99,13 +114,19 @@ export default function GovernancePage() {
                   {fmt.number(p.totalVotes)} Z voted
                 </div>
                 {p.status === 'active' ? (
-                  <div className="flex gap-2">
-                    <Button variant="success" size="sm">Vote For</Button>
-                    <Button variant="danger" size="sm">Vote Against</Button>
-                    <Button variant="ghost" size="sm">Abstain</Button>
-                  </div>
+                  votes[p.id] ? (
+                    <span className="text-[0.82rem] text-white/50 font-[family-name:var(--font-mono)]">
+                      Voted: <strong className="text-cyan-400 capitalize">{votes[p.id]}</strong>
+                    </span>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Button variant="success" size="sm" onClick={() => castVote(p.id, 'for')}>Vote For</Button>
+                      <Button variant="danger" size="sm" onClick={() => castVote(p.id, 'against')}>Vote Against</Button>
+                      <Button variant="ghost" size="sm" onClick={() => castVote(p.id, 'abstain')}>Abstain</Button>
+                    </div>
+                  )
                 ) : (
-                  <Badge variant="fairlaunch">Executed</Badge>
+                  <Badge variant="passed">Executed</Badge>
                 )}
               </div>
             </div>

@@ -71,9 +71,9 @@ export default function StakingPage() {
                 { l: 'Stakers', v: '12,847' },
               ].map((s) => (
                 <div key={s.l}>
-                  <label className="block text-[0.72rem] text-white/50 uppercase tracking-wider font-semibold mb-1.5">
+                  <div className="text-[0.72rem] text-white/50 uppercase tracking-wider font-semibold mb-1.5">
                     {s.l}
-                  </label>
+                  </div>
                   <div className={`font-[family-name:var(--font-display)] text-[1.8rem] font-extrabold tracking-[-0.025em] ${s.accent ? 'bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent' : ''}`}>
                     {s.v}
                   </div>

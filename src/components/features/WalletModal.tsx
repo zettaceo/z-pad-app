@@ -5,6 +5,7 @@ import { ChevronRight, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { useWallet } from '@/lib/wallet-store';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface WalletOption {
   name: string;
@@ -30,6 +31,9 @@ const WALLETS: readonly WalletOption[] = [
 export function WalletModal() {
   const { walletModalOpen, closeWalletModal, connect } = useWallet();
   const firstButtonRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(containerRef, walletModalOpen);
 
   // ESC key + body scroll lock
   useEffect(() => {
@@ -75,6 +79,7 @@ export function WalletModal() {
       aria-labelledby="wallet-modal-title"
     >
       <div
+        ref={containerRef}
         className="bg-bg-075 border border-white/14 rounded-[20px] w-full max-w-[480px] max-h-[90vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >

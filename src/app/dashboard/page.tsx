@@ -59,7 +59,7 @@ export default function DashboardPage() {
               <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
                 Welcome back,{' '}
                 <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-                  Ninja
+                  {wallet.walletName ?? fmt.address(wallet.address)}
                 </span>
               </h1>
               <p className="text-white/70 mt-2">

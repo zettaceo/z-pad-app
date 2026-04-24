@@ -94,6 +94,7 @@ export default function ProjectsPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search projects"
                 placeholder="Search projects..."
                 className="w-full pl-10 pr-3.5 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03] transition-all placeholder:text-white/30"
               />
