@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#021a0c"/>
+      <stop offset="100%" stop-color="#011008"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="gs" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- Shield shape -->
+  <path d="M 100 30 L 158 56 L 158 102 Q 158 148 100 172 Q 42 148 42 102 L 42 56 Z" fill="url(#gs)" stroke="url(#g)" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Inner shield highlight -->
+  <path d="M 100 48 L 142 67 L 142 104 Q 142 136 100 153 Q 58 136 58 104 L 58 67 Z" fill="none" stroke="url(#g)" stroke-width="2.5" opacity="0.35" stroke-linejoin="round"/>
+  <!-- Checkmark -->
+  <path d="M 72 100 L 90 120 L 130 78" stroke="url(#g)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

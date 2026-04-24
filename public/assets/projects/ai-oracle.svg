@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d0621"/>
+      <stop offset="100%" stop-color="#1a0a38"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- Eye outline -->
+  <path d="M 30 100 Q 100 45 170 100 Q 100 155 30 100 Z" fill="none" stroke="url(#g)" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Iris -->
+  <circle cx="100" cy="100" r="24" fill="none" stroke="url(#g)" stroke-width="6"/>
+  <!-- Pupil -->
+  <circle cx="100" cy="100" r="10" fill="url(#g)"/>
+  <!-- Circuit nodes -->
+  <circle cx="44" cy="100" r="4" fill="#a855f7" opacity="0.9"/>
+  <circle cx="156" cy="100" r="4" fill="#00d4ff" opacity="0.9"/>
+  <!-- Scan lines -->
+  <line x1="58" y1="68" x2="68" y2="78" stroke="url(#g)" stroke-width="2.5" opacity="0.5"/>
+  <line x1="142" y1="68" x2="132" y2="78" stroke="url(#g)" stroke-width="2.5" opacity="0.5"/>
+  <line x1="58" y1="132" x2="68" y2="122" stroke="url(#g)" stroke-width="2.5" opacity="0.5"/>
+  <line x1="142" y1="132" x2="132" y2="122" stroke="url(#g)" stroke-width="2.5" opacity="0.5"/>
+  <!-- AI text -->
+  <text x="100" y="172" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="url(#g)" text-anchor="middle" opacity="0.9">ORACLE</text>
+</svg>

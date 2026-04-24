@@ -27,6 +27,7 @@ export interface Project {
   id: string;
   name: string;
   symbol: string;
+  logo: string;
   description: string;
   chain: ChainId;
   chainName: string;

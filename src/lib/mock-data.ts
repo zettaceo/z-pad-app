@@ -7,7 +7,7 @@ const h = 3600000;
 
 export const PROJECTS: Project[] = [
   {
-    id: 'zetta-chain', name: 'ZETTA CHAIN', symbol: 'ZETTA',
+    id: 'zetta-chain', name: 'ZETTA CHAIN', symbol: 'ZETTA', logo: '/assets/projects/zetta-chain.svg',
     description: 'Layer 1 blockchain designed for the ZETTA ecosystem. Sub-second finality, EVM compatibility, and native crypto-fiat rails built for mass adoption.',
     chain: 'zetta', chainName: 'ZettaChain',
     saleType: 'Fair Launch', saleTypeKey: 'fairlaunch',
@@ -26,7 +26,7 @@ export const PROJECTS: Project[] = [
     vesting: 'TGE: 25% | 3 months linear',
   },
   {
-    id: 'ai-oracle', name: 'AI Oracle', symbol: 'AIO',
+    id: 'ai-oracle', name: 'AI Oracle', symbol: 'AIO', logo: '/assets/projects/ai-oracle.svg',
     description: 'Decentralized AI oracle network for smart contracts. Real-time GPT-class models on-chain.',
     chain: 'eth', chainName: 'Ethereum',
     saleType: 'Bonding Curve', saleTypeKey: 'bondingcurve',
@@ -44,7 +44,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '1,000,000,000', presale: 10, liquidity: 85, team: 3, marketing: 2 },
   },
   {
-    id: 'pixelverse', name: 'PixelVerse', symbol: 'PIXV',
+    id: 'pixelverse', name: 'PixelVerse', symbol: 'PIXV', logo: '/assets/projects/pixelverse.svg',
     description: 'Open-world Web3 MMORPG with player-owned economy. Built on custom gaming L2.',
     chain: 'polygon', chainName: 'Polygon',
     saleType: 'LBP', saleTypeKey: 'lbp',
@@ -62,7 +62,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '1,500,000,000', presale: 15, liquidity: 70, team: 10, marketing: 5 },
   },
   {
-    id: 'metavault', name: 'MetaVault Finance', symbol: 'MVT',
+    id: 'metavault', name: 'MetaVault Finance', symbol: 'MVT', logo: '/assets/projects/metavault.svg',
     description: 'Multi-chain yield aggregator with AI-powered strategy selection and automated rebalancing.',
     chain: 'bsc', chainName: 'BSC',
     saleType: 'Presale', saleTypeKey: 'presale',
@@ -80,7 +80,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '500,000,000', presale: 25, liquidity: 60, team: 10, marketing: 5 },
   },
   {
-    id: 'nexgen-ai', name: 'NexGen AI', symbol: 'NXAI',
+    id: 'nexgen-ai', name: 'NexGen AI', symbol: 'NXAI', logo: '/assets/projects/nexgen-ai.svg',
     description: 'AI-powered on-chain analytics, trading signals, and autonomous agents.',
     chain: 'polygon', chainName: 'Polygon',
     saleType: 'Fair Launch', saleTypeKey: 'fairlaunch',
@@ -98,7 +98,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '200,000,000', presale: 18, liquidity: 72, team: 8, marketing: 2 },
   },
   {
-    id: 'zettabridge', name: 'ZettaBridge', symbol: 'ZBRG',
+    id: 'zettabridge', name: 'ZettaBridge', symbol: 'ZBRG', logo: '/assets/projects/zettabridge.svg',
     description: 'Cross-chain bridge with sub-minute transfers across 20+ chains. Native to the ZETTA ecosystem.',
     chain: 'zetta', chainName: 'ZettaChain',
     saleType: 'Fair Launch', saleTypeKey: 'fairlaunch',
@@ -116,7 +116,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '500,000,000', presale: 15, liquidity: 78, team: 5, marketing: 2 },
   },
   {
-    id: 'quantumdex', name: 'QuantumDEX', symbol: 'QDEX',
+    id: 'quantumdex', name: 'QuantumDEX', symbol: 'QDEX', logo: '/assets/projects/quantumdex.svg',
     description: 'Next-gen decentralized exchange with MEV protection and zero-slippage swaps.',
     chain: 'eth', chainName: 'Ethereum',
     saleType: 'Presale', saleTypeKey: 'presale',
@@ -134,7 +134,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '300,000,000', presale: 30, liquidity: 55, team: 10, marketing: 5 },
   },
   {
-    id: 'solana-pay', name: 'SolanaPay Pro', symbol: 'SPRO',
+    id: 'solana-pay', name: 'SolanaPay Pro', symbol: 'SPRO', logo: '/assets/projects/solana-pay.svg',
     description: 'Enterprise payment infrastructure on Solana. Sub-cent transactions for merchants.',
     chain: 'solana', chainName: 'Solana',
     saleType: 'Presale', saleTypeKey: 'presale',
@@ -152,7 +152,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '400,000,000', presale: 25, liquidity: 60, team: 10, marketing: 5 },
   },
   {
-    id: 'base-lend', name: 'BaseLend', symbol: 'BLND',
+    id: 'base-lend', name: 'BaseLend', symbol: 'BLND', logo: '/assets/projects/base-lend.svg',
     description: 'Lending protocol native to Base with institutional yields and permissionless markets.',
     chain: 'base', chainName: 'Base',
     saleType: 'Presale', saleTypeKey: 'presale',
@@ -170,7 +170,7 @@ export const PROJECTS: Project[] = [
     tokenomics: { supply: '800,000,000', presale: 20, liquidity: 68, team: 8, marketing: 4 },
   },
   {
-    id: 'cryptoshield', name: 'CryptoShield', symbol: 'CSHD',
+    id: 'cryptoshield', name: 'CryptoShield', symbol: 'CSHD', logo: '/assets/projects/cryptoshield.svg',
     description: 'On-chain insurance protocol for DeFi positions.',
     chain: 'bsc', chainName: 'BSC',
     saleType: 'Presale', saleTypeKey: 'presale',

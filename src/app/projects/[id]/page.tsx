@@ -60,13 +60,13 @@ export default async function ProjectDetailPage({ params }: Props) {
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-5 items-start sm:items-center mb-6">
             <div className="flex items-start gap-4 flex-1 min-w-0">
               <Image
-                src="/assets/logo-z.png"
+                src={p.logo}
                 alt={p.name}
                 width={88}
                 height={88}
                 sizes="88px"
                 priority
-                className="w-[64px] h-[64px] sm:w-[88px] sm:h-[88px] rounded-full border-2 border-cyan-500/35 shadow-[0_0_32px_rgba(0,212,255,0.28)] shrink-0"
+                className="w-[64px] h-[64px] sm:w-[88px] sm:h-[88px] rounded-full border-2 border-cyan-500/35 shadow-[0_0_32px_rgba(0,212,255,0.28)] shrink-0 object-cover"
               />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-3 flex-wrap mb-2.5">

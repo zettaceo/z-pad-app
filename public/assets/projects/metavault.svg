@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1000"/>
+      <stop offset="100%" stop-color="#0f0a00"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- Vault door outer ring -->
+  <circle cx="100" cy="95" r="54" fill="none" stroke="url(#g)" stroke-width="8"/>
+  <!-- Vault door inner ring -->
+  <circle cx="100" cy="95" r="38" fill="none" stroke="url(#g)" stroke-width="5" opacity="0.6"/>
+  <!-- Vault spokes -->
+  <line x1="100" y1="41" x2="100" y2="57" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <line x1="100" y1="133" x2="100" y2="149" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <line x1="46" y1="95" x2="62" y2="95" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <line x1="138" y1="95" x2="154" y2="95" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <!-- Center lock -->
+  <circle cx="100" cy="95" r="14" fill="url(#g)"/>
+  <circle cx="100" cy="95" r="6" fill="#1a1000"/>
+  <!-- Handle -->
+  <line x1="154" y1="95" x2="166" y2="95" stroke="url(#g)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="166" cy="95" r="7" fill="url(#g)"/>
+  <!-- Label -->
+  <text x="100" y="174" font-family="Arial Black, sans-serif" font-size="14" font-weight="900" fill="#fbbf24" text-anchor="middle" opacity="0.9">METAVAULT</text>
+</svg>

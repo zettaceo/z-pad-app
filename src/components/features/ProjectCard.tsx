@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Project } from '@/types';
 import { fmt } from '@/lib/format';
 import { AiScore } from './AiScore';
@@ -26,8 +27,8 @@ export function ProjectCard({ project: p }: ProjectCardProps) {
 
       {/* Identity */}
       <div className="flex items-center gap-3 mb-3.5 pr-[68px]">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center font-[family-name:var(--font-display)] font-extrabold text-[#021628] text-[1.05rem] shrink-0">
-          {p.symbol[0]}
+        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-white/10">
+          <Image src={p.logo} alt={p.name} width={48} height={48} className="w-full h-full object-cover" />
         </div>
         <div className="min-w-0">
           <div className="font-[family-name:var(--font-display)] font-bold text-[1.02rem] truncate tracking-[-0.015em]">

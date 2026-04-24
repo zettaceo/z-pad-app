@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#021628"/>
+      <stop offset="100%" stop-color="#061e3a"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0055ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- Chain link left -->
+  <rect x="34" y="82" width="38" height="36" rx="18" fill="none" stroke="url(#g)" stroke-width="9"/>
+  <!-- Chain link right -->
+  <rect x="128" y="82" width="38" height="36" rx="18" fill="none" stroke="url(#g)" stroke-width="9"/>
+  <!-- Connector -->
+  <rect x="72" y="91" width="56" height="18" rx="9" fill="url(#g)"/>
+  <!-- Z lettermark top -->
+  <text x="100" y="60" font-family="Arial Black, sans-serif" font-size="28" font-weight="900" fill="url(#g)" text-anchor="middle" letter-spacing="-1">ZETTA</text>
+  <!-- Glow dot -->
+  <circle cx="100" cy="155" r="6" fill="#00d4ff" opacity="0.8"/>
+  <circle cx="100" cy="155" r="12" fill="#00d4ff" opacity="0.15"/>
+</svg>

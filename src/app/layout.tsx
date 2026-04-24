@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { headers } from 'next/headers';
-import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Urbanist, Inter, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from 'sonner';
@@ -18,7 +18,7 @@ import { ScrollProgress } from '@/components/layout/ScrollProgress';
 import './globals.css';
 
 // Self-hosted via next/font — no layout shift, no third-party request
-const syne = Syne({
+const urbanist = Urbanist({
   subsets: ['latin'],
   variable: '--font-display',
   weight: ['500', '600', '700', '800'],
@@ -26,7 +26,7 @@ const syne = Syne({
   preload: true,
 });
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   weight: ['400', '500', '600', '700'],
@@ -114,7 +114,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
+      className={`${urbanist.variable} ${inter.variable} ${jetBrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased overflow-x-hidden">

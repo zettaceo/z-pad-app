@@ -203,13 +203,13 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-5 md:gap-8 items-start md:items-center mb-7">
                 <div className="flex items-center gap-5">
                   <Image
-                    src="/assets/logo-z.png"
+                    src={featured.logo}
                     alt={featured.name}
                     width={80}
                     height={80}
                     sizes="80px"
                     priority
-                    className="w-20 h-20 rounded-full border-2 border-cyan-500/30 shadow-[0_0_32px_rgba(0,212,255,0.28)]"
+                    className="w-20 h-20 rounded-full border-2 border-cyan-500/30 shadow-[0_0_32px_rgba(0,212,255,0.28)] object-cover"
                   />
                   <div className="min-w-0 flex-1">
                     <div className="font-[family-name:var(--font-display)] text-[1.8rem] font-extrabold tracking-[-0.025em] leading-tight mb-1.5">

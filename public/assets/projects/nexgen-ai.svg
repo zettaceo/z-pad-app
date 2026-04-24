@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#021a0e"/>
+      <stop offset="100%" stop-color="#001208"/>
+    </linearGradient>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+  <!-- Neural network nodes -->
+  <!-- Left layer -->
+  <circle cx="48" cy="70" r="10" fill="url(#g)" opacity="0.9"/>
+  <circle cx="48" cy="100" r="10" fill="url(#g)" opacity="0.9"/>
+  <circle cx="48" cy="130" r="10" fill="url(#g)" opacity="0.9"/>
+  <!-- Middle layer -->
+  <circle cx="100" cy="55" r="12" fill="url(#g)"/>
+  <circle cx="100" cy="100" r="14" fill="url(#g)"/>
+  <circle cx="100" cy="145" r="12" fill="url(#g)"/>
+  <!-- Right layer -->
+  <circle cx="152" cy="75" r="10" fill="url(#g)" opacity="0.9"/>
+  <circle cx="152" cy="125" r="10" fill="url(#g)" opacity="0.9"/>
+  <!-- Connections left→mid -->
+  <line x1="58" y1="70" x2="88" y2="57" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="58" y1="70" x2="88" y2="100" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="58" y1="100" x2="88" y2="57" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="58" y1="100" x2="88" y2="100" stroke="url(#g)" stroke-width="2" opacity="0.6"/>
+  <line x1="58" y1="100" x2="88" y2="143" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="58" y1="130" x2="88" y2="100" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="58" y1="130" x2="88" y2="143" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <!-- Connections mid→right -->
+  <line x1="112" y1="57" x2="142" y2="75" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="112" y1="100" x2="142" y2="75" stroke="url(#g)" stroke-width="2" opacity="0.6"/>
+  <line x1="112" y1="100" x2="142" y2="125" stroke="url(#g)" stroke-width="2" opacity="0.6"/>
+  <line x1="112" y1="143" x2="142" y2="125" stroke="url(#g)" stroke-width="1.5" opacity="0.4"/>
+  <!-- Label -->
+  <text x="100" y="185" font-family="Arial Black, sans-serif" font-size="16" font-weight="900" fill="#34d399" text-anchor="middle" opacity="0.9">NEXGEN AI</text>
+</svg>
