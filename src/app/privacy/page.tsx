@@ -5,7 +5,7 @@ export const metadata = { title: 'Privacy Policy — Z-PAD' };
 export default function PrivacyPage() {
   return (
     <div className="pt-[100px]">
-      <div className="max-w-[800px] mx-auto px-6 py-16">
+      <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-8">
           <Link href="/" className="hover:text-cyan-400">Home</Link>
           <span className="text-white/30">/</span>

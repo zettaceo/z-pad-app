@@ -24,7 +24,7 @@ export default function DashboardPage() {
   if (!wallet.connected) {
     return (
       <div className="pt-[100px]">
-        <div className="max-w-[1360px] mx-auto px-6 py-20">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6 py-20">
           <div className="max-w-[520px] mx-auto text-center p-10 bg-bg-075 border border-white/10 rounded-[14px]">
             <WalletIcon className="w-14 h-14 mx-auto mb-4 text-white/30" />
             <h3 className="font-[family-name:var(--font-display)] text-xl font-bold mb-3">
@@ -45,7 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -78,9 +78,9 @@ export default function DashboardPage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-7">
             {[
               { icon: TrendingUp, label: 'Portfolio Value', value: fmt.currency(stats.totalValue, { decimals: 2 }), change: `${stats.pnlPct >= 0 ? '↑' : '↓'} ${fmt.percent(Math.abs(stats.pnlPct))} all-time`, up: stats.pnlPct >= 0 },
               { icon: TrendingUp, label: 'Total P&L', value: `${stats.totalPnL >= 0 ? '+' : ''}${fmt.currency(stats.totalPnL, { decimals: 2 })}`, change: `Invested ${fmt.currency(stats.totalInvested)}`, color: stats.totalPnL >= 0 ? 'var(--color-green-400)' : 'var(--color-red-400)' },
@@ -156,9 +156,10 @@ export default function DashboardPage() {
           </div>
 
           {/* Activity */}
-          <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6 overflow-x-auto">
+          <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
             <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold mb-5">Recent Activity</div>
-            <table className="w-full text-[0.88rem]">
+            <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px] text-[0.88rem]">
               <thead>
                 <tr>
                   {['Type', 'Project', 'Amount', 'Tokens', 'Time', 'Status'].map((h) => (
@@ -194,6 +195,7 @@ export default function DashboardPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </section>

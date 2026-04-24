@@ -136,8 +136,11 @@
     color: #fff;
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  /* Custom scrollbar — compact on mobile, full on desktop */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  @media (min-width: 768px) {
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+  }
   ::-webkit-scrollbar-track { background: var(--color-bg-025); }
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, var(--color-cyan-500), var(--color-blue-500));
@@ -175,7 +178,8 @@
   width: 100%;
   max-width: 1360px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 1rem;
   position: relative;
   z-index: 1;
+  @media (min-width: 640px) { padding: 0 1.5rem; }
 }

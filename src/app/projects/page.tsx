@@ -41,7 +41,7 @@ export default function ProjectsPage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -68,10 +68,10 @@ export default function ProjectsPage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* Filters */}
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="flex gap-1 p-1 bg-white/[0.02] rounded-[10px] border border-white/10 overflow-x-auto">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3 mb-6">
+            <div className="flex gap-1 p-1 bg-white/[0.02] rounded-[10px] border border-white/10 overflow-x-auto shrink-0">
               {(['all', 'live', 'upcoming', 'ended'] as const).map((s) => (
                 <button
                   key={s}
@@ -88,7 +88,7 @@ export default function ProjectsPage() {
               ))}
             </div>
 
-            <div className="relative flex-1 min-w-[220px] max-w-[360px]">
+            <div className="relative sm:flex-1 sm:min-w-[180px] sm:max-w-[360px]">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
               <input
                 type="text"
@@ -100,10 +100,11 @@ export default function ProjectsPage() {
               />
             </div>
 
+            <div className="flex gap-2 sm:contents">
             <select
               value={chain}
               onChange={(e) => setChain(e.target.value as ChainId | 'all')}
-              className="px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none max-w-[170px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
+              className="flex-1 sm:flex-none px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none sm:max-w-[170px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
             >
               <option value="all">All Chains</option>
               <option value="bsc">BSC</option>
@@ -118,13 +119,14 @@ export default function ProjectsPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
-              className="px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none max-w-[180px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
+              className="flex-1 sm:flex-none px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none sm:max-w-[180px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
             >
               <option value="ai">Sort: AI Score</option>
               <option value="raised">Sort: Raised</option>
               <option value="participants">Sort: Participants</option>
               <option value="ending">Sort: Ending Soon</option>
             </select>
+            </div>
           </div>
 
           {filtered.length === 0 ? (

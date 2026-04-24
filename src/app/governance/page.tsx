@@ -25,7 +25,7 @@ export default function GovernancePage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -55,8 +55,8 @@ export default function GovernancePage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
               { l: 'Active Proposals', v: String(PROPOSALS.filter((p) => p.status === 'active').length), c: 'Your vote matters', up: true },
               { l: 'Your Voting Power', v: '10,000', c: 'Based on staked Z' },
@@ -99,7 +99,7 @@ export default function GovernancePage() {
                   { label: 'Against', pct: p.votes.against, color: 'bg-gradient-to-r from-red-500 to-orange-500', text: 'text-red-400' },
                   { label: 'Abstain', pct: p.votes.abstain, color: 'bg-gradient-to-r from-white/30 to-white/20', text: 'text-white/50' },
                 ].map((v) => (
-                  <div key={v.label} className="grid grid-cols-[60px_1fr_60px] items-center gap-3 text-[0.82rem]">
+                  <div key={v.label} className="grid grid-cols-[44px_1fr_44px] sm:grid-cols-[60px_1fr_60px] items-center gap-2 sm:gap-3 text-[0.82rem]">
                     <div className={`font-semibold ${v.text}`}>{v.label}</div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                       <div className={`h-full ${v.color} rounded-full transition-[width] duration-1000`} style={{ width: `${v.pct}%` }} />

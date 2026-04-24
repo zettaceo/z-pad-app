@@ -142,7 +142,7 @@ export default function CreatePage() {
   if (!wallet.connected) {
     return (
       <div className="pt-[100px]">
-        <div className="max-w-[1360px] mx-auto px-6 py-20">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6 py-20">
           <div className="max-w-[520px] mx-auto text-center p-10 bg-bg-075 border border-white/10 rounded-[14px]">
             <Rocket className="w-14 h-14 mx-auto mb-4 text-white/30" />
             <h3 className="font-[family-name:var(--font-display)] text-xl font-bold mb-3">
@@ -166,7 +166,7 @@ export default function CreatePage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -183,7 +183,7 @@ export default function CreatePage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-[280px_1fr] gap-8">
             {/* Steps sidebar */}
             <div className="lg:sticky lg:top-[110px] lg:self-start flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
@@ -218,7 +218,7 @@ export default function CreatePage() {
             </div>
 
             {/* Form */}
-            <div className="bg-bg-075 border border-white/10 rounded-[14px] p-8">
+            <div className="bg-bg-075 border border-white/10 rounded-[14px] p-4 sm:p-6 md:p-8">
               {step === 1 && (
                 <>
                   <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">Project Information</h2>

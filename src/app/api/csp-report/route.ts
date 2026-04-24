@@ -12,9 +12,20 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
+const MAX_PAYLOAD_BYTES = 10_240; // 10 KB — prevents log flooding / DoS
+
 export async function POST(request: NextRequest) {
   try {
-    const report = (await request.json()) as unknown;
+    const contentLength = Number(request.headers.get('content-length') ?? 0);
+    if (contentLength > MAX_PAYLOAD_BYTES) {
+      return NextResponse.json({ error: 'Payload too large' }, { status: 413 });
+    }
+
+    const raw = await request.text();
+    if (raw.length > MAX_PAYLOAD_BYTES) {
+      return NextResponse.json({ error: 'Payload too large' }, { status: 413 });
+    }
+    const report = JSON.parse(raw) as unknown;
     const requestId = request.headers.get('x-request-id') ?? 'unknown';
 
     // In development, log to console for debugging

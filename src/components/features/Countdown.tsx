@@ -44,9 +44,9 @@ export function Countdown({ targetMs, variant = 'boxes', className = '' }: Count
       ].map((b) => (
         <div
           key={b.label}
-          className="flex-1 min-w-[58px] bg-white/[0.03] border border-white/10 rounded-[10px] px-3.5 py-2.5 text-center"
+          className="flex-1 min-w-[44px] sm:min-w-[58px] bg-white/[0.03] border border-white/10 rounded-[10px] px-2 sm:px-3.5 py-2 sm:py-2.5 text-center"
         >
-          <div className="font-[family-name:var(--font-mono)] text-[1.6rem] leading-none bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent font-medium tabular-nums">
+          <div className="font-[family-name:var(--font-mono)] text-[1.2rem] sm:text-[1.6rem] leading-none bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent font-medium tabular-nums">
             {b.value}
           </div>
           <div className="text-[0.6rem] text-white/50 uppercase tracking-[0.08em] mt-1.5 font-semibold">

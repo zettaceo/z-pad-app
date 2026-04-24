@@ -48,7 +48,7 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <div className="pt-[100px]">
       <section className="pt-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -57,57 +57,63 @@ export default async function ProjectDetailPage({ params }: Props) {
             <span>{p.name}</span>
           </div>
 
-          <div className="grid lg:grid-cols-[auto_1fr_auto_auto] gap-6 items-center mb-6">
-            <Image
-              src="/assets/logo-z.png"
-              alt={p.name}
-              width={88}
-              height={88}
-              className="w-[88px] h-[88px] rounded-full border-2 border-cyan-500/35 shadow-[0_0_32px_rgba(0,212,255,0.28)]"
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-3 flex-wrap mb-2.5">
-                <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-[-0.03em] leading-[1.05]">
-                  {p.name}
-                </h1>
-                <Badge variant={p.status === 'live' ? 'live' : p.status === 'upcoming' ? 'upcoming' : 'ended'} />
-              </div>
-              <div className="flex flex-wrap gap-1.5 mb-3.5">
-                <ChainChip chain={p.chain} chainName={p.chainName} />
-                <Badge variant={p.saleTypeKey} />
-                {p.kyc && <Badge variant="kyc" />}
-                {p.audited && <Badge variant="audit" />}
-                {p.refundable && <Badge variant="refundable" />}
-                <Badge variant="ai" />
-              </div>
-              <p className="text-white/70 max-w-[640px] leading-relaxed">{p.description}</p>
-            </div>
-            <div className="text-center">
-              <AiScore score={p.aiScore} size="xl" />
-              <div className="mt-3 text-[0.74rem] text-white/50 max-w-[140px]">
-                <strong className="text-cyan-400 block mb-1">ZION AI VERIFIED</strong>
-                Analyzed across 6 dimensions
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-5 items-start sm:items-center mb-6">
+            <div className="flex items-start gap-4 flex-1 min-w-0">
+              <Image
+                src="/assets/logo-z.png"
+                alt={p.name}
+                width={88}
+                height={88}
+                sizes="88px"
+                priority
+                className="w-[64px] h-[64px] sm:w-[88px] sm:h-[88px] rounded-full border-2 border-cyan-500/35 shadow-[0_0_32px_rgba(0,212,255,0.28)] shrink-0"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-3 flex-wrap mb-2.5">
+                  <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.6rem,4vw,2.6rem)] font-extrabold tracking-[-0.03em] leading-[1.05]">
+                    {p.name}
+                  </h1>
+                  <Badge variant={p.status === 'live' ? 'live' : p.status === 'upcoming' ? 'upcoming' : 'ended'} />
+                </div>
+                <div className="flex flex-wrap gap-1.5 mb-3.5">
+                  <ChainChip chain={p.chain} chainName={p.chainName} />
+                  <Badge variant={p.saleTypeKey} />
+                  {p.kyc && <Badge variant="kyc" />}
+                  {p.audited && <Badge variant="audit" />}
+                  {p.refundable && <Badge variant="refundable" />}
+                  <Badge variant="ai" />
+                </div>
+                <p className="text-white/70 max-w-[640px] leading-relaxed">{p.description}</p>
               </div>
             </div>
-            <div className="flex gap-2 flex-wrap">
-              <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Share">
-                <Share2 className="w-[18px] h-[18px]" />
-              </button>
-              <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Website">
-                <ExternalLink className="w-[18px] h-[18px]" />
-              </button>
+            <div className="flex items-center gap-4 shrink-0">
+              <div className="text-center">
+                <AiScore score={p.aiScore} size="xl" />
+                <div className="mt-3 text-[0.74rem] text-white/50 max-w-[140px]">
+                  <strong className="text-cyan-400 block mb-1">ZION AI VERIFIED</strong>
+                  Analyzed across 6 dimensions
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Share">
+                  <Share2 className="w-[18px] h-[18px]" />
+                </button>
+                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Website">
+                  <ExternalLink className="w-[18px] h-[18px]" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
-          <div className="grid lg:grid-cols-[1fr_400px] gap-8">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
+          <div className="grid gap-6 md:grid-cols-[1fr_320px] lg:grid-cols-[1fr_400px]">
             {/* Main content */}
             <div className="flex flex-col gap-5">
               {/* Stats row */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   { l: 'Raised', v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true },
                   { l: 'Target', v: fmt.currency(p.target, { compact: true }), c: 'Hard cap' },
