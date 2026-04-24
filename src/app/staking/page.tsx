@@ -41,7 +41,7 @@ export default function StakingPage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -60,10 +60,10 @@ export default function StakingPage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* Stats panel */}
           <div className="bg-gradient-to-br from-cyan-500/[0.06] to-violet-500/[0.04] border border-white/10 rounded-[20px] p-9 mb-8 relative overflow-hidden">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 relative">
               {[
                 { l: 'Total Staked', v: '48.2M Z', accent: true },
                 { l: 'Your Stake', v: wallet.connected ? `${fmt.number(wallet.stakedZ)} Z` : '0 Z' },
@@ -86,7 +86,7 @@ export default function StakingPage() {
             Choose your pool<span className="text-cyan-500 font-black">.</span>
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {POOLS.map((pool) => (
               <div
                 key={pool.name}

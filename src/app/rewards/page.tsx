@@ -34,7 +34,7 @@ export default function RewardsPage() {
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
             <Link href="/" className="hover:text-cyan-400">Home</Link>
             <span className="text-white/30">/</span>
@@ -53,14 +53,14 @@ export default function RewardsPage() {
       </section>
 
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* XP Panel */}
           <div className="relative bg-gradient-to-br from-cyan-500/[0.06] to-violet-500/[0.04] border border-cyan-500/20 rounded-[20px] p-8 mb-8 overflow-hidden">
             <div
               className="absolute inset-0 pointer-events-none opacity-40"
               style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(0,212,255,0.15), transparent 60%)' }}
             />
-            <div className="grid lg:grid-cols-[auto_1fr_auto] gap-6 items-center relative">
+            <div className="grid sm:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_auto] gap-6 items-center relative">
               <div className="w-[100px] h-[100px] rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-[#021628] shadow-[0_0_32px_rgba(0,212,255,0.4)] shrink-0">
                 <Trophy className="w-12 h-12" />
               </div>
@@ -94,7 +94,7 @@ export default function RewardsPage() {
                   {fmt.number(xpToNext - (wallet.xp || 2840))} XP to Level {(wallet.level || 4) + 1}
                 </div>
               </div>
-              <div className="flex flex-col gap-3 min-w-[180px]">
+              <div className="flex sm:flex-row lg:flex-col gap-3 sm:col-span-full lg:col-span-1 lg:min-w-[180px]">
                 <div className="p-3 rounded-[10px] bg-white/[0.03] border border-white/10 text-center">
                   <div className="text-[0.7rem] text-white/50 uppercase tracking-wider font-semibold mb-1">Earned</div>
                   <div className="font-[family-name:var(--font-mono)] text-cyan-400 font-extrabold text-xl">+2,150 Z</div>
@@ -111,7 +111,7 @@ export default function RewardsPage() {
           <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.025em] mb-5">
             Active Quests<span className="text-cyan-500 font-black">.</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {QUESTS.map((q) => {
               const Icon = ICONS[q.icon as keyof typeof ICONS] ?? Gift;
               return (
@@ -168,8 +168,8 @@ export default function RewardsPage() {
           <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.025em] mb-5">
             Leaderboard<span className="text-cyan-500 font-black">.</span>
           </h2>
-          <div className="bg-bg-075 border border-white/10 rounded-[14px] overflow-hidden overflow-x-auto">
-            <table className="w-full text-[0.88rem]">
+          <div className="bg-bg-075 border border-white/10 rounded-[14px] overflow-x-auto">
+            <table className="w-full min-w-[560px] text-[0.88rem]">
               <thead>
                 <tr className="bg-white/[0.02]">
                   {['Rank', 'Address', 'Tier', 'Staked Z', 'Portfolio'].map((h) => (

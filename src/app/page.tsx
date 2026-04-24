@@ -60,7 +60,7 @@ export default function HomePage() {
     <div className="pt-[100px]">
       {/* HERO */}
       <section className="py-10 md:py-16 relative">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 items-center">
             <div>
               <div className="flex flex-wrap gap-2 mb-6">
@@ -93,7 +93,7 @@ export default function HomePage() {
                   </Link>
                 </Button>
               </div>
-              <div className="flex flex-wrap items-center gap-6 pt-7 border-t border-white/5">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 pt-7 border-t border-white/5">
                 {[
                   { icon: Shield, text: 'Audited by Cyberscope' },
                   { icon: CheckCircle, text: 'KYC Verified Teams' },
@@ -140,6 +140,7 @@ export default function HomePage() {
                 alt="Z-PAD Rocket"
                 width={480}
                 height={480}
+                sizes="(max-width: 768px) 320px, 480px"
                 className="max-w-[320px] md:max-w-[480px] w-full relative z-[3]"
                 style={{
                   animation: 'float 6s ease-in-out infinite',
@@ -154,8 +155,8 @@ export default function HomePage() {
 
       {/* STATS BAR */}
       <section className="py-9 bg-gradient-to-b from-bg-100/40 to-bg-100/20 backdrop-blur-md border-y border-white/10 relative z-[1]">
-        <div className="max-w-[1360px] mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 text-center">
             {[
               { v: '$48.2M', l: 'Total Raised', s: '+$2.1M this week' },
               { v: '127', l: 'Projects Launched', s: '94% post-launch ROI' },
@@ -181,7 +182,7 @@ export default function HomePage() {
       {/* FEATURED PROJECT */}
       {featured && (
         <section className="py-15 md:py-20">
-          <div className="max-w-[1360px] mx-auto px-6">
+          <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
             <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
               <div>
                 <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
@@ -199,13 +200,15 @@ export default function HomePage() {
             <div className="relative p-8 bg-bg-075 border border-white/10 rounded-[20px] overflow-hidden">
               <span className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-cyan-500 via-blue-500 via-cyan-500 to-transparent" style={{ backgroundSize: '200% 100%', animation: 'shimmer 3s linear infinite' }} />
 
-              <div className="grid lg:grid-cols-[1fr_auto_auto] gap-8 items-center mb-7">
+              <div className="flex flex-wrap gap-5 md:gap-8 items-start md:items-center mb-7">
                 <div className="flex items-center gap-5">
                   <Image
                     src="/assets/logo-z.png"
                     alt={featured.name}
                     width={80}
                     height={80}
+                    sizes="80px"
+                    priority
                     className="w-20 h-20 rounded-full border-2 border-cyan-500/30 shadow-[0_0_32px_rgba(0,212,255,0.28)]"
                   />
                   <div className="min-w-0 flex-1">
@@ -232,7 +235,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2 min-w-[140px]">
+                <div className="flex sm:flex-col gap-2 w-full sm:w-auto sm:min-w-[140px]">
                   <div className="p-3 rounded-[10px] bg-white/[0.02] border border-white/10">
                     <div className="text-[0.7rem] text-white/50 uppercase tracking-[0.08em] font-semibold mb-1">Token</div>
                     <div className="font-[family-name:var(--font-mono)] font-extrabold">{featured.symbol}</div>
@@ -286,7 +289,7 @@ export default function HomePage() {
 
       {/* LIVE GRID */}
       <section className="py-8">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-end justify-between mb-7 flex-wrap gap-4">
             <div>
               <span className="eyebrow inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
@@ -307,7 +310,7 @@ export default function HomePage() {
 
       {/* FEATURES */}
       <section className="py-15 md:py-20">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center text-center mb-12">
             <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500 mb-3">
               Why Z-PAD
@@ -349,7 +352,7 @@ export default function HomePage() {
 
       {/* HOW IT WORKS */}
       <section className="py-15">
-        <div className="max-w-[1360px] mx-auto px-6">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex flex-col items-center text-center mb-10">
             <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
               Simple
@@ -389,7 +392,7 @@ export default function HomePage() {
               'radial-gradient(ellipse at center, rgba(0, 212, 255, 0.12), transparent 60%)',
           }}
         />
-        <div className="max-w-[1360px] mx-auto px-6 relative">
+        <div className="max-w-[1360px] mx-auto px-4 sm:px-6 relative">
           <h2 className="font-[family-name:var(--font-display)] text-[2.2rem] md:text-[3.6rem] font-extrabold tracking-[-0.035em] leading-tight mb-4">
             Ready to{' '}
             <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">
