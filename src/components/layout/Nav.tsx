@@ -1,32 +1,50 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { Link, usePathname } from '@/i18n/navigation';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { Wallet, Menu, X, ChevronDown } from 'lucide-react';
+import { Wallet, Menu, X, ChevronDown, Globe } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 import { cn } from '@/lib/cn';
 import { fmt } from '@/lib/format';
 import { useWallet } from '@/lib/wallet-store';
 import { useFocusTrap } from '@/lib/use-focus-trap';
 import { WalletModal } from '@/components/features/WalletModal';
+import { NotificationCenter } from '@/components/features/NotificationCenter';
+import { routing } from '@/i18n/routing';
 
-const NAV_LINKS = [
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/create', label: 'Create', pill: 'NEW' },
-  { href: '/staking', label: 'Staking' },
-  { href: '/governance', label: 'Governance' },
-  { href: '/rewards', label: 'Rewards' },
-] as const;
+const LOCALE_LABELS: Record<string, string> = {
+  en: 'EN',
+  pt: 'PT',
+  zh: 'ZH',
+  es: 'ES',
+};
 
 export function Nav() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const router = useRouter();
+  const t = useTranslations('nav');
+  const tc = useTranslations('common');
   const { wallet, disconnect, openWalletModal } = useWallet();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  const NAV_LINKS = [
+    { href: '/dashboard', label: t('dashboard') },
+    { href: '/projects', label: t('projects') },
+    { href: '/create', label: t('create'), pill: t('new') },
+    { href: '/pods', label: t('pods'), pill: t('new') },
+    { href: '/staking', label: t('staking') },
+    { href: '/governance', label: t('governance') },
+    { href: '/rewards', label: t('rewards') },
+    { href: '/backtest', label: t('backtest') },
+  ] as const;
 
   useFocusTrap(mobileMenuRef, mobileOpen);
 
@@ -41,7 +59,6 @@ export function Nav() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Close mobile menu on ESC
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -56,7 +73,21 @@ export function Nav() {
     };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    if (!langOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLangOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [langOpen]);
+
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  const switchLocale = (newLocale: string) => {
+    setLangOpen(false);
+    router.push(`/${newLocale}${pathname}`);
+  };
 
   return (
     <>
@@ -71,7 +102,7 @@ export function Nav() {
         )}
         aria-label="Primary navigation"
       >
-        <div className="flex items-center h-full gap-2 max-w-[1360px] mx-auto px-4 sm:px-6">
+        <div className="flex items-center h-full gap-2 max-w-[1360px] mx-auto px-6">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 mr-5" aria-label="Z-PAD Home">
             <Image
@@ -119,12 +150,48 @@ export function Nav() {
             <button
               className="hidden md:inline-flex items-center gap-2 px-3 py-[7px] rounded-[10px] bg-white/[0.02] border border-white/10 text-[0.8rem] text-white/70 font-medium hover:border-cyan-500/35 hover:text-white hover:bg-cyan-500/5 transition-all"
               type="button"
-              aria-label="Switch network (currently BSC)"
+              aria-label={`Switch network (currently ${t('network')})`}
             >
               <span className="w-2 h-2 rounded-full bg-[#f3ba2f] shadow-[0_0_6px_rgba(243,186,47,0.5)]" aria-hidden="true" />
-              <span>BSC</span>
+              <span>{t('network')}</span>
               <ChevronDown className="w-3 h-3 opacity-60" aria-hidden="true" />
             </button>
+
+            {/* Notifications */}
+            <NotificationCenter />
+
+            {/* Language switcher */}
+            <div ref={langRef} className="relative hidden md:block">
+              <button
+                onClick={() => setLangOpen((s) => !s)}
+                className="inline-flex items-center gap-1.5 px-3 py-[7px] rounded-[10px] bg-white/[0.02] border border-white/10 text-[0.8rem] text-white/70 font-medium hover:border-cyan-500/35 hover:text-white hover:bg-cyan-500/5 transition-all"
+                type="button"
+                aria-label="Switch language"
+                aria-expanded={langOpen}
+              >
+                <Globe className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>{LOCALE_LABELS[locale] ?? locale.toUpperCase()}</span>
+              </button>
+              {langOpen && (
+                <div className="absolute right-0 top-full mt-2 w-28 bg-bg-100 border border-white/14 rounded-[10px] shadow-xl overflow-hidden z-50">
+                  {routing.locales.map((loc) => (
+                    <button
+                      key={loc}
+                      onClick={() => switchLocale(loc)}
+                      className={cn(
+                        'w-full text-left px-3 py-2 text-[0.86rem] transition-colors',
+                        loc === locale
+                          ? 'text-cyan-400 bg-cyan-500/10'
+                          : 'text-white/80 hover:bg-white/5'
+                      )}
+                      type="button"
+                    >
+                      {LOCALE_LABELS[loc] ?? loc.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {wallet.connected ? (
               <div className="relative group">
@@ -151,7 +218,7 @@ export function Nav() {
                       className="w-full text-left px-3 py-2 rounded text-[0.86rem] text-red-400 hover:bg-red-500/10 transition-colors"
                       type="button"
                     >
-                      Disconnect
+                      {tc('disconnect')}
                     </button>
                   </div>
                 </div>
@@ -163,8 +230,8 @@ export function Nav() {
                 type="button"
               >
                 <Wallet className="w-3.5 h-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">Connect Wallet</span>
-                <span className="sm:hidden">Connect</span>
+                <span className="hidden sm:inline">{t('connectWallet')}</span>
+                <span className="sm:hidden">{t('connect')}</span>
               </button>
             )}
 
@@ -211,11 +278,32 @@ export function Nav() {
                 )}
               </Link>
             ))}
+
+            {/* Mobile language switcher */}
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <p className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2 px-1">Language</p>
+              <div className="flex gap-2">
+                {routing.locales.map((loc) => (
+                  <button
+                    key={loc}
+                    onClick={() => switchLocale(loc)}
+                    className={cn(
+                      'px-3 py-1.5 rounded text-[0.8rem] font-medium transition-colors',
+                      loc === locale
+                        ? 'bg-cyan-500/20 text-cyan-400'
+                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                    )}
+                    type="button"
+                  >
+                    {LOCALE_LABELS[loc] ?? loc.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Single global modal instance */}
       <WalletModal />
     </>
   );
