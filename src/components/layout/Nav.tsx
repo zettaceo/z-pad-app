@@ -12,6 +12,7 @@ import { fmt } from '@/lib/format';
 import { useWallet } from '@/lib/wallet-store';
 import { useFocusTrap } from '@/lib/use-focus-trap';
 import { WalletModal } from '@/components/features/WalletModal';
+import { NotificationCenter } from '@/components/features/NotificationCenter';
 import { routing } from '@/i18n/routing';
 
 const LOCALE_LABELS: Record<string, string> = {
@@ -153,6 +154,9 @@ export function Nav() {
               <span>{t('network')}</span>
               <ChevronDown className="w-3 h-3 opacity-60" aria-hidden="true" />
             </button>
+
+            {/* Notifications */}
+            <NotificationCenter />
 
             {/* Language switcher */}
             <div ref={langRef} className="relative hidden md:block">

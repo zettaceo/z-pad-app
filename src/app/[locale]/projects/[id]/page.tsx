@@ -12,6 +12,8 @@ import { ChainChip } from '@/components/features/ChainChip';
 import { AiScore } from '@/components/features/AiScore';
 import { Countdown } from '@/components/features/Countdown';
 import { TimeLeftInline } from '@/components/features/TimeLeftInline';
+import { InvestmentCalculator } from '@/components/features/InvestmentCalculator';
+import { AllocationTier } from '@/components/features/AllocationTier';
 
 // Revalidate every hour so mock timestamps (startsAt/endsAt) in the static
 // HTML don't drift more than ~60 min from real time. Replace with on-demand
@@ -322,6 +324,22 @@ export default async function ProjectDetailPage({ params }: Props) {
                   {p.refundable && <div className="flex justify-between"><span className="text-white/50">Refund Window</span><span className="text-green-400">48h post-TGE</span></div>}
                 </div>
               </div>
+
+              <InvestmentCalculator
+                ratePerBase={p.ratePerBase}
+                minBuy={p.minBuy}
+                maxBuy={p.maxBuy}
+                currency={currency}
+                symbol={p.symbol}
+                vesting={p.vesting}
+                status={p.status}
+              />
+
+              <AllocationTier
+                maxBuy={p.maxBuy}
+                currency={currency}
+                status={p.status}
+              />
 
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
                 <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold mb-4">Verification</div>

@@ -8,6 +8,7 @@ import { useWallet } from '@/lib/wallet-store';
 import { POSITIONS, ACTIVITY } from '@/lib/mock-data';
 import { fmt } from '@/lib/format';
 import { Button } from '@/components/ui/Button';
+import { VestingSchedule } from '@/components/features/VestingSchedule';
 
 export default function DashboardPage() {
   const { wallet, openWalletModal } = useWallet();
@@ -154,6 +155,9 @@ export default function DashboardPage() {
               </Link>
             ))}
           </div>
+
+          {/* Vesting Schedule */}
+          <VestingSchedule positions={POSITIONS} />
 
           {/* Activity */}
           <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">

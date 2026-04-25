@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { Sparkles, X, Send } from 'lucide-react';
+import Image from 'next/image';
+import { X, Send } from 'lucide-react';
 
 import { cn } from '@/lib/cn';
 import { useFocusTrap } from '@/lib/use-focus-trap';
@@ -143,22 +144,33 @@ export function ZionFab() {
       <button
         onClick={() => setOpen((s) => !s)}
         className={cn(
-          'fixed bottom-6 right-6 z-[150] w-14 h-14 rounded-full',
-          'bg-gradient-to-br from-cyan-500 via-violet-500 to-[#8b5cf6]',
-          'shadow-[0_0_32px_rgba(0,212,255,0.5),0_12px_48px_rgba(0,0,0,0.5)]',
-          'border-2 border-white/15 flex items-center justify-center',
+          'fixed bottom-6 right-6 z-[150] w-[60px] h-[60px] rounded-full',
+          'bg-[#040d24]',
+          'shadow-[0_0_32px_rgba(0,212,255,0.45),0_12px_48px_rgba(0,0,0,0.6)]',
+          'border border-cyan-500/30 flex items-center justify-center overflow-hidden',
           'transition-all duration-[250ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]',
-          open ? 'scale-90' : 'hover:scale-110'
+          open ? 'scale-90' : 'hover:scale-110 hover:border-cyan-500/60 hover:shadow-[0_0_44px_rgba(0,212,255,0.65)]'
         )}
         style={!open ? { animation: 'glow-pulse 3s ease-in-out infinite' } : {}}
         type="button"
         aria-label={open ? 'Close ZION AI' : 'Open ZION AI'}
         aria-expanded={open}
       >
-        {open ? <X className="w-6 h-6 text-white" /> : <Sparkles className="w-[26px] h-[26px] text-white" />}
+        {open ? (
+          <X className="w-6 h-6 text-white" />
+        ) : (
+          <Image
+            src="/assets/zion-avatar.svg"
+            alt="ZION AI"
+            width={60}
+            height={60}
+            className="w-full h-full object-cover"
+            priority
+          />
+        )}
         {!open && (
           <span
-            className="absolute -inset-1.5 rounded-full border-2 border-cyan-500/30"
+            className="absolute -inset-1.5 rounded-full border border-cyan-500/25"
             style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
             aria-hidden="true"
           />
@@ -176,8 +188,8 @@ export function ZionFab() {
 
           {/* Header */}
           <div className="px-[18px] py-4 border-b border-white/10 flex items-center gap-3 bg-gradient-to-br from-cyan-500/5 to-violet-500/5">
-            <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center text-white font-extrabold shadow-[0_0_16px_rgba(0,212,255,0.4)] shrink-0">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-[38px] h-[38px] rounded-full overflow-hidden bg-[#040d24] border border-cyan-500/30 shadow-[0_0_12px_rgba(0,212,255,0.35)] shrink-0">
+              <Image src="/assets/zion-avatar.svg" alt="" width={38} height={38} className="w-full h-full object-cover"/>
             </div>
             <div className="flex-1 min-w-0">
               <div
@@ -214,11 +226,13 @@ export function ZionFab() {
               >
                 <div
                   className={cn(
-                    'w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[0.7rem] font-bold',
-                    m.role === 'ai' ? 'bg-gradient-to-br from-cyan-500 to-violet-500 text-white' : 'bg-white/10 text-white/70'
+                    'w-7 h-7 rounded-full shrink-0 flex items-center justify-center text-[0.7rem] font-bold overflow-hidden',
+                    m.role === 'ai' ? 'bg-[#040d24] border border-cyan-500/30' : 'bg-white/10 text-white/70'
                   )}
                 >
-                  {m.role === 'ai' ? <Sparkles className="w-3.5 h-3.5" /> : 'U'}
+                  {m.role === 'ai' ? (
+                    <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover"/>
+                  ) : 'U'}
                 </div>
                 <div
                   className={cn(
@@ -234,8 +248,8 @@ export function ZionFab() {
             ))}
             {typing && (
               <div className="flex gap-2.5">
-                <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center bg-gradient-to-br from-cyan-500 to-violet-500">
-                  <Sparkles className="w-3.5 h-3.5 text-white" />
+                <div className="w-7 h-7 rounded-full shrink-0 overflow-hidden bg-[#040d24] border border-cyan-500/30">
+                  <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover"/>
                 </div>
                 <div className="bg-white/[0.04] border border-white/10 rounded-[14px] rounded-tl-[4px] px-3.5 py-3">
                   <div className="flex gap-1">
