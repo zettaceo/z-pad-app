@@ -39,9 +39,11 @@ export function Nav() {
     { href: '/dashboard', label: t('dashboard') },
     { href: '/projects', label: t('projects') },
     { href: '/create', label: t('create'), pill: t('new') },
+    { href: '/pods', label: 'Pods', pill: 'New' },
     { href: '/staking', label: t('staking') },
     { href: '/governance', label: t('governance') },
     { href: '/rewards', label: t('rewards') },
+    { href: '/backtest', label: 'Backtest' },
   ] as const;
 
   useFocusTrap(mobileMenuRef, mobileOpen);

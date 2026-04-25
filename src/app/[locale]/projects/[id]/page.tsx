@@ -14,6 +14,7 @@ import { Countdown } from '@/components/features/Countdown';
 import { TimeLeftInline } from '@/components/features/TimeLeftInline';
 import { InvestmentCalculator } from '@/components/features/InvestmentCalculator';
 import { AllocationTier } from '@/components/features/AllocationTier';
+import { SentimentOracle } from '@/components/features/SentimentOracle';
 
 // Revalidate every hour so mock timestamps (startsAt/endsAt) in the static
 // HTML don't drift more than ~60 min from real time. Replace with on-demand
@@ -227,6 +228,9 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </div>
                 )}
               </div>
+
+              {/* Social Sentiment + Whale Tracker */}
+              <SentimentOracle projectId={p.id} aiScore={p.aiScore} status={p.status} />
 
               {/* Tokenomics */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
