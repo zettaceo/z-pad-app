@@ -21,7 +21,9 @@
     "connectWallet": "Conectar Carteira",
     "connect": "Conectar",
     "network": "BSC",
-    "new": "NOVO"
+    "new": "NOVO",
+    "pods": "Pods",
+    "backtest": "Backtest"
   },
   "home": {
     "badge1": "Disponível em 7 Redes",

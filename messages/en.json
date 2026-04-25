@@ -21,7 +21,9 @@
     "connectWallet": "Connect Wallet",
     "connect": "Connect",
     "network": "BSC",
-    "new": "NEW"
+    "new": "NEW",
+    "pods": "Pods",
+    "backtest": "Backtest"
   },
   "home": {
     "badge1": "Live on 7 Chains",

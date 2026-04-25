@@ -21,7 +21,9 @@
     "connectWallet": "连接钱包",
     "connect": "连接",
     "network": "BSC",
-    "new": "新"
+    "new": "新",
+    "pods": "集资池",
+    "backtest": "回测"
   },
   "home": {
     "badge1": "支持7条公链",

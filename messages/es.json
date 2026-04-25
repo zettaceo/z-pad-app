@@ -21,7 +21,9 @@
     "connectWallet": "Conectar Billetera",
     "connect": "Conectar",
     "network": "BSC",
-    "new": "NUEVO"
+    "new": "NUEVO",
+    "pods": "Pods",
+    "backtest": "Backtest"
   },
   "home": {
     "badge1": "En Vivo en 7 Cadenas",
