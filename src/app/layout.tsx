@@ -1,23 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { headers } from 'next/headers';
+import { getLocale } from 'next-intl/server';
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Toaster } from 'sonner';
 
-import { WalletProvider } from '@/lib/wallet-store';
 import { siteConfig } from '@/config/site';
-import { Nav } from '@/components/layout/Nav';
-import { Footer } from '@/components/layout/Footer';
-import { Ticker } from '@/components/layout/Ticker';
-import { ZionFab } from '@/components/zion/ZionFab';
-import { Starfield } from '@/components/layout/Starfield';
-import { ScrollProgress } from '@/components/layout/ScrollProgress';
-
 import './globals.css';
 
-// Self-hosted via next/font — no layout shift, no third-party request
 const syne = Syne({
   subsets: ['latin'],
   variable: '--font-display',
@@ -101,57 +91,19 @@ export const viewport: Viewport = {
   themeColor: '#030615',
   width: 'device-width',
   initialScale: 1,
-  // NO maximumScale — accessibility: let users zoom (WCAG 1.4.4)
   colorScheme: 'dark',
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  // Touch headers() so Next.js marks this layout dynamic and the middleware
-  // CSP nonce is reliably applied. Child route segments opt into static via
-  // `generateStaticParams` at their own level, unaffected by this.
-  await headers();
-
+  const locale = await getLocale();
   return (
     <html
-      lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
+      lang={locale}
       suppressHydrationWarning
+      className={`${syne.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
     >
       <body className="antialiased">
-        {/* WCAG 2.4.1 — skip link */}
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:rounded-md focus:bg-cyan-500 focus:text-[#021628] focus:font-semibold"
-        >
-          Skip to main content
-        </a>
-
-        <WalletProvider>
-          <Starfield />
-          <ScrollProgress />
-          <Ticker />
-          <Nav />
-          <main id="main" className="relative z-[1]">
-            {children}
-          </main>
-          <Footer />
-          <ZionFab />
-          <Toaster
-            position="top-right"
-            theme="dark"
-            closeButton
-            toastOptions={{
-              style: {
-                background: 'rgba(13, 22, 56, 0.9)',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                color: 'rgba(255, 255, 255, 0.96)',
-                backdropFilter: 'blur(20px)',
-              },
-            }}
-          />
-        </WalletProvider>
-
-        {/* Vercel Analytics — privacy-friendly, GDPR-compliant */}
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

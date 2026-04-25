@@ -1,31 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-/**
- * Z-PAD — Edge Middleware
- *
- * Responsibilities:
- *  1. Generate a per-request CSP nonce (strict CSP without 'unsafe-inline')
- *  2. Set Content-Security-Policy header (nonce-based + strict-dynamic)
- *  3. Apply basic in-memory rate limiting for API routes (per IP)
- *  4. Attach X-Request-Id for audit tracing
- *
- * Runs on the Edge Runtime for sub-10ms overhead globally.
- */
+// --- next-intl locale routing ---
+const intlMiddleware = createMiddleware(routing);
 
 // --- In-memory rate limiter (per Edge instance) ---
-// IMPORTANT: Edge instances are short-lived and cold-start, so this store
-// is best-effort only. For real multi-instance rate limiting, replace with
-// Upstash Redis via @upstash/ratelimit. No top-level setInterval is used
-// because Edge runtime disposes isolates aggressively — stale entries age
-// out naturally on access.
+// Best-effort only — for multi-instance limiting use Upstash Redis.
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_WINDOW = 60_000; // 1 min
-const RATE_LIMIT_MAX = 100; // 100 req/min per IP
+const RATE_LIMIT_WINDOW = 60_000;
+const RATE_LIMIT_MAX = 100;
 
 function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
   const now = Date.now();
 
-  // Opportunistic cleanup: bound the store size
   if (rateLimitStore.size > 10_000) {
     for (const [k, v] of rateLimitStore) {
       if (now > v.resetAt) rateLimitStore.delete(k);
@@ -55,7 +43,6 @@ function extractIp(req: NextRequest): string {
 }
 
 function generateNonce(): string {
-  // 128-bit nonce, base64-encoded (22 chars after stripping padding)
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
   let bin = '';
@@ -64,43 +51,13 @@ function generateNonce(): string {
 }
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const nonce = generateNonce();
   const requestId = crypto.randomUUID();
   const isDev = process.env.NODE_ENV !== 'production';
 
-  // --- Content-Security-Policy (strict, nonce-based) ---
-  // - `script-src`: strict-dynamic lets the nonce'd bootstrap load its children
-  //   without needing to individually allowlist Vercel script origins.
-  // - `style-src`: 'unsafe-inline' is unavoidable for React/Tailwind inline styles;
-  //   this is the accepted industry compromise for App Router apps. No way to avoid
-  //   it without breaking Next.js hydration.
-  // - In development we also allow `'unsafe-eval'` for React DevTools/Turbopack HMR.
-  const scriptSrc = isDev
-    ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval'`
-    : `'self' 'nonce-${nonce}' 'strict-dynamic'`;
-
-  const csp = [
-    `default-src 'self'`,
-    `script-src ${scriptSrc}`,
-    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-    `img-src 'self' data: blob: https:`,
-    `font-src 'self' data: https://fonts.gstatic.com`,
-    `connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://*.vercel-insights.com`,
-    `media-src 'self'`,
-    `object-src 'none'`,
-    `frame-src 'none'`,
-    `frame-ancestors 'none'`,
-    `base-uri 'self'`,
-    `form-action 'self'`,
-    `manifest-src 'self'`,
-    `worker-src 'self' blob:`,
-    `report-uri /api/csp-report`,
-    `report-to csp-endpoint`,
-    ...(isDev ? [] : [`upgrade-insecure-requests`]),
-  ].join('; ');
-
   // --- Rate limiting for /api/* ---
-  if (request.nextUrl.pathname.startsWith('/api/')) {
+  if (pathname.startsWith('/api/')) {
     const ip = extractIp(request);
     const { allowed, remaining } = checkRateLimit(ip);
     if (!allowed) {
@@ -126,17 +83,47 @@ export function middleware(request: NextRequest) {
     return apiResp;
   }
 
-  // --- Pass nonce to React via request header ---
+  // --- CSP nonce ---
+  const scriptSrc = isDev
+    ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval'`
+    : `'self' 'nonce-${nonce}' 'strict-dynamic'`;
+
+  const csp = [
+    `default-src 'self'`,
+    `script-src ${scriptSrc}`,
+    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+    `img-src 'self' data: blob: https:`,
+    `font-src 'self' data: https://fonts.gstatic.com`,
+    `connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://*.vercel-insights.com`,
+    `media-src 'self'`,
+    `object-src 'none'`,
+    `frame-src 'none'`,
+    `frame-ancestors 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+    `manifest-src 'self'`,
+    `worker-src 'self' blob:`,
+    `report-uri /api/csp-report`,
+    `report-to csp-endpoint`,
+    ...(isDev ? [] : [`upgrade-insecure-requests`]),
+  ].join('; ');
+
+  // --- Locale routing (next-intl) + pass nonce via request header ---
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
   requestHeaders.set('x-request-id', requestId);
 
-  const response = NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  const intlResponse = intlMiddleware(
+    new NextRequest(request.url, {
+      headers: requestHeaders,
+      method: request.method,
+      body: request.body,
+    })
+  );
 
-  response.headers.set('Content-Security-Policy', csp);
-  response.headers.set(
+  // Attach security headers to whatever next-intl returned (redirect or pass-through)
+  intlResponse.headers.set('Content-Security-Policy', csp);
+  intlResponse.headers.set(
     'Report-To',
     JSON.stringify({
       group: 'csp-endpoint',
@@ -144,13 +131,12 @@ export function middleware(request: NextRequest) {
       endpoints: [{ url: '/api/csp-report' }],
     })
   );
-  response.headers.set('X-Request-Id', requestId);
+  intlResponse.headers.set('X-Request-Id', requestId);
 
-  return response;
+  return intlResponse;
 }
 
 export const config = {
-  // Run on all routes except static assets, images, and optimizer
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|assets/|.*\\.(?:png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2|ttf|otf)$).*)',
   ],
