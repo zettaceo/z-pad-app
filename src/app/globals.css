@@ -92,6 +92,7 @@
   html {
     color-scheme: dark;
     scroll-behavior: smooth;
+    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -100,6 +101,7 @@
 
   body {
     @apply bg-bg-000 text-white/95 font-[family-name:var(--font-body)] leading-relaxed;
+    overflow-x: hidden;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-tap-highlight-color: transparent;
   }

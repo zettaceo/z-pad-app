@@ -45,22 +45,24 @@ export function Starfield() {
         ))}
       </div>
 
-      {/* Ambient orbs */}
+      {/* Ambient orbs — clamped to avoid horizontal bleed */}
       <div
-        className="fixed w-[600px] h-[600px] rounded-full pointer-events-none z-0 -top-[150px] -left-[200px] opacity-50"
+        className="fixed w-[600px] h-[600px] rounded-full pointer-events-none z-0 -top-[150px] -left-[100px] opacity-50"
         style={{
           background: 'radial-gradient(circle, rgba(0, 212, 255, 0.35), transparent 70%)',
           filter: 'blur(100px)',
           animation: 'float 20s ease-in-out infinite',
+          transform: 'translateZ(0)',
         }}
         aria-hidden="true"
       />
       <div
-        className="fixed w-[500px] h-[500px] rounded-full pointer-events-none z-0 top-[40%] -right-[200px] opacity-50"
+        className="fixed w-[500px] h-[500px] rounded-full pointer-events-none z-0 top-[40%] -right-[100px] opacity-50"
         style={{
           background: 'radial-gradient(circle, rgba(79, 70, 229, 0.25), transparent 70%)',
           filter: 'blur(100px)',
           animation: 'float 25s ease-in-out infinite reverse',
+          transform: 'translateZ(0)',
         }}
         aria-hidden="true"
       />

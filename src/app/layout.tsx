@@ -102,7 +102,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       suppressHydrationWarning
       className={`${syne.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
     >
-      <body className="antialiased">
+      <body className="antialiased overflow-x-hidden">
         {children}
         <Analytics />
         <SpeedInsights />
