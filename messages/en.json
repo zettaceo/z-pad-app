@@ -9,7 +9,8 @@
     "disconnect": "Disconnect",
     "confirm": "Confirm",
     "learnMore": "Learn More",
-    "lastUpdated": "Last updated"
+    "lastUpdated": "Last updated",
+    "aiScore": "AI SCORE"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -151,7 +152,17 @@
     "step1": "Connect your wallet above",
     "step2": "Enter the amount you want to invest",
     "step3": "Confirm the transaction",
-    "step4": "Tokens vest according to schedule"
+    "step4": "Tokens vest according to schedule",
+    "hardCap": "Hard Cap",
+    "saleProgress": "Sale Progress",
+    "verification": "Verification",
+    "allocation": "Allocation",
+    "antiBot": "Anti-bot protection",
+    "lpLocked": "LP Locked — 100 years",
+    "aiAnalyzed": "ZION AI analyzed",
+    "joinSale": "Join the Sale",
+    "notifyMe": "Notify Me",
+    "saleEnded": "Sale Ended"
   },
   "dashboard": {
     "breadcrumb": "Dashboard",
@@ -369,5 +380,20 @@
     "connected": "Connected",
     "demo": "Demo mode — no real transactions",
     "connecting": "Connecting..."
+  },
+  "sentiment": {
+    "title": "Market Intelligence",
+    "subtitle": "ZION Sentiment Oracle",
+    "live": "Live",
+    "static": "Static",
+    "socialSentiment": "Social Sentiment",
+    "whaleActivity": "Whale Activity",
+    "buys": "Buys",
+    "sells": "Sells",
+    "trending": "Trending around this project",
+    "veryBullish": "Very Bullish",
+    "bullish": "Bullish",
+    "neutral": "Neutral",
+    "bearish": "Bearish"
   }
 }

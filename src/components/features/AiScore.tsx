@@ -1,6 +1,7 @@
 'use client';
 
 import { useId } from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/cn';
 
 interface AiScoreProps {
@@ -28,6 +29,7 @@ function getScoreColor(score: number): string {
  */
 export function AiScore({ score, size = 'default', className }: AiScoreProps) {
   const uid = useId();
+  const t = useTranslations('common');
   const s = sizeMap[size];
   const circumference = 2 * Math.PI * s.r;
   const offset = circumference - (score / 100) * circumference;
@@ -81,7 +83,7 @@ export function AiScore({ score, size = 'default', className }: AiScoreProps) {
           className="text-white/40 uppercase tracking-[0.08em] font-bold mt-0.5"
           style={{ fontSize: s.ls }}
         >
-          AI SCORE
+          {t('aiScore')}
         </span>
       </div>
     </div>

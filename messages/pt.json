@@ -9,7 +9,8 @@
     "disconnect": "Desconectar",
     "confirm": "Confirmar",
     "learnMore": "Saiba mais",
-    "lastUpdated": "Última atualização"
+    "lastUpdated": "Última atualização",
+    "aiScore": "PONTUAÇÃO IA"
   },
   "nav": {
     "dashboard": "Painel",
@@ -151,7 +152,17 @@
     "step1": "Conecte sua carteira acima",
     "step2": "Digite o valor que deseja investir",
     "step3": "Confirme a transação",
-    "step4": "Tokens seguem o cronograma de vesting"
+    "step4": "Tokens seguem o cronograma de vesting",
+    "hardCap": "Cap Máximo",
+    "saleProgress": "Progresso da Venda",
+    "verification": "Verificação",
+    "allocation": "Alocação",
+    "antiBot": "Proteção anti-bot",
+    "lpLocked": "LP Bloqueado — 100 anos",
+    "aiAnalyzed": "Analisado pelo ZION AI",
+    "joinSale": "Entrar na Venda",
+    "notifyMe": "Notificar-me",
+    "saleEnded": "Venda Encerrada"
   },
   "dashboard": {
     "breadcrumb": "Painel",
@@ -369,5 +380,20 @@
     "connected": "Conectado",
     "demo": "Modo demo — sem transações reais",
     "connecting": "Conectando..."
+  },
+  "sentiment": {
+    "title": "Inteligência de Mercado",
+    "subtitle": "ZION Oráculo de Sentimento",
+    "live": "Ao Vivo",
+    "static": "Estático",
+    "socialSentiment": "Sentimento Social",
+    "whaleActivity": "Atividade de Baleias",
+    "buys": "Compras",
+    "sells": "Vendas",
+    "trending": "Tendências em torno deste projeto",
+    "veryBullish": "Muito Otimista",
+    "bullish": "Otimista",
+    "neutral": "Neutro",
+    "bearish": "Pessimista"
   }
 }

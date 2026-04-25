@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import type { Project } from '@/types';
 import { fmt } from '@/lib/format';
 import { AiScore } from './AiScore';
@@ -10,6 +13,7 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project: p }: ProjectCardProps) {
+  const t = useTranslations('projects');
   const progress = p.target > 0 ? Math.min(100, (p.raised / p.target) * 100) : 0;
 
   return (
@@ -54,19 +58,19 @@ export function ProjectCard({ project: p }: ProjectCardProps) {
 
       {/* Rows */}
       <div className="flex justify-between items-center mb-1.5 text-[0.82rem]">
-        <span className="text-white/50">Target</span>
+        <span className="text-white/50">{t('target')}</span>
         <span className="font-[family-name:var(--font-mono)] font-medium tabular-nums">
           {fmt.currency(p.target, { compact: true })}
         </span>
       </div>
       <div className="flex justify-between items-center mb-1.5 text-[0.82rem]">
-        <span className="text-white/50">Raised</span>
+        <span className="text-white/50">{t('raised')}</span>
         <span className="font-[family-name:var(--font-mono)] font-semibold text-cyan-400 tabular-nums">
           {p.status === 'upcoming' ? '—' : fmt.currency(p.raised, { compact: true })}
         </span>
       </div>
       <div className="flex justify-between items-center mb-1.5 text-[0.82rem]">
-        <span className="text-white/50">Participants</span>
+        <span className="text-white/50">{t('participants')}</span>
         <span className="font-[family-name:var(--font-mono)] font-medium tabular-nums">
           {fmt.number(p.participants)}
         </span>

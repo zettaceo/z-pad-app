@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { PROJECTS } from '@/lib/mock-data';
 import { ProjectCard } from '@/components/features/ProjectCard';
@@ -11,6 +12,8 @@ import type { Project, SaleStatus, ChainId } from '@/types';
 type SortKey = 'ai' | 'raised' | 'participants' | 'ending';
 
 export default function ProjectsPage() {
+  const t = useTranslations('projects');
+  const tc = useTranslations('common');
   const [status, setStatus] = useState<SaleStatus | 'all'>('all');
   const [chain, setChain] = useState<ChainId | 'all'>('all');
   const [search, setSearch] = useState('');
@@ -43,24 +46,23 @@ export default function ProjectsPage() {
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Projects</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <div className="flex items-end justify-between flex-wrap gap-5">
             <div>
               <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-                All Projects
+                {t('label')}
               </span>
               <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5 leading-[1.05]">
-                Discover{' '}
+                {t('title1')}{' '}
                 <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-                  vetted
-                </span>{' '}
-                launches
+                  {t('title2')}
+                </span>
               </h1>
               <p className="text-white/70 mt-1.5">
-                Every project scored by ZION AI. Filter by chain, sale type, or AI rating.
+                {t('desc')}
               </p>
             </div>
           </div>
@@ -83,7 +85,7 @@ export default function ProjectsPage() {
                   }`}
                   type="button"
                 >
-                  {s === 'all' ? 'All' : s.charAt(0).toUpperCase() + s.slice(1)}
+                  {s === 'all' ? t('tabAll') : s === 'live' ? t('tabLive') : s === 'upcoming' ? t('tabUpcoming') : t('tabEnded')}
                 </button>
               ))}
             </div>
@@ -94,8 +96,8 @@ export default function ProjectsPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                aria-label="Search projects"
-                placeholder="Search projects..."
+                aria-label={t('searchPlaceholder')}
+                placeholder={t('searchPlaceholder')}
                 className="w-full pl-10 pr-3.5 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03] transition-all placeholder:text-white/30"
               />
             </div>
@@ -106,7 +108,7 @@ export default function ProjectsPage() {
               onChange={(e) => setChain(e.target.value as ChainId | 'all')}
               className="flex-1 sm:flex-none px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none sm:max-w-[170px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
             >
-              <option value="all">All Chains</option>
+              <option value="all">{t('filterChains')}</option>
               <option value="bsc">BSC</option>
               <option value="eth">Ethereum</option>
               <option value="polygon">Polygon</option>
@@ -121,10 +123,10 @@ export default function ProjectsPage() {
               onChange={(e) => setSort(e.target.value as SortKey)}
               className="flex-1 sm:flex-none px-3.5 py-2.5 pr-9 rounded-[10px] border border-white/10 bg-white/[0.02] text-white text-[0.88rem] outline-none sm:max-w-[180px] focus:border-cyan-500 cursor-pointer appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-opacity=%220.5%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>')] bg-no-repeat bg-[right_14px_center]"
             >
-              <option value="ai">Sort: AI Score</option>
-              <option value="raised">Sort: Raised</option>
-              <option value="participants">Sort: Participants</option>
-              <option value="ending">Sort: Ending Soon</option>
+              <option value="ai">{t('sortAi')}</option>
+              <option value="raised">{t('sortRaised')}</option>
+              <option value="participants">{t('sortNewest')}</option>
+              <option value="ending">{t('sortEnds')}</option>
             </select>
             </div>
           </div>

@@ -9,7 +9,8 @@
     "disconnect": "断开连接",
     "confirm": "确认",
     "learnMore": "了解更多",
-    "lastUpdated": "最后更新"
+    "lastUpdated": "最后更新",
+    "aiScore": "AI 评分"
   },
   "nav": {
     "dashboard": "控制台",
@@ -151,7 +152,17 @@
     "step1": "在上方连接您的钱包",
     "step2": "输入您想投资的金额",
     "step3": "确认交易",
-    "step4": "代币按计划归属"
+    "step4": "代币按计划归属",
+    "hardCap": "硬顶",
+    "saleProgress": "销售进度",
+    "verification": "验证",
+    "allocation": "分配",
+    "antiBot": "防机器人保护",
+    "lpLocked": "LP锁定100年",
+    "aiAnalyzed": "ZION AI已分析",
+    "joinSale": "参与销售",
+    "notifyMe": "通知我",
+    "saleEnded": "销售结束"
   },
   "dashboard": {
     "breadcrumb": "控制台",
@@ -369,5 +380,20 @@
     "connected": "已连接",
     "demo": "演示模式——无真实交易",
     "connecting": "连接中..."
+  },
+  "sentiment": {
+    "title": "市场情报",
+    "subtitle": "ZION 情绪预言机",
+    "live": "直播",
+    "static": "静态",
+    "socialSentiment": "社交情绪",
+    "whaleActivity": "巨鲸活动",
+    "buys": "买入",
+    "sells": "卖出",
+    "trending": "围绕本项目的热门话题",
+    "veryBullish": "极度看涨",
+    "bullish": "看涨",
+    "neutral": "中性",
+    "bearish": "看跌"
   }
 }

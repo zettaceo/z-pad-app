@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { TrendingUp, TrendingDown, Twitter, MessageCircle, Waves, Eye, Activity } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
@@ -76,6 +77,7 @@ function SentimentBar({ label, score, icon: Icon }: { label: string; score: numb
 }
 
 export function SentimentOracle({ projectId, aiScore, status }: Props) {
+  const t = useTranslations('sentiment');
   const data = SENTIMENTS[projectId] ?? DEFAULT_SENTIMENT;
   const [liveWhales, setLiveWhales] = useState(data.whales);
   const [pulse, setPulse] = useState(false);
@@ -99,7 +101,7 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
     return () => clearInterval(timer);
   }, [status]);
 
-  const sentimentLabel = data.score >= 85 ? 'Very Bullish' : data.score >= 70 ? 'Bullish' : data.score >= 55 ? 'Neutral' : 'Bearish';
+  const sentimentLabel = data.score >= 85 ? t('veryBullish') : data.score >= 70 ? t('bullish') : data.score >= 55 ? t('neutral') : t('bearish');
   const sentimentColor = data.score >= 85 ? 'text-green-400' : data.score >= 70 ? 'text-cyan-400' : data.score >= 55 ? 'text-yellow-400' : 'text-red-400';
   const netBuys = liveWhales.filter(w => w.type === 'buy').length;
   const netSells = liveWhales.length - netBuys;
@@ -112,8 +114,8 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
             <Activity className="w-4 h-4 text-violet-400" />
           </div>
           <div>
-            <span className="font-[family-name:var(--font-display)] font-bold text-[1rem]">Market Intelligence</span>
-            <div className="text-[0.72rem] text-white/40">ZION Sentiment Oracle · Live</div>
+            <span className="font-[family-name:var(--font-display)] font-bold text-[1rem]">{t('title')}</span>
+            <div className="text-[0.72rem] text-white/40">{t('subtitle')} · {status === 'live' ? t('live') : t('static')}</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5">
@@ -121,14 +123,14 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
             'w-1.5 h-1.5 rounded-full',
             status === 'live' ? 'bg-green-400 animate-pulse-dot' : 'bg-white/20'
           )} />
-          <span className="text-[0.72rem] text-white/40">{status === 'live' ? 'Live' : 'Static'}</span>
+          <span className="text-[0.72rem] text-white/40">{status === 'live' ? t('live') : t('static')}</span>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-5">
         {/* Sentiment score */}
         <div className="rounded-[12px] bg-white/[0.02] border border-white/8 p-4">
-          <div className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2">Social Sentiment</div>
+          <div className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2">{t('socialSentiment')}</div>
           <div className={cn('font-[family-name:var(--font-display)] text-[2.2rem] font-extrabold tracking-tight leading-[1]', sentimentColor)}>
             {data.score}
           </div>
@@ -143,12 +145,12 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
         {/* Whale activity */}
         <div className="rounded-[12px] bg-white/[0.02] border border-white/8 p-4">
           <div className="flex items-center justify-between mb-3">
-            <div className="text-[0.7rem] text-white/40 uppercase tracking-wider">Whale Activity</div>
+            <div className="text-[0.7rem] text-white/40 uppercase tracking-wider">{t('whaleActivity')}</div>
             <div className={cn(
               'flex items-center gap-1 text-[0.68rem] font-bold px-1.5 py-0.5 rounded transition-all',
               pulse ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-white/30'
             )}>
-              <Waves className="w-2.5 h-2.5" /> Live
+              <Waves className="w-2.5 h-2.5" /> {t('live')}
             </div>
           </div>
 
@@ -156,11 +158,11 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
           <div className="flex gap-2 mb-3">
             <div className="flex-1 text-center rounded-[8px] py-2 bg-green-400/8 border border-green-400/20">
               <div className="text-[1.2rem] font-extrabold text-green-400">{netBuys}</div>
-              <div className="text-[0.65rem] text-green-400/70">Buys</div>
+              <div className="text-[0.65rem] text-green-400/70">{t('buys')}</div>
             </div>
             <div className="flex-1 text-center rounded-[8px] py-2 bg-red-400/8 border border-red-400/20">
               <div className="text-[1.2rem] font-extrabold text-red-400">{netSells}</div>
-              <div className="text-[0.65rem] text-red-400/70">Sells</div>
+              <div className="text-[0.65rem] text-red-400/70">{t('sells')}</div>
             </div>
           </div>
 
@@ -191,7 +193,7 @@ export function SentimentOracle({ projectId, aiScore, status }: Props) {
       {/* Trending keywords */}
       <div>
         <div className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <Eye className="w-3 h-3" /> Trending around this project
+          <Eye className="w-3 h-3" /> {t('trending')}
         </div>
         <div className="flex flex-wrap gap-1.5">
           {data.trending.map(t => (
