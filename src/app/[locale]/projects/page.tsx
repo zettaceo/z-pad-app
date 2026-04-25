@@ -135,9 +135,8 @@ export default function ProjectsPage() {
             <div className="text-center py-15 text-white/50">
               <Search className="w-14 h-14 mx-auto mb-4 opacity-35" />
               <h3 className="font-[family-name:var(--font-display)] text-[1.2rem] text-white mb-2 font-bold">
-                No projects match
+                {t('noResults')}
               </h3>
-              <div>Try different filters</div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

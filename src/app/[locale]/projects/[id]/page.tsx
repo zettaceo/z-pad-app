@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Share2, ExternalLink, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 import { PROJECTS } from '@/lib/mock-data';
 import { fmt } from '@/lib/format';
@@ -44,6 +45,12 @@ export default async function ProjectDetailPage({ params }: Props) {
   const p = PROJECTS.find((x) => x.id === id);
   if (!p) notFound();
 
+  const [pd, tp, tc] = await Promise.all([
+    getTranslations('projectDetail'),
+    getTranslations('projects'),
+    getTranslations('common'),
+  ]);
+
   const progress = p.target > 0 ? Math.min(100, (p.raised / p.target) * 100) : 0;
   const currency = p.chain === 'eth' ? 'ETH' : p.chain === 'solana' ? 'SOL' : 'BNB';
   const target = p.status === 'upcoming' ? p.startsAt : p.endsAt;
@@ -53,9 +60,9 @@ export default async function ProjectDetailPage({ params }: Props) {
       <section className="pt-8">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <Link href="/projects" className="hover:text-cyan-400">Projects</Link>
+            <Link href="/projects" className="hover:text-cyan-400">{tp('breadcrumb')}</Link>
             <span className="text-white/30">/</span>
             <span>{p.name}</span>
           </div>
@@ -118,10 +125,10 @@ export default async function ProjectDetailPage({ params }: Props) {
               {/* Stats row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
-                  { l: 'Raised', v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true },
-                  { l: 'Target', v: fmt.currency(p.target, { compact: true }), c: 'Hard cap' },
-                  { l: 'Participants', v: fmt.number(p.participants), c: `+${Math.floor(p.participants * 0.12)} today`, up: true },
-                  { l: 'Liquidity', v: `${p.liquidity}%`, c: 'Locked 100y' },
+                  { l: tp('raised'), v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true },
+                  { l: tp('target'), v: fmt.currency(p.target, { compact: true }), c: pd('hardCap') },
+                  { l: tp('participants'), v: fmt.number(p.participants), c: `+${Math.floor(p.participants * 0.12)} today`, up: true },
+                  { l: pd('liquidity'), v: `${p.liquidity}%`, c: 'Locked 100y' },
                 ].map((s) => (
                   <div key={s.l} className="bg-bg-075 border border-white/10 rounded-[14px] p-5 relative overflow-hidden">
                     <div className="text-[0.76rem] text-white/50 uppercase tracking-[0.08em] mb-2.5 font-semibold">
@@ -141,7 +148,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold">
-                    Sale Progress
+                    {pd('saleProgress')}
                   </div>
                   <div className="font-[family-name:var(--font-mono)] text-cyan-400 font-bold">
                     {fmt.percent(progress)}
@@ -154,9 +161,9 @@ export default async function ProjectDetailPage({ params }: Props) {
                   />
                 </div>
                 <div className="flex justify-between mt-3 text-[0.82rem] text-white/50">
-                  <span>Soft Cap: {fmt.currency(p.softCap)}</span>
-                  <span>Raised: <strong className="text-white font-semibold">{fmt.currency(p.raised)}</strong></span>
-                  <span>Hard Cap: {fmt.currency(p.target)}</span>
+                  <span>{pd('softCap')}: {fmt.currency(p.softCap)}</span>
+                  <span>{pd('raised')}: <strong className="text-white font-semibold">{fmt.currency(p.raised)}</strong></span>
+                  <span>{pd('hardCap')}: {fmt.currency(p.target)}</span>
                 </div>
               </div>
 
@@ -167,7 +174,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <svg className="w-5 h-5 text-cyan-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M12 2L14.09 8.26L20 9.27L15.5 13.97L16.82 19.96L12 16.77L7.18 19.96L8.5 13.97L4 9.27L9.91 8.26L12 2z"/>
                     </svg>
-                    ZION AI Analysis
+                    {pd('aiAnalysis')}
                   </div>
                   <Badge variant="ai">POWERED BY ZION</Badge>
                 </div>
@@ -199,7 +206,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {p.aiStrengths.length > 0 && (
                   <div className="mt-5 p-4 rounded-[10px] bg-green-400/[0.04] border border-green-400/15">
                     <div className="font-bold text-green-400 mb-2.5 text-[0.88rem] flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4" /> Strengths
+                      <CheckCircle className="w-4 h-4" /> {pd('strengths')}
                     </div>
                     <ul className="space-y-1.5">
                       {p.aiStrengths.map((s, i) => (
@@ -215,7 +222,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 {p.aiFlags.length > 0 && (
                   <div className="mt-3 p-4 rounded-[10px] bg-gold-500/[0.04] border border-gold-500/15">
                     <div className="font-bold text-gold-400 mb-2.5 text-[0.88rem] flex items-center gap-2">
-                      <AlertTriangle className="w-4 h-4" /> Flags
+                      <AlertTriangle className="w-4 h-4" /> {pd('flags')}
                     </div>
                     <ul className="space-y-1.5">
                       {p.aiFlags.map((f, i) => (
@@ -234,44 +241,44 @@ export default async function ProjectDetailPage({ params }: Props) {
 
               {/* Tokenomics */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
-                <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] font-bold mb-4">Tokenomics</h3>
+                <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] font-bold mb-4">{pd('tokenomics')}</h3>
                 <div className="grid grid-cols-2 gap-3 mb-5">
                   <div className="flex justify-between p-3.5 rounded-[10px] bg-white/[0.02] border border-white/5">
-                    <span className="text-[0.78rem] text-white/50">Total Supply</span>
+                    <span className="text-[0.78rem] text-white/50">{pd('supply')}</span>
                     <span className="font-[family-name:var(--font-mono)] font-medium text-[0.88rem]">
                       {p.tokenomics.supply}
                     </span>
                   </div>
                   <div className="flex justify-between p-3.5 rounded-[10px] bg-white/[0.02] border border-white/5">
-                    <span className="text-[0.78rem] text-white/50">Symbol</span>
+                    <span className="text-[0.78rem] text-white/50">{pd('token')}</span>
                     <span className="font-[family-name:var(--font-mono)] font-medium text-[0.88rem]">{p.symbol}</span>
                   </div>
                   <div className="flex justify-between p-3.5 rounded-[10px] bg-white/[0.02] border border-white/5">
-                    <span className="text-[0.78rem] text-white/50">Liquidity</span>
+                    <span className="text-[0.78rem] text-white/50">{pd('liquidityPct')}</span>
                     <span className="font-[family-name:var(--font-mono)] font-medium text-[0.88rem]">{p.tokenomics.liquidity}%</span>
                   </div>
                   <div className="flex justify-between p-3.5 rounded-[10px] bg-white/[0.02] border border-white/5">
-                    <span className="text-[0.78rem] text-white/50">Presale</span>
+                    <span className="text-[0.78rem] text-white/50">{pd('presale')}</span>
                     <span className="font-[family-name:var(--font-mono)] font-medium text-[0.88rem]">{p.tokenomics.presale}%</span>
                   </div>
                 </div>
 
-                <h4 className="font-[family-name:var(--font-display)] font-bold mb-3 text-[0.95rem]">Allocation</h4>
+                <h4 className="font-[family-name:var(--font-display)] font-bold mb-3 text-[0.95rem]">{pd('allocation')}</h4>
                 <div className="flex h-11 rounded-[10px] overflow-hidden border border-white/10 bg-white/[0.02]">
                   <div className="bg-cyan-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.presale }}>
-                    <div>Presale</div>
+                    <div>{pd('presale')}</div>
                     <div>{p.tokenomics.presale}%</div>
                   </div>
                   <div className="bg-blue-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.liquidity }}>
-                    <div>Liquidity</div>
+                    <div>{pd('liquidityPct')}</div>
                     <div>{p.tokenomics.liquidity}%</div>
                   </div>
                   <div className="bg-gold-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.team }}>
-                    <div>Team</div>
+                    <div>{pd('team')}</div>
                     <div>{p.tokenomics.team}%</div>
                   </div>
                   <div className="bg-violet-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-white" style={{ flex: p.tokenomics.marketing }}>
-                    <div>Mkt</div>
+                    <div>{pd('marketing')}</div>
                     <div>{p.tokenomics.marketing}%</div>
                   </div>
                 </div>
@@ -283,49 +290,49 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6 lg:sticky lg:top-[110px]">
                 {p.status === 'live' ? (
                   <div className="flex items-center gap-2 mb-3.5">
-                    <Badge variant="live">Live</Badge>
+                    <Badge variant="live">{pd('saleLive')}</Badge>
                     <TimeLeftInline
                       targetMs={p.endsAt}
-                      prefix="Ends in"
+                      prefix={pd('remaining')}
                       className="font-[family-name:var(--font-mono)] text-[0.78rem] text-white/60"
                     />
                   </div>
                 ) : p.status === 'upcoming' ? (
                   <div className="flex items-center gap-2 mb-3.5">
-                    <Badge variant="upcoming">Upcoming</Badge>
+                    <Badge variant="upcoming">{pd('saleUpcoming')}</Badge>
                     <TimeLeftInline
                       targetMs={p.startsAt}
-                      prefix="Starts in"
+                      prefix={pd('saleUpcoming')}
                       className="font-[family-name:var(--font-mono)] text-[0.78rem] text-white/60"
                     />
                   </div>
                 ) : (
                   <div className="mb-3.5">
-                    <Badge variant="ended">Ended</Badge>
+                    <Badge variant="ended">{pd('saleEnded')}</Badge>
                   </div>
                 )}
 
                 <h3 className="font-[family-name:var(--font-display)] text-[1.2rem] font-bold mb-1">
-                  {p.status === 'upcoming' ? 'Starts in' : p.status === 'ended' ? 'Sale Ended' : 'Join the Sale'}
+                  {p.status === 'upcoming' ? pd('saleUpcoming') : p.status === 'ended' ? pd('saleEnded') : pd('joinSale')}
                 </h3>
                 <div className="text-[0.82rem] text-white/50 mb-5 font-[family-name:var(--font-mono)]">{p.rate}</div>
 
                 <Countdown targetMs={target} className="mb-5 justify-between" />
 
                 {p.status === 'live' ? (
-                  <Button block size="lg">Participate Now</Button>
+                  <Button block size="lg">{pd('participateNow')}</Button>
                 ) : p.status === 'upcoming' ? (
-                  <Button variant="secondary" block size="lg">Notify Me</Button>
+                  <Button variant="secondary" block size="lg">{pd('notifyMe')}</Button>
                 ) : (
-                  <Button variant="secondary" block size="lg" disabled>Sale Ended</Button>
+                  <Button variant="secondary" block size="lg" disabled>{pd('saleEnded')}</Button>
                 )}
 
                 <div className="mt-5 pt-5 border-t border-white/10 flex flex-col gap-2.5 text-[0.85rem]">
-                  <div className="flex justify-between"><span className="text-white/50">Min Buy</span><span className="font-[family-name:var(--font-mono)]">{p.minBuy} {currency}</span></div>
-                  <div className="flex justify-between"><span className="text-white/50">Max Buy</span><span className="font-[family-name:var(--font-mono)]">{p.maxBuy} {currency}</span></div>
-                  <div className="flex justify-between"><span className="text-white/50">Sale Type</span><span>{p.saleType}</span></div>
-                  <div className="flex justify-between"><span className="text-white/50">Liquidity</span><span>{p.liquidity}%</span></div>
-                  {p.refundable && <div className="flex justify-between"><span className="text-white/50">Refund Window</span><span className="text-green-400">48h post-TGE</span></div>}
+                  <div className="flex justify-between"><span className="text-white/50">{pd('minBuy')}</span><span className="font-[family-name:var(--font-mono)]">{p.minBuy} {currency}</span></div>
+                  <div className="flex justify-between"><span className="text-white/50">{pd('maxBuy')}</span><span className="font-[family-name:var(--font-mono)]">{p.maxBuy} {currency}</span></div>
+                  <div className="flex justify-between"><span className="text-white/50">{pd('saleType')}</span><span>{p.saleType}</span></div>
+                  <div className="flex justify-between"><span className="text-white/50">{pd('liquidity')}</span><span>{p.liquidity}%</span></div>
+                  {p.refundable && <div className="flex justify-between"><span className="text-white/50">{pd('refundable')}</span><span className="text-green-400">48h post-TGE</span></div>}
                 </div>
               </div>
 
@@ -346,14 +353,14 @@ export default async function ProjectDetailPage({ params }: Props) {
               />
 
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
-                <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold mb-4">Verification</div>
+                <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold mb-4">{pd('verification')}</div>
                 <div className="flex flex-col gap-2.5">
                   {[
-                    { ok: p.kyc, label: p.kyc ? 'Team KYC Verified' : 'KYC Pending' },
-                    { ok: !!p.audited, label: p.audited ? `Audited by ${p.audited}` : 'Audit Pending' },
-                    { ok: true, label: 'LP Locked — 100 years' },
-                    { ok: true, label: 'Anti-bot protection' },
-                    { ok: true, label: 'ZION AI analyzed' },
+                    { ok: p.kyc, label: p.kyc ? `${pd('kyc')} ${pd('yes')}` : `${pd('kyc')} ${pd('no')}` },
+                    { ok: !!p.audited, label: p.audited ? `${pd('audited')} ${p.audited}` : 'Audit Pending' },
+                    { ok: true, label: pd('lpLocked') },
+                    { ok: true, label: pd('antiBot') },
+                    { ok: true, label: pd('aiAnalyzed') },
                   ].map((v, i) => (
                     <div key={i} className="flex items-center gap-2.5 p-3 rounded-[10px] bg-white/[0.02] border border-white/5 text-[0.88rem]">
                       <div className={`w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 ${
