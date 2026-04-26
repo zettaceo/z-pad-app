@@ -358,8 +358,31 @@
     "s7Title": "7. 联系方式",
     "s7": "数据控制者：ZETTA WORD。联系方式：privacy@zettaword.com。"
   },
+  "kyc": {
+    "breadcrumb": "KYC 验证",
+    "docPassport": "护照",
+    "docDrivers": "驾驶证",
+    "docNational": "身份证",
+    "docResidence": "居留许可",
+    "frontSide": "正面",
+    "frontSideHint": "请上传文件正面的清晰照片",
+    "backSide": "背面",
+    "backSideHint": "请上传文件背面的清晰照片",
+    "selfieLabel": "上传持证自拍",
+    "selfieHint": "可接受照片或截图"
+  },
+  "referral": {
+    "breadcrumb": "推荐计划"
+  },
+  "pods": {
+    "breadcrumb": "投资组合"
+  },
+  "backtest": {
+    "breadcrumb": "回测引擎"
+  },
   "footer": {
-    "tagline": "最先进的加密货币发射台。AI 审核。多链。机构级。",
+    "tagline": "新一代去中心化发射台。ZETTA 生态系统的一部分——连接 Z-BANCK、钱包、DEX 和区块链。",
+    "systemsOk": "所有系统运行正常",
     "product": "产品",
     "projects": "项目",
     "create": "创建",

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { TrendingUp, TrendingDown, Zap, BarChart2, Clock, DollarSign, Target, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { fmt } from '@/lib/format';
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@/components/ui/Button';
 
 interface ProjectResult {
@@ -55,6 +57,8 @@ function MiniBar({ value, max, color }: { value: number; max: number; color: str
 }
 
 export default function BacktestPage() {
+  const t = useTranslations('backtest');
+  const tc = useTranslations('common');
   const [amount, setAmount] = useState('1000');
   const [scenarioId, setScenarioId] = useState('top3');
   const [period, setPeriod] = useState<'90d' | '180d' | '1y'>('90d');
@@ -93,9 +97,9 @@ export default function BacktestPage() {
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Backtest Engine</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <div>
             <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">

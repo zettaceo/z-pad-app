@@ -358,8 +358,31 @@
     "s7Title": "7. Contato",
     "s7": "Controlador de Dados: ZETTA WORD. Contato: privacy@zettaword.com."
   },
+  "kyc": {
+    "breadcrumb": "Verificação KYC",
+    "docPassport": "Passaporte",
+    "docDrivers": "Carteira de Motorista",
+    "docNational": "Carteira de Identidade",
+    "docResidence": "Visto de Residência",
+    "frontSide": "Frente",
+    "frontSideHint": "Foto clara da frente do documento",
+    "backSide": "Verso",
+    "backSideHint": "Foto clara do verso do documento",
+    "selfieLabel": "Selfie com documento",
+    "selfieHint": "Foto ou print aceitos"
+  },
+  "referral": {
+    "breadcrumb": "Programa de Indicação"
+  },
+  "pods": {
+    "breadcrumb": "Investment Pods"
+  },
+  "backtest": {
+    "breadcrumb": "Backtest Engine"
+  },
   "footer": {
-    "tagline": "O launchpad de criptomoedas mais avançado. Auditado por IA. Multi-chain. Grau institucional.",
+    "tagline": "O launchpad descentralizado de nova geração. Parte do ecossistema ZETTA — conectando Z-BANCK, carteira, DEX e blockchain.",
+    "systemsOk": "Todos os sistemas operacionais",
     "product": "Produto",
     "projects": "Projetos",
     "create": "Criar",

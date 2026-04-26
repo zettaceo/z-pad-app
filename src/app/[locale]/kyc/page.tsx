@@ -6,6 +6,8 @@ import {
   Shield, CheckCircle, ChevronRight, User, FileText, Camera,
   AlertTriangle, Clock, Lock, Upload, X, Eye, EyeOff
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/Button';
 
@@ -25,14 +27,18 @@ const COUNTRIES = [
   'Switzerland', 'UAE', 'India', 'Nigeria', 'South Africa',
 ];
 
-const DOC_TYPES = [
-  { id: 'passport', label: 'Passport' },
-  { id: 'driver', label: "Driver's License" },
-  { id: 'national', label: 'National ID Card' },
-  { id: 'residence', label: 'Residence Permit' },
-];
 
 export default function KycPage() {
+  const t = useTranslations('kyc');
+  const tc = useTranslations('common');
+
+  const DOC_TYPES = [
+    { id: 'passport', label: t('docPassport') },
+    { id: 'driver', label: t('docDrivers') },
+    { id: 'national', label: t('docNational') },
+    { id: 'residence', label: t('docResidence') },
+  ];
+
   const [step, setStep] = useState<Step>(1);
   const [showDob, setShowDob] = useState(false);
   const [docType, setDocType] = useState('passport');
@@ -98,9 +104,9 @@ export default function KycPage() {
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-6">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span>KYC Verification</span>
+            <span>{t('breadcrumb')}</span>
           </div>
 
           {/* Header */}
@@ -302,15 +308,15 @@ export default function KycPage() {
                 <UploadZone
                   uploaded={frontUploaded}
                   onUpload={() => setFrontUploaded(s => !s)}
-                  label="Front side"
-                  sublabel="Clear photo of the front of your document"
+                  label={t('frontSide')}
+                  sublabel={t('frontSideHint')}
                 />
                 {docType !== 'passport' && (
                   <UploadZone
                     uploaded={backUploaded}
                     onUpload={() => setBackUploaded(s => !s)}
-                    label="Back side"
-                    sublabel="Clear photo of the back of your document"
+                    label={t('backSide')}
+                    sublabel={t('backSideHint')}
                   />
                 )}
               </div>
@@ -373,8 +379,8 @@ export default function KycPage() {
               <UploadZone
                 uploaded={selfieUploaded}
                 onUpload={() => setSelfieUploaded(s => !s)}
-                label="Upload selfie with ID"
-                sublabel="Photo or screenshot accepted"
+                label={t('selfieLabel')}
+                sublabel={t('selfieHint')}
               />
 
               <div className="mt-6 pt-5 border-t border-white/10 flex justify-between">

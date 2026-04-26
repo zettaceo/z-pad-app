@@ -7,6 +7,8 @@ import {
   Twitter, Send, Star, Zap, Crown
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
+
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/Button';
 
@@ -27,6 +29,8 @@ const TIERS = [
 ];
 
 export default function ReferralPage() {
+  const t = useTranslations('referral');
+  const tc = useTranslations('common');
   const [copied, setCopied] = useState(false);
   const totalRefs = REFERRED_USERS.length;
   const totalEarned = 74; // mock Z earned
@@ -42,12 +46,12 @@ export default function ReferralPage() {
 
   const shareTwitter = () => {
     const text = encodeURIComponent(`Join Z-PAD — the AI-vetted crypto launchpad! Use my referral link and get bonus XP on your first investment. ${MOCK_REF_LINK}`);
-    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   const shareTelegram = () => {
     const text = encodeURIComponent(`Join Z-PAD — the AI-vetted crypto launchpad! Use my referral link: ${MOCK_REF_LINK}`);
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(MOCK_REF_LINK)}&text=${text}`, '_blank');
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(MOCK_REF_LINK)}&text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -57,9 +61,9 @@ export default function ReferralPage() {
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-6">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span>Referral Program</span>
+            <span>{t('breadcrumb')}</span>
           </div>
 
           {/* Header */}

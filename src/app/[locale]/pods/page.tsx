@@ -6,6 +6,8 @@ import { Users, Plus, Lock, Unlock, Zap, TrendingUp, Shield, Copy, Check, Chevro
 import { cn } from '@/lib/cn';
 import { fmt } from '@/lib/format';
 import { Button } from '@/components/ui/Button';
+import { useTranslations } from 'next-intl';
+
 import { useWallet } from '@/lib/wallet-store';
 
 interface PodMember {
@@ -213,6 +215,8 @@ function PodCard({ pod }: { pod: Pod }) {
 
 export default function PodsPage() {
   const { wallet, openWalletModal } = useWallet();
+  const t = useTranslations('pods');
+  const tc = useTranslations('common');
   const [showCreate, setShowCreate] = useState(false);
   const [podName, setPodName] = useState('');
   const [selectedProject, setSelectedProject] = useState('zetta-chain');
@@ -232,9 +236,9 @@ export default function PodsPage() {
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Investment Pods</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <div className="flex items-end justify-between flex-wrap gap-5">
             <div>
@@ -320,7 +324,7 @@ export default function PodsPage() {
                 <Button>
                   <Zap className="w-4 h-4 mr-1.5" /> Launch Pod
                 </Button>
-                <Button variant="secondary" onClick={() => setShowCreate(false)}>Cancel</Button>
+                <Button variant="secondary" onClick={() => setShowCreate(false)}>{tc('cancel')}</Button>
               </div>
             </div>
           )}

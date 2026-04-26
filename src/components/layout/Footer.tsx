@@ -1,6 +1,7 @@
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { Twitter, Send, Github } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
 import { siteConfig } from '@/config/site';
 
@@ -31,7 +32,8 @@ const FOOTER_LINKS = {
   ],
 };
 
-export function Footer() {
+export async function Footer() {
+  const t = await getTranslations('footer');
   return (
     <footer className="relative z-[1] pt-16 pb-8 border-t border-white/10 bg-bg-000/60 mt-20">
       <div className="max-w-[1360px] mx-auto px-6">
@@ -48,8 +50,7 @@ export function Footer() {
               Z-PAD
             </div>
             <p className="text-white/70 text-[0.88rem] leading-relaxed max-w-sm mb-5">
-              The next-generation decentralized launchpad. Part of the ZETTA ecosystem — connecting
-              Z-BANCK, wallet, DEX, and blockchain.
+              {t('tagline')}
             </p>
             <div className="flex gap-2">
               {[
@@ -108,7 +109,7 @@ export function Footer() {
           <div className="flex gap-5">
             <span className="inline-flex items-center gap-1.5 text-green-400">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#00e676] animate-pulse-dot" />
-              All systems operational
+              {t('systemsOk')}
             </span>
             <span className="font-[family-name:var(--font-mono)]">v1.0.0</span>
           </div>
