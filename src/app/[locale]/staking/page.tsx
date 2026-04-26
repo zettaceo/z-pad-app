@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { useWallet } from '@/lib/wallet-store';
 import { Button } from '@/components/ui/Button';
@@ -37,24 +38,26 @@ const POOLS = [
 
 export default function StakingPage() {
   const { wallet } = useWallet();
+  const t = useTranslations('staking');
+  const tc = useTranslations('common');
 
   return (
     <div className="pt-[100px]">
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Staking</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-            Z Staking
+            {t('label')}
           </span>
           <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
-            Stake Z. <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">Earn everywhere.</span>
+            {t('title1')} <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">{t('title2')}</span>
           </h1>
           <p className="text-white/70 mt-2 max-w-[640px]">
-            Reduce fees, unlock tier boosts, earn rewards, and gain governance voting power.
+            {t('desc')}
           </p>
         </div>
       </section>
@@ -65,10 +68,10 @@ export default function StakingPage() {
           <div className="bg-gradient-to-br from-cyan-500/[0.06] to-violet-500/[0.04] border border-white/10 rounded-[20px] p-9 mb-8 relative overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 relative">
               {[
-                { l: 'Total Staked', v: '48.2M Z', accent: true },
-                { l: 'Your Stake', v: wallet.connected ? `${fmt.number(wallet.stakedZ)} Z` : '0 Z' },
-                { l: 'Avg APY', v: '68.4%', accent: true },
-                { l: 'Stakers', v: '12,847' },
+                { l: t('totalStaked'), v: '48.2M Z', accent: true },
+                { l: t('yourStake'), v: wallet.connected ? `${fmt.number(wallet.stakedZ)} Z` : '0 Z' },
+                { l: t('avgApy'), v: '68.4%', accent: true },
+                { l: t('stakers'), v: '12,847' },
               ].map((s) => (
                 <div key={s.l}>
                   <div className="text-[0.72rem] text-white/50 uppercase tracking-wider font-semibold mb-1.5">
@@ -83,7 +86,7 @@ export default function StakingPage() {
           </div>
 
           <h2 className="font-[family-name:var(--font-display)] text-[1.6rem] font-extrabold tracking-[-0.025em] mb-7">
-            Choose your pool<span className="text-cyan-500 font-black">.</span>
+            {t('choosePool')}<span className="text-cyan-500 font-black">.</span>
           </h2>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -98,7 +101,7 @@ export default function StakingPage() {
               >
                 {pool.recommended && (
                   <div className="absolute top-4 right-4 px-2.5 py-[3px] rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 text-[#021628] text-[0.68rem] font-bold uppercase tracking-wider">
-                    ★ Recommended
+                    {t('recommended')}
                   </div>
                 )}
                 <div className="text-[0.74rem] text-white/50 uppercase tracking-wider font-semibold mb-1">
@@ -109,7 +112,7 @@ export default function StakingPage() {
                 </div>
                 <div className="text-[0.82rem] text-white/70 mt-1">{pool.sub}</div>
                 <div className="text-[0.74rem] text-white/50 uppercase tracking-wider font-semibold mt-4 mb-2">
-                  APY
+                  {t('apy')}
                 </div>
                 <div className="font-[family-name:var(--font-display)] text-[2.6rem] font-extrabold bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent tracking-[-0.025em] leading-none mb-4">
                   {pool.apy}%
@@ -123,7 +126,7 @@ export default function StakingPage() {
                   ))}
                 </ul>
                 <Button block variant={pool.variant}>
-                  Stake {pool.duration === 'No Lock' ? 'Flexible' : pool.duration}
+                  {pool.duration === 'No Lock' ? t('stakeFlexible') : `${t('stake')} ${pool.duration}`}
                 </Button>
               </div>
             ))}

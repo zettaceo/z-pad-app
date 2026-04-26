@@ -6,19 +6,14 @@ import { toast } from 'sonner';
 import { z, ZodError } from 'zod';
 import { Rocket, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
+import { useTranslations } from 'next-intl';
+
 import { useWallet } from '@/lib/wallet-store';
 import { computeAiPrescore } from '@/lib/ai-prescore';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { AiScore } from '@/components/features/AiScore';
 
-const STEPS = [
-  { n: 1, title: 'Project Info', desc: 'Basic project details' },
-  { n: 2, title: 'Tokenomics', desc: 'Supply & distribution' },
-  { n: 3, title: 'Sale Config', desc: 'Pricing & caps' },
-  { n: 4, title: 'Review', desc: 'AI pre-check + confirm' },
-  { n: 5, title: 'Deploy', desc: 'Launch on-chain' },
-];
 
 interface FormState {
   name: string;
@@ -52,6 +47,18 @@ export default function CreatePage() {
     rate: '', softCap: '', hardCap: '', minBuy: '', maxBuy: '', startDate: '', endDate: '',
     terms: false,
   });
+
+  const t = useTranslations('create');
+  const tc = useTranslations('common');
+  const tn = useTranslations('nav');
+
+  const STEPS = [
+    { n: 1, title: t('step1Title'), desc: t('step1Desc') },
+    { n: 2, title: t('step2Title'), desc: t('step2Desc') },
+    { n: 3, title: t('step3Title'), desc: t('step3Desc') },
+    { n: 4, title: t('step4Title'), desc: t('step4Desc') },
+    { n: 5, title: t('step5Title'), desc: t('step5Desc') },
+  ];
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -146,13 +153,13 @@ export default function CreatePage() {
           <div className="max-w-[520px] mx-auto text-center p-10 bg-bg-075 border border-white/10 rounded-[14px]">
             <Rocket className="w-14 h-14 mx-auto mb-4 text-white/30" />
             <h3 className="font-[family-name:var(--font-display)] text-xl font-bold mb-3">
-              Connect Wallet &amp; Complete KYC
+              {t('connectTitle')}
             </h3>
             <p className="text-white/70 mb-6">
-              You must connect your wallet and complete creator KYC to launch a project on Z-PAD.
+              {t('connectDesc')}
             </p>
             <Button size="lg" onClick={openWalletModal}>
-              Connect Wallet
+              {tn('connectWallet')}
             </Button>
           </div>
         </div>
@@ -168,17 +175,17 @@ export default function CreatePage() {
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Create</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-            Launch
+            {t('label')}
           </span>
           <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
-            Launch Your <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">Project</span>
+            {t('title1')} <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">{t('title2')}</span>
           </h1>
-          <p className="text-white/70 mt-2">Configure, AI-audit, and deploy your token sale in minutes.</p>
+          <p className="text-white/70 mt-2">{t('desc')}</p>
         </div>
       </section>
 
@@ -221,30 +228,30 @@ export default function CreatePage() {
             <div className="bg-bg-075 border border-white/10 rounded-[14px] p-4 sm:p-6 md:p-8">
               {step === 1 && (
                 <>
-                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">Project Information</h2>
+                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('projectInfoTitle')}</h2>
                   <p className="text-white/70 text-[0.92rem] mb-7">
-                    Start with the basics. KYC is <strong className="text-cyan-400">mandatory</strong> for creators.
+                    {t.rich('projectInfoDesc', { strong: (chunks) => <strong className="text-cyan-400">{chunks}</strong> })}
                   </p>
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-5">
                     <div>
-                      <label htmlFor="field-name" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Project Name *</label>
-                      <input id="field-name" value={form.name} onChange={(e) => update('name', e.target.value)} placeholder="e.g. ZETTA CHAIN" className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]" />
+                      <label htmlFor="field-name" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldName')} *</label>
+                      <input id="field-name" value={form.name} onChange={(e) => update('name', e.target.value)} placeholder={t('fieldNamePlaceholder')} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]" />
                     </div>
                     <div>
-                      <label htmlFor="field-symbol" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Token Symbol *</label>
-                      <input id="field-symbol" value={form.symbol} onChange={(e) => update('symbol', e.target.value.toUpperCase())} placeholder="e.g. ZETTA" maxLength={8} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]" />
+                      <label htmlFor="field-symbol" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldSymbol')} *</label>
+                      <input id="field-symbol" value={form.symbol} onChange={(e) => update('symbol', e.target.value.toUpperCase())} placeholder={t('fieldSymbolPlaceholder')} maxLength={8} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]" />
                     </div>
                   </div>
                   <div className="mb-5">
-                    <label htmlFor="field-description" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Description *</label>
-                      <textarea id="field-description" value={form.description} onChange={(e) => update('description', e.target.value)} rows={4} placeholder="Describe your project, the problem it solves, and your vision..." className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 resize-y" />
-                    <div className="text-[0.78rem] text-white/50 mt-1.5">Minimum 100 characters. ZION AI will analyze for red flags.</div>
+                    <label htmlFor="field-description" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldDesc')} *</label>
+                      <textarea id="field-description" value={form.description} onChange={(e) => update('description', e.target.value)} rows={4} placeholder={t('fieldDescPlaceholder')} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 resize-y" />
+                    <div className="text-[0.78rem] text-white/50 mt-1.5">{t('fieldDescHint')}</div>
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-5">
                     <div>
-                      <label htmlFor="field-chain" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Chain *</label>
+                      <label htmlFor="field-chain" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldChain')} *</label>
                       <select id="field-chain" value={form.chain} onChange={(e) => update('chain', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500">
                         <option value="bsc">BSC</option>
                         <option value="eth">Ethereum</option>
@@ -256,7 +263,7 @@ export default function CreatePage() {
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="field-sale-type" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Sale Type *</label>
+                      <label htmlFor="field-sale-type" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldSaleType')} *</label>
                       <select id="field-sale-type" value={form.saleType} onChange={(e) => update('saleType', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500">
                         <option value="fairlaunch">Fair Launch</option>
                         <option value="presale">Presale</option>
@@ -271,10 +278,10 @@ export default function CreatePage() {
                     <input type="checkbox" checked={form.refundable} onChange={(e) => update('refundable', e.target.checked)} className="mt-1 accent-cyan-500" />
                     <div>
                       <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
-                        Enable Refundable Sale (DYCO) <Badge variant="refundable" />
+                        {t('refundableTitle')} <Badge variant="refundable" />
                       </div>
                       <div className="text-[0.78rem] text-white/50 leading-relaxed">
-                        Investors get refund if KPIs aren&apos;t met. Signals confidence, attracts higher-quality participants.
+                        {t('refundableDesc')}
                       </div>
                     </div>
                   </label>
@@ -283,17 +290,17 @@ export default function CreatePage() {
 
               {step === 2 && (
                 <>
-                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">Tokenomics</h2>
-                  <p className="text-white/70 text-[0.92rem] mb-7">Define total supply and distribution.</p>
+                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('tokenomicsTitle')}</h2>
+                  <p className="text-white/70 text-[0.92rem] mb-7">{t('tokenomicsDesc')}</p>
 
                   <div className="mb-5">
-                    <label htmlFor="field-supply" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Total Supply *</label>
+                    <label htmlFor="field-supply" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('supplyField')} *</label>
                       <input id="field-supply" type="number" value={form.supply} onChange={(e) => update('supply', e.target.value)} placeholder="1000000000" className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)]" />
                   </div>
 
                   <div className="mb-5 p-4 rounded-[10px] bg-cyan-500/[0.04] border border-cyan-500/15">
                     <div className="flex justify-between mb-2.5">
-                      <div className="font-semibold">Allocation</div>
+                      <div className="font-semibold">{t('allocationTitle')}</div>
                       <div className={`font-[family-name:var(--font-mono)] font-bold ${total === 100 ? 'text-green-400' : total > 100 ? 'text-red-400' : 'text-gold-400'}`}>
                         {total}% / 100%
                       </div>
@@ -319,11 +326,11 @@ export default function CreatePage() {
 
               {step === 3 && (
                 <>
-                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">Sale Configuration</h2>
-                  <p className="text-white/70 text-[0.92rem] mb-7">Set pricing, caps, and sale schedule.</p>
+                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('saleConfigTitle')}</h2>
+                  <p className="text-white/70 text-[0.92rem] mb-7">{t('saleConfigDesc')}</p>
 
                   <div className="mb-5">
-                    <label htmlFor="field-rate" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Token Rate *</label>
+                    <label htmlFor="field-rate" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('tokenRate')} *</label>
                       <input id="field-rate" type="number" value={form.rate} onChange={(e) => update('rate', e.target.value)} placeholder="125000" className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)]" />
                   </div>
 
@@ -331,7 +338,7 @@ export default function CreatePage() {
                     {(['softCap', 'hardCap', 'minBuy', 'maxBuy'] as const).map((k) => (
                       <div key={k}>
                         <label htmlFor={`field-${k}`} className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">
-                          {k === 'softCap' ? 'Soft Cap' : k === 'hardCap' ? 'Hard Cap' : k === 'minBuy' ? 'Min Buy' : 'Max Buy'} *
+                          {k === 'softCap' ? t('softCap') : k === 'hardCap' ? t('hardCap') : k === 'minBuy' ? t('minBuy') : t('maxBuy')} *
                         </label>
                         <input id={`field-${k}`} type="number" step="0.01" value={form[k]} onChange={(e) => update(k, e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)]" />
                       </div>
@@ -340,11 +347,11 @@ export default function CreatePage() {
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="field-start-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">Start Date *</label>
+                      <label htmlFor="field-start-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('startDate')} *</label>
                       <input id="field-start-date" type="datetime-local" value={form.startDate} onChange={(e) => update('startDate', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500" />
                     </div>
                     <div>
-                      <label htmlFor="field-end-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">End Date *</label>
+                      <label htmlFor="field-end-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('endDate')} *</label>
                       <input id="field-end-date" type="datetime-local" value={form.endDate} onChange={(e) => update('endDate', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500" />
                     </div>
                   </div>
@@ -353,15 +360,15 @@ export default function CreatePage() {
 
               {step === 4 && (
                 <>
-                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">Review & AI Pre-Check</h2>
-                  <p className="text-white/70 text-[0.92rem] mb-7">ZION AI has analyzed your configuration.</p>
+                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('reviewTitle')}</h2>
+                  <p className="text-white/70 text-[0.92rem] mb-7">{t('reviewDesc')}</p>
 
                   <div className="mb-5 p-5 rounded-[14px] bg-gradient-to-br from-cyan-500/[0.06] to-violet-500/[0.04] border border-cyan-500/15 flex gap-5 items-center">
                     <AiScore score={preScore} size="lg" />
                     <div className="flex-1">
                       <div className="font-bold flex items-center gap-2 mb-1">
                         <svg className="w-4 h-4 text-cyan-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2L14.09 8.26L20 9.27L15.5 13.97L16.82 19.96L12 16.77L7.18 19.96L8.5 13.97L4 9.27L9.91 8.26L12 2z"/></svg>
-                        ZION AI Pre-Check
+                        {t('aiPreCheck')}
                       </div>
                       <div className="text-[0.86rem] text-white/70 leading-[1.55]">
                         {preScore >= 85 ? 'Excellent configuration — ready to launch with high investor confidence.' :
@@ -372,15 +379,15 @@ export default function CreatePage() {
                   </div>
 
                   <div className="p-4 rounded-[10px] bg-white/[0.02] border border-white/10 mb-5">
-                    <div className="font-[family-name:var(--font-display)] font-bold mb-3">Summary</div>
+                    <div className="font-[family-name:var(--font-display)] font-bold mb-3">{t('summaryTitle')}</div>
                     <div className="grid sm:grid-cols-2 gap-2 text-[0.88rem]">
                       {[
-                        ['Name', form.name || '—'],
-                        ['Symbol', form.symbol || '—'],
-                        ['Chain', form.chain.toUpperCase()],
-                        ['Sale Type', form.saleType],
-                        ['Supply', form.supply || '—'],
-                        ['Liquidity', `${form.liquidity || 0}%`],
+                        [t('fieldName'), form.name || '—'],
+                        [t('fieldSymbol'), form.symbol || '—'],
+                        [t('fieldChain'), form.chain.toUpperCase()],
+                        [t('fieldSaleType'), form.saleType],
+                        [t('supplyField'), form.supply || '—'],
+                        [t('softCap'), `${form.liquidity || 0}%`],
                       ].map(([k, v]) => (
                         <div key={k} className="flex justify-between p-2 rounded bg-white/[0.02]">
                           <span className="text-white/50">{k}</span>
@@ -392,7 +399,7 @@ export default function CreatePage() {
 
                   <label className="flex items-start gap-3 p-3.5 rounded-[10px] border border-white/10 bg-white/[0.02] cursor-pointer text-[0.88rem]">
                     <input type="checkbox" checked={form.terms} onChange={(e) => update('terms', e.target.checked)} className="mt-1 accent-cyan-500" />
-                    <span>I agree to Z-PAD&apos;s Terms of Service, confirm all information is accurate, and understand smart contract parameters cannot be modified after deployment.</span>
+                    <span>{t('termsAccept')}</span>
                   </label>
                 </>
               )}
@@ -403,24 +410,24 @@ export default function CreatePage() {
                     <CheckCircle2 className="w-12 h-12 text-[#021628]" strokeWidth={3} />
                   </div>
                   <h2 className="font-[family-name:var(--font-display)] text-[1.9rem] font-extrabold tracking-[-0.025em] mb-3">
-                    Project Deployed! 🚀
+                    {t('deployedTitle')}
                   </h2>
                   <p className="text-white/70 max-w-[440px] mx-auto mb-7 leading-relaxed">
-                    Your project is now live on Z-PAD. ZION AI is monitoring your contract in real-time.
+                    {t('deployedDesc')}
                   </p>
                   <div className="inline-flex flex-col gap-3 p-5 rounded-[14px] bg-cyan-500/[0.04] border border-cyan-500/15 text-left max-w-[500px] w-full">
                     <div>
-                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">Contract Address <span className="text-gold-400 normal-case">(demo)</span></div>
+                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">{t('contractAddress')} <span className="text-gold-400 normal-case">(demo)</span></div>
                       <div className="font-[family-name:var(--font-mono)] text-[0.82rem] text-cyan-400 break-all">0x0000000000000000000000000000000000001337</div>
                     </div>
                     <div>
-                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">Transaction Hash</div>
+                      <div className="text-[0.72rem] text-white/50 uppercase tracking-wider mb-1">{t('txHash')}</div>
                       <div className="font-[family-name:var(--font-mono)] text-[0.82rem] text-cyan-400 break-all">0x3f2a8b1d9c4e7a6f5b2e8d9c1a3b4e5f6a7b8c9d</div>
                     </div>
                   </div>
                   <div className="flex gap-3 justify-center mt-8 flex-wrap">
-                    <Button asChild><Link href="/projects">View Projects</Link></Button>
-                    <Button variant="secondary" asChild><Link href="/dashboard">Dashboard</Link></Button>
+                    <Button asChild><Link href="/projects">{t('viewProjects')}</Link></Button>
+                    <Button variant="secondary" asChild><Link href="/dashboard">{tn('dashboard')}</Link></Button>
                   </div>
                 </div>
               )}
@@ -429,14 +436,14 @@ export default function CreatePage() {
               {step < 5 && (
                 <div className="flex justify-between pt-6 mt-7 border-t border-white/10 gap-3 flex-wrap">
                   {step === 1 ? (
-                    <Button variant="ghost" asChild><Link href="/">Cancel</Link></Button>
+                    <Button variant="ghost" asChild><Link href="/">{t('cancelAction')}</Link></Button>
                   ) : (
-                    <Button variant="ghost" onClick={back}><ArrowLeft className="w-4 h-4" /> Back</Button>
+                    <Button variant="ghost" onClick={back}><ArrowLeft className="w-4 h-4" /> {t('backAction')}</Button>
                   )}
                   {step < 4 ? (
-                    <Button onClick={next}>Next <ArrowRight className="w-4 h-4" /></Button>
+                    <Button onClick={next}>{t('nextAction')} <ArrowRight className="w-4 h-4" /></Button>
                   ) : (
-                    <Button size="lg" onClick={deploy} disabled={deploying}><Rocket className="w-5 h-5" /> {deploying ? 'Deploying...' : 'Deploy Project'}</Button>
+                    <Button size="lg" onClick={deploy} disabled={deploying}><Rocket className="w-5 h-5" /> {deploying ? t('deploying') : t('deployButton')}</Button>
                   )}
                 </div>
               )}

@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { Zap, Users, Lock, Vote, Shield, TrendingUp, Trophy, Gift } from 'lucide-react';
 
+import { useTranslations } from 'next-intl';
+
 import { useWallet } from '@/lib/wallet-store';
 import { QUESTS } from '@/lib/mock-data';
 import { fmt } from '@/lib/format';
@@ -28,6 +30,8 @@ const TIER_COLORS: Record<string, string> = {
 
 export default function RewardsPage() {
   const { wallet } = useWallet();
+  const t = useTranslations('rewards');
+  const tc = useTranslations('common');
   const xpToNext = 3500;
   const xpProgress = (wallet.xp / xpToNext) * 100;
 
@@ -36,18 +40,18 @@ export default function RewardsPage() {
       <section className="pt-10 pb-6 border-b border-white/5">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
-            <Link href="/" className="hover:text-cyan-400">Home</Link>
+            <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
             <span className="text-white/30">/</span>
-            <span>Rewards</span>
+            <span>{t('breadcrumb')}</span>
           </div>
           <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-            Social Mining
+            {t('label')}
           </span>
           <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
-            Level up. <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">Earn rewards.</span>
+            {t('title1')} <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">{t('title2')}</span>
           </h1>
           <p className="text-white/70 mt-2 max-w-[640px]">
-            Complete quests, build reputation, climb the leaderboard. Earn Z tokens and exclusive NFTs.
+            {t('desc')}
           </p>
         </div>
       </section>
@@ -70,11 +74,11 @@ export default function RewardsPage() {
                     Level {wallet.level || 4}
                   </div>
                   <span className="px-2.5 py-[3px] rounded-full bg-gradient-to-br from-cyan-500/15 to-violet-500/15 text-[#c4b5fd] border border-violet-500/30 text-[0.68rem] font-bold uppercase tracking-wider">
-                    Silver Tier
+                    {t('silverTier')}
                   </span>
                 </div>
                 <div className="text-[0.88rem] text-white/70 mb-3">
-                  Reputation: <strong className="text-cyan-400">{wallet.reputation || 72}/100</strong>
+                  {t('reputation')}: <strong className="text-cyan-400">{wallet.reputation || 72}/100</strong>
                   {' · '}XP: <strong className="font-[family-name:var(--font-mono)]">{fmt.number(wallet.xp || 2840)} / {fmt.number(xpToNext)}</strong>
                 </div>
                 <div
@@ -91,16 +95,16 @@ export default function RewardsPage() {
                   />
                 </div>
                 <div className="text-[0.78rem] text-white/50 mt-2 font-[family-name:var(--font-mono)]">
-                  {fmt.number(xpToNext - (wallet.xp || 2840))} XP to Level {(wallet.level || 4) + 1}
+                  {fmt.number(xpToNext - (wallet.xp || 2840))} {t('xpTo')} {(wallet.level || 4) + 1}
                 </div>
               </div>
               <div className="flex sm:flex-row lg:flex-col gap-3 sm:col-span-full lg:col-span-1 lg:min-w-[180px]">
                 <div className="p-3 rounded-[10px] bg-white/[0.03] border border-white/10 text-center">
-                  <div className="text-[0.7rem] text-white/50 uppercase tracking-wider font-semibold mb-1">Earned</div>
+                  <div className="text-[0.7rem] text-white/50 uppercase tracking-wider font-semibold mb-1">{t('earned')}</div>
                   <div className="font-[family-name:var(--font-mono)] text-cyan-400 font-extrabold text-xl">+2,150 Z</div>
                 </div>
                 <div className="p-3 rounded-[10px] bg-white/[0.03] border border-white/10 text-center">
-                  <div className="text-[0.7rem] text-white/50 uppercase tracking-wider font-semibold mb-1">NFTs</div>
+                  <div className="text-[0.7rem] text-white/50 uppercase tracking-wider font-semibold mb-1">{t('nfts')}</div>
                   <div className="font-[family-name:var(--font-mono)] text-gold-400 font-extrabold text-xl">3</div>
                 </div>
               </div>
@@ -109,7 +113,7 @@ export default function RewardsPage() {
 
           {/* Quests */}
           <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.025em] mb-5">
-            Active Quests<span className="text-cyan-500 font-black">.</span>
+            {t('activeQuests')}<span className="text-cyan-500 font-black">.</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {QUESTS.map((q) => {
@@ -156,7 +160,7 @@ export default function RewardsPage() {
                   <div className="flex items-center justify-between text-[0.76rem]">
                     <span className="text-cyan-400 font-[family-name:var(--font-mono)] font-semibold">{q.reward}</span>
                     <span className="text-white/50 font-[family-name:var(--font-mono)]">
-                      {q.completed ? '✓ Completed' : `${q.progress}%`}
+                      {q.completed ? t('completed') : `${q.progress}%`}
                     </span>
                   </div>
                 </div>
@@ -166,13 +170,13 @@ export default function RewardsPage() {
 
           {/* Leaderboard */}
           <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.025em] mb-5">
-            Leaderboard<span className="text-cyan-500 font-black">.</span>
+            {t('leaderboard')}<span className="text-cyan-500 font-black">.</span>
           </h2>
           <div className="bg-bg-075 border border-white/10 rounded-[14px] overflow-x-auto">
             <table className="w-full min-w-[560px] text-[0.88rem]">
               <thead>
                 <tr className="bg-white/[0.02]">
-                  {['Rank', 'Address', 'Tier', 'Staked Z', 'Portfolio'].map((h) => (
+                  {[t('colRank'), t('colAddress'), t('colTier'), t('colStaked'), t('colPortfolio')].map((h) => (
                     <th key={h} className="text-left p-4 font-semibold text-[0.7rem] uppercase tracking-[0.08em] text-white/50 border-b border-white/10">
                       {h}
                     </th>
@@ -201,7 +205,7 @@ export default function RewardsPage() {
                         </span>
                         {row.you && (
                           <span className="text-[0.62rem] px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 font-bold uppercase">
-                            You
+                            {t('you')}
                           </span>
                         )}
                       </div>

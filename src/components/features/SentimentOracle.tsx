@@ -76,7 +76,7 @@ function SentimentBar({ label, score, icon: Icon }: { label: string; score: numb
   );
 }
 
-export function SentimentOracle({ projectId, aiScore, status }: Props) {
+export function SentimentOracle({ projectId, aiScore: _aiScore, status }: Props) {
   const t = useTranslations('sentiment');
   const data = SENTIMENTS[projectId] ?? DEFAULT_SENTIMENT;
   const [liveWhales, setLiveWhales] = useState(data.whales);
