@@ -3,53 +3,35 @@
 import { useEffect, useRef } from 'react';
 import { ChevronRight, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 import { useWallet } from '@/lib/wallet-store';
 import { useFocusTrap } from '@/lib/use-focus-trap';
 
-interface WalletOption {
-  name: string;
-  icon: string;
-  desc: string;
-  highlight?: boolean;
-}
-
-const WALLETS: readonly WalletOption[] = [
-  {
-    name: 'Obelisk-Z',
-    icon: '⚡',
-    desc: 'ZETTA native wallet — recommended',
-    highlight: true,
-  },
-  { name: 'MetaMask', icon: '🦊', desc: 'Most popular Ethereum wallet' },
-  { name: 'Trust Wallet', icon: '🛡️', desc: 'Multi-chain mobile wallet' },
-  { name: 'WalletConnect', icon: '🔗', desc: 'Connect via QR code' },
-  { name: 'Coinbase Wallet', icon: '🔵', desc: 'Self-custody wallet' },
-  { name: 'Phantom', icon: '👻', desc: 'Solana wallet' },
-] as const;
-
 export function WalletModal() {
+  const t = useTranslations('wallet');
   const { walletModalOpen, closeWalletModal, connect } = useWallet();
   const firstButtonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useFocusTrap(containerRef, walletModalOpen);
 
-  // ESC key + body scroll lock
+  const WALLETS: { name: string; icon: string; desc: string; highlight?: boolean }[] = [
+    { name: 'Obelisk-Z', icon: '⚡', desc: t('descObelisk'), highlight: true },
+    { name: 'MetaMask', icon: '🦊', desc: t('descMetaMask') },
+    { name: 'Trust Wallet', icon: '🛡️', desc: t('descTrustWallet') },
+    { name: 'WalletConnect', icon: '🔗', desc: t('descWalletConnect') },
+    { name: 'Coinbase Wallet', icon: '🔵', desc: t('descCoinbase') },
+    { name: 'Phantom', icon: '👻', desc: t('descPhantom') },
+  ];
+
   useEffect(() => {
     if (!walletModalOpen) return;
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeWalletModal();
-    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeWalletModal(); };
     document.addEventListener('keydown', onKey);
-
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-
-    // Focus first actionable button for keyboard users
     const timer = setTimeout(() => firstButtonRef.current?.focus(), 50);
-
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prevOverflow;
@@ -61,12 +43,12 @@ export function WalletModal() {
 
   const handleConnect = async (name: string) => {
     closeWalletModal();
-    toast.loading(`Connecting to ${name}...`, { id: 'connect' });
+    toast.loading(t('connecting', { name }), { id: 'connect' });
     try {
       await connect(name);
-      toast.success(`Connected to ${name}`, { id: 'connect' });
+      toast.success(t('connected', { name }), { id: 'connect' });
     } catch {
-      toast.error('Connection failed', { id: 'connect' });
+      toast.error(t('failed'), { id: 'connect' });
     }
   };
 
@@ -88,13 +70,13 @@ export function WalletModal() {
             id="wallet-modal-title"
             className="font-[family-name:var(--font-display)] text-[1.2rem] font-bold tracking-[-0.015em]"
           >
-            Connect Wallet
+            {t('title')}
           </h2>
           <button
             onClick={closeWalletModal}
             className="w-8 h-8 rounded-md bg-white/[0.04] border border-white/10 text-white/70 flex items-center justify-center hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all"
             type="button"
-            aria-label="Close wallet modal"
+            aria-label={t('close')}
           >
             <X className="w-[18px] h-[18px]" />
           </button>
@@ -113,7 +95,6 @@ export function WalletModal() {
                     : 'border border-white/10 bg-white/[0.02] hover:border-cyan-500/35 hover:bg-cyan-500/5'
                 }`}
                 type="button"
-                aria-label={`Connect with ${w.name}`}
               >
                 <div className="w-[42px] h-[42px] rounded-md bg-white/5 flex items-center justify-center text-[1.4rem] shrink-0" aria-hidden="true">
                   {w.icon}
@@ -123,7 +104,7 @@ export function WalletModal() {
                     {w.name}
                     {w.highlight && (
                       <span className="text-[0.58rem] px-1.5 py-0.5 rounded-full bg-gradient-to-br from-cyan-500/15 to-violet-500/15 text-[#c4b5fd] border border-violet-500/30 font-bold uppercase tracking-wider">
-                        Recommended
+                        {t('recommended')}
                       </span>
                     )}
                   </div>
@@ -135,9 +116,7 @@ export function WalletModal() {
           </div>
 
           <div className="mt-[18px] p-3.5 rounded-[10px] bg-cyan-500/5 border border-cyan-500/15 text-[0.82rem] text-white/80 leading-[1.55]">
-            <strong className="text-cyan-400">New to crypto?</strong> Z-PAD also supports{' '}
-            <strong>fiat on-ramp</strong> via credit card and PIX — the only launchpad with native
-            fiat rails. No wallet needed to start.
+            <strong className="text-cyan-400">{t('newToCrypto')}</strong> {t('fiatDesc')}
           </div>
         </div>
       </div>

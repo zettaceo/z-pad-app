@@ -162,7 +162,11 @@
     "aiAnalyzed": "ZION AI已分析",
     "joinSale": "参与销售",
     "notifyMe": "通知我",
-    "saleEnded": "销售结束"
+    "saleEnded": "销售结束",
+    "zionVerified": "ZION AI 已验证",
+    "analyzedDims": "跨6个维度分析",
+    "locked100y": "锁定100年",
+    "auditPending": "待审计"
   },
   "dashboard": {
     "breadcrumb": "控制台",
@@ -258,7 +262,8 @@
     "live": "进行中",
     "for": "赞成",
     "against": "反对",
-    "zVoted": "Z 已投票"
+    "zVoted": "Z 已投票",
+    "voteCast": "已投票：对\"{title}\"投{vote}"
   },
   "rewards": {
     "breadcrumb": "奖励",
@@ -591,9 +596,20 @@
   "wallet": {
     "title": "连接钱包",
     "desc": "选择您的钱包连接到 Z-PAD。",
-    "connected": "已连接",
+    "connected": "已连接 {name}",
     "demo": "演示模式——无真实交易",
-    "connecting": "连接中..."
+    "connecting": "正在连接 {name}...",
+    "close": "关闭钱包弹窗",
+    "failed": "连接失败",
+    "recommended": "推荐",
+    "newToCrypto": "加密货币新手？",
+    "fiatDesc": "Z-PAD还支持信用卡和PIX法币入金——唯一一个具有原生法币通道的发射台。无需钱包即可开始。",
+    "descObelisk": "ZETTA原生钱包——推荐",
+    "descMetaMask": "最受欢迎的以太坊钱包",
+    "descTrustWallet": "多链移动钱包",
+    "descWalletConnect": "通过二维码连接",
+    "descCoinbase": "自托管钱包",
+    "descPhantom": "Solana钱包"
   },
   "vesting": {
     "title": "归属计划",
@@ -634,7 +650,33 @@
     "suggestFees": "费用如何运作？",
     "suggestZpad": "Z-PAD是什么？",
     "suggestFind": "寻找顶级AI项目",
-    "suggestVetting": "审核是如何运作的？"
+    "suggestVetting": "审核是如何运作的？",
+    "riskHighConc": "高集中度风险",
+    "riskHighConcDetail": "{pct}%的投资组合集中在单一资产。一次糟糕退出可能抹去大部分收益。",
+    "riskHighConcAction": "至少在5个项目中分散投资。",
+    "riskModConc": "中等集中度",
+    "riskModConcDetail": "前持仓集中度为{pct}%。考虑增加2-3个仓位。",
+    "riskGoodDiv": "良好分散",
+    "riskGoodDivDetail": "无单一资产主导。风险分布良好。",
+    "riskUnderwater": "{count}个仓位亏损",
+    "riskUnderwaterDetail": "{symbols}处于负收益。考虑对低于止损位的资产进行DCA或止损。",
+    "riskUnderwaterAction": "退出前检查归属时间表。",
+    "riskCliff": "即将到来的归属悬崖",
+    "riskCliffDetail": "{symbols}完全锁定。解锁时卖压可能激增。",
+    "riskCliffAction": "在TGE解锁前制定退出策略。",
+    "riskIdle": "未领取代币闲置",
+    "riskIdleDetail": "{symbols}有可领取代币。未领取代币错过潜在质押奖励。",
+    "riskIdleAction": "立即领取并质押或提供流动性。",
+    "riskWinners": "{count}个强势表现{suffix}",
+    "riskWinnersDetail": "{items} — 强劲AI评分获市场表现验证。",
+    "summaryHealthy": "您的投资组合显示出强劲基础。分散化良好，最佳表现者正在带动收益增长。",
+    "summaryModerate": "检测到一些风险。解决集中度和未领取代币问题将改善您的仓位。",
+    "summaryHigh": "发现多个风险因素。建议立即采取行动保护资金。",
+    "summaryCritical": "检测到严重投资组合风险。建议紧急再平衡。",
+    "labelHealthy": "健康",
+    "labelModerate": "中等风险",
+    "labelHighRisk": "高风险",
+    "labelCritical": "严重"
   },
   "sentiment": {
     "title": "市场情报",
@@ -650,5 +692,48 @@
     "bullish": "看涨",
     "neutral": "中性",
     "bearish": "看跌"
+  },
+  "errors": {
+    "errorTitle": "出错了",
+    "errorDesc": "发生了意外错误。我们的团队已收到通知。您可以重试或返回首页。",
+    "errorId": "错误ID",
+    "tryAgain": "重试",
+    "backHome": "返回首页",
+    "loading": "加载中...",
+    "notFoundTitle": "迷失太空",
+    "notFoundDesc": "此页面已飘入虚空。它可能已被移动、重命名或从未存在过。",
+    "exploreProjects": "探索项目"
+  },
+  "countdown": {
+    "days": "天",
+    "hours": "时",
+    "min": "分",
+    "sec": "秒"
+  },
+  "notifications": {
+    "title": "通知",
+    "markAllRead": "全部标为已读",
+    "close": "关闭",
+    "dismiss": "关闭",
+    "allCaughtUp": "全部处理完毕！🎉",
+    "settings": "设置 →",
+    "new": "条新",
+    "view": "查看",
+    "justNow": "刚刚",
+    "mAgo": "{m}分钟前",
+    "hAgo": "{h}小时前",
+    "dAgo": "{d}天前",
+    "n1Title": "代币可领取",
+    "n1Body": "78,125 ZETTA已解锁，可从您的归属时间表中领取。",
+    "n2Title": "NexGen AI 3天后上线",
+    "n2Body": "AI评分91/100 · 公平启动 · $500万目标。设置提醒参与。",
+    "n3Title": "治理投票即将结束",
+    "n3Body": "ZIP-003（Q3国库：$500万AI引擎）7天后结束。您的投票很重要。",
+    "n4Title": "完成KYC解锁私募轮",
+    "n4Body": "通过身份验证获得+1,500 XP并访问独家项目。",
+    "n5Title": "ZETTA今日上涨+12.4%",
+    "n5Body": "您的ZETTA仓位现值$4,875——比投资额多$2,375。",
+    "n6Title": "任务完成：首次投资",
+    "n6Body": "您在Z-PAD的首次投资赚取了+500 XP和+50 Z！"
   }
 }

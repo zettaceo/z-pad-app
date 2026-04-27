@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+
 import { Button } from '@/components/ui/Button';
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations('errors');
   return (
     <div className="pt-[140px] pb-20">
       <div className="max-w-[640px] mx-auto px-6 text-center">
@@ -9,17 +12,17 @@ export default function NotFound() {
           404
         </div>
         <h1 className="font-[family-name:var(--font-display)] text-2xl md:text-3xl font-extrabold tracking-[-0.025em] mt-4">
-          Lost in space
+          {t('notFoundTitle')}
         </h1>
         <p className="text-white/70 mt-3 leading-relaxed">
-          This page has drifted into the void. It may have been moved, renamed, or never existed.
+          {t('notFoundDesc')}
         </p>
         <div className="flex gap-3 justify-center mt-8 flex-wrap">
           <Button asChild>
-            <Link href="/">Back Home</Link>
+            <Link href="/">{t('backHome')}</Link>
           </Button>
           <Button variant="secondary" asChild>
-            <Link href="/projects">Explore Projects</Link>
+            <Link href="/projects">{t('exploreProjects')}</Link>
           </Button>
         </div>
       </div>

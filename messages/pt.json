@@ -162,7 +162,11 @@
     "aiAnalyzed": "Analisado pelo ZION AI",
     "joinSale": "Entrar na Venda",
     "notifyMe": "Notificar-me",
-    "saleEnded": "Venda Encerrada"
+    "saleEnded": "Venda Encerrada",
+    "zionVerified": "VERIFICADO PELO ZION AI",
+    "analyzedDims": "Analisado em 6 dimensões",
+    "locked100y": "Bloqueado 100 anos",
+    "auditPending": "Auditoria Pendente"
   },
   "dashboard": {
     "breadcrumb": "Painel",
@@ -258,7 +262,8 @@
     "live": "Ao Vivo",
     "for": "A Favor",
     "against": "Contra",
-    "zVoted": "Z votados"
+    "zVoted": "Z votados",
+    "voteCast": "Voto registrado: {vote} em \"{title}\""
   },
   "rewards": {
     "breadcrumb": "Recompensas",
@@ -591,9 +596,20 @@
   "wallet": {
     "title": "Conectar Carteira",
     "desc": "Escolha sua carteira para conectar ao Z-PAD.",
-    "connected": "Conectado",
+    "connected": "Conectado a {name}",
     "demo": "Modo demo — sem transações reais",
-    "connecting": "Conectando..."
+    "connecting": "Conectando a {name}...",
+    "close": "Fechar modal de carteira",
+    "failed": "Falha na conexão",
+    "recommended": "Recomendado",
+    "newToCrypto": "Novo em cripto?",
+    "fiatDesc": "Z-PAD também suporta fiat on-ramp via cartão de crédito e PIX — o único launchpad com trilhos fiat nativos. Nenhuma carteira necessária para começar.",
+    "descObelisk": "Carteira nativa ZETTA — recomendada",
+    "descMetaMask": "Carteira Ethereum mais popular",
+    "descTrustWallet": "Carteira móvel multi-chain",
+    "descWalletConnect": "Conectar via código QR",
+    "descCoinbase": "Carteira de autocustódia",
+    "descPhantom": "Carteira Solana"
   },
   "vesting": {
     "title": "Cronograma de Vesting",
@@ -634,7 +650,33 @@
     "suggestFees": "Como funcionam as taxas?",
     "suggestZpad": "O que é Z-PAD?",
     "suggestFind": "Encontrar melhores projetos IA",
-    "suggestVetting": "Como funciona o vetting?"
+    "suggestVetting": "Como funciona o vetting?",
+    "riskHighConc": "Alto risco de concentração",
+    "riskHighConcDetail": "{pct}% do portfólio em um único ativo. Uma saída ruim pode eliminar a maioria dos ganhos.",
+    "riskHighConcAction": "Diversifique em pelo menos 5 projetos.",
+    "riskModConc": "Concentração moderada",
+    "riskModConcDetail": "{pct}% de concentração na principal posição. Considere adicionar 2-3 posições a mais.",
+    "riskGoodDiv": "Boa diversificação",
+    "riskGoodDivDetail": "Nenhum ativo domina. O risco está bem distribuído.",
+    "riskUnderwater": "{count} posições no negativo",
+    "riskUnderwaterDetail": "{symbols} estão negativos. Considere DCA ou corte perdas em ativos abaixo do seu stop-loss.",
+    "riskUnderwaterAction": "Revise os cronogramas de vesting antes de sair.",
+    "riskCliff": "Cliff de vesting chegando",
+    "riskCliffDetail": "{symbols} estão totalmente bloqueados. A pressão de venda pode aumentar no desbloqueio.",
+    "riskCliffAction": "Planeje estratégia de saída antes dos desbloqueios do TGE.",
+    "riskIdle": "Tokens não resgatados parados",
+    "riskIdleDetail": "{symbols} têm tokens prontos. Tokens não resgatados perdem recompensas de staking.",
+    "riskIdleAction": "Resgate e faça staking ou LP imediatamente.",
+    "riskWinners": "{count} bom desempenho{suffix}",
+    "riskWinnersDetail": "{items} — pontuações AI fortes validadas pelo desempenho do mercado.",
+    "summaryHealthy": "Seu portfólio mostra fundamentos sólidos. A diversificação é boa e seus melhores ativos estão carregando os ganhos.",
+    "summaryModerate": "Alguns riscos detectados. Abordar concentração e tokens não resgatados melhoraria sua posição.",
+    "summaryHigh": "Múltiplos fatores de risco identificados. Ação imediata recomendada para proteger o capital.",
+    "summaryCritical": "Riscos críticos de portfólio detectados. Rebalanceamento urgente aconselhado.",
+    "labelHealthy": "Saudável",
+    "labelModerate": "Risco Moderado",
+    "labelHighRisk": "Alto Risco",
+    "labelCritical": "Crítico"
   },
   "sentiment": {
     "title": "Inteligência de Mercado",
@@ -650,5 +692,48 @@
     "bullish": "Otimista",
     "neutral": "Neutro",
     "bearish": "Pessimista"
+  },
+  "errors": {
+    "errorTitle": "Algo deu errado",
+    "errorDesc": "Ocorreu um erro inesperado. Nossa equipe foi notificada. Você pode tentar novamente ou voltar para a página inicial.",
+    "errorId": "ID do Erro",
+    "tryAgain": "Tentar Novamente",
+    "backHome": "Voltar ao Início",
+    "loading": "Carregando...",
+    "notFoundTitle": "Perdido no espaço",
+    "notFoundDesc": "Esta página se perdeu no vazio. Ela pode ter sido movida, renomeada ou nunca ter existido.",
+    "exploreProjects": "Explorar Projetos"
+  },
+  "countdown": {
+    "days": "Dias",
+    "hours": "Horas",
+    "min": "Min",
+    "sec": "Seg"
+  },
+  "notifications": {
+    "title": "Notificações",
+    "markAllRead": "Marcar todas como lidas",
+    "close": "Fechar",
+    "dismiss": "Dispensar",
+    "allCaughtUp": "Tudo em dia! 🎉",
+    "settings": "Configurações →",
+    "new": "novas",
+    "view": "Ver",
+    "justNow": "Agora mesmo",
+    "mAgo": "{m}min atrás",
+    "hAgo": "{h}h atrás",
+    "dAgo": "{d}d atrás",
+    "n1Title": "Tokens prontos para resgatar",
+    "n1Body": "78.125 ZETTA estão desbloqueados e prontos para resgate no seu cronograma de vesting.",
+    "n2Title": "NexGen AI lança em 3 dias",
+    "n2Body": "AI Score 91/100 · Fair Launch · Alvo de $5M. Defina um lembrete para participar.",
+    "n3Title": "Votação de governança encerrando em breve",
+    "n3Body": "ZIP-003 (Tesouro Q3: $5M AI Engine) termina em 7 dias. Seu voto importa.",
+    "n4Title": "Complete o KYC para desbloquear rounds privados",
+    "n4Body": "Ganhe +1.500 XP e acesse projetos exclusivos verificando sua identidade.",
+    "n5Title": "ZETTA subiu +12,4% hoje",
+    "n5Body": "Sua posição em ZETTA agora vale $4.875 — um aumento de $2.375 em relação ao seu investimento.",
+    "n6Title": "Quest concluída: Primeiro Investimento",
+    "n6Body": "Você ganhou +500 XP e +50 Z pelo seu primeiro investimento no Z-PAD!"
   }
 }

@@ -162,7 +162,11 @@
     "aiAnalyzed": "ZION AI analyzed",
     "joinSale": "Join the Sale",
     "notifyMe": "Notify Me",
-    "saleEnded": "Sale Ended"
+    "saleEnded": "Sale Ended",
+    "zionVerified": "ZION AI VERIFIED",
+    "analyzedDims": "Analyzed across 6 dimensions",
+    "locked100y": "Locked 100y",
+    "auditPending": "Audit Pending"
   },
   "dashboard": {
     "breadcrumb": "Dashboard",
@@ -258,7 +262,8 @@
     "live": "Live",
     "for": "For",
     "against": "Against",
-    "zVoted": "Z voted"
+    "zVoted": "Z voted",
+    "voteCast": "Vote cast: {vote} on \"{title}\""
   },
   "rewards": {
     "breadcrumb": "Rewards",
@@ -591,9 +596,20 @@
   "wallet": {
     "title": "Connect Wallet",
     "desc": "Choose your wallet to connect to Z-PAD.",
-    "connected": "Connected",
+    "connected": "Connected to {name}",
     "demo": "Demo mode — no real transactions",
-    "connecting": "Connecting..."
+    "connecting": "Connecting to {name}...",
+    "close": "Close wallet modal",
+    "failed": "Connection failed",
+    "recommended": "Recommended",
+    "newToCrypto": "New to crypto?",
+    "fiatDesc": "Z-PAD also supports fiat on-ramp via credit card and PIX — the only launchpad with native fiat rails. No wallet needed to start.",
+    "descObelisk": "ZETTA native wallet — recommended",
+    "descMetaMask": "Most popular Ethereum wallet",
+    "descTrustWallet": "Multi-chain mobile wallet",
+    "descWalletConnect": "Connect via QR code",
+    "descCoinbase": "Self-custody wallet",
+    "descPhantom": "Solana wallet"
   },
   "vesting": {
     "title": "Vesting Schedule",
@@ -634,7 +650,33 @@
     "suggestFees": "How do fees work?",
     "suggestZpad": "What is Z-PAD?",
     "suggestFind": "Find top AI projects",
-    "suggestVetting": "How does vetting work?"
+    "suggestVetting": "How does vetting work?",
+    "riskHighConc": "High concentration risk",
+    "riskHighConcDetail": "{pct}% of portfolio in a single asset. A single bad exit can wipe out the majority of gains.",
+    "riskHighConcAction": "Diversify across at least 5 projects.",
+    "riskModConc": "Moderate concentration",
+    "riskModConcDetail": "{pct}% concentration in top holding. Consider adding 2-3 more positions.",
+    "riskGoodDiv": "Good diversification",
+    "riskGoodDivDetail": "No single asset dominates. Risk is spread well.",
+    "riskUnderwater": "{count} positions underwater",
+    "riskUnderwaterDetail": "{symbols} are negative. Consider DCA-ing or cutting losses on assets below your stop-loss.",
+    "riskUnderwaterAction": "Review vesting schedules before exiting.",
+    "riskCliff": "Vesting cliff upcoming",
+    "riskCliffDetail": "{symbols} are fully locked. Sell pressure may spike at unlock.",
+    "riskCliffAction": "Plan exit strategy before TGE unlocks.",
+    "riskIdle": "Unclaimed tokens sitting idle",
+    "riskIdleDetail": "{symbols} have tokens ready. Unclaimed tokens miss potential staking rewards.",
+    "riskIdleAction": "Claim and stake or LP immediately.",
+    "riskWinners": "{count} strong performer{suffix}",
+    "riskWinnersDetail": "{items} — strong AI scores validated by market performance.",
+    "summaryHealthy": "Your portfolio shows strong fundamentals. Diversification is solid and your best performers are carrying gains.",
+    "summaryModerate": "Some risks detected. Addressing concentration and unclaimed tokens would improve your position.",
+    "summaryHigh": "Multiple risk factors identified. Immediate action recommended to protect capital.",
+    "summaryCritical": "Critical portfolio risks detected. Urgent rebalancing advised.",
+    "labelHealthy": "Healthy",
+    "labelModerate": "Moderate Risk",
+    "labelHighRisk": "High Risk",
+    "labelCritical": "Critical"
   },
   "sentiment": {
     "title": "Market Intelligence",
@@ -650,5 +692,48 @@
     "bullish": "Bullish",
     "neutral": "Neutral",
     "bearish": "Bearish"
+  },
+  "errors": {
+    "errorTitle": "Something went wrong",
+    "errorDesc": "An unexpected error occurred. Our team has been notified. You can try again or head back home.",
+    "errorId": "Error ID",
+    "tryAgain": "Try Again",
+    "backHome": "Back Home",
+    "loading": "Loading...",
+    "notFoundTitle": "Lost in space",
+    "notFoundDesc": "This page has drifted into the void. It may have been moved, renamed, or never existed.",
+    "exploreProjects": "Explore Projects"
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "min": "Min",
+    "sec": "Sec"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "close": "Close",
+    "dismiss": "Dismiss",
+    "allCaughtUp": "All caught up! 🎉",
+    "settings": "Settings →",
+    "new": "new",
+    "view": "View",
+    "justNow": "Just now",
+    "mAgo": "{m}m ago",
+    "hAgo": "{h}h ago",
+    "dAgo": "{d}d ago",
+    "n1Title": "Tokens ready to claim",
+    "n1Body": "78,125 ZETTA are unlocked and ready to claim from your vesting schedule.",
+    "n2Title": "NexGen AI goes live in 3 days",
+    "n2Body": "AI Score 91/100 · Fair Launch · $5M target. Set a reminder to participate.",
+    "n3Title": "Governance vote ending soon",
+    "n3Body": "ZIP-003 (Q3 Treasury: $5M AI Engine) ends in 7 days. Your vote matters.",
+    "n4Title": "Complete KYC to unlock private rounds",
+    "n4Body": "Earn +1,500 XP and access exclusive projects by verifying your identity.",
+    "n5Title": "ZETTA up +12.4% today",
+    "n5Body": "Your ZETTA position is now worth $4,875 — up $2,375 from your investment.",
+    "n6Title": "Quest completed: First Investment",
+    "n6Body": "You earned +500 XP and +50 Z for your first investment on Z-PAD!"
   }
 }

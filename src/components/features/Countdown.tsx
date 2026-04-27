@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { fmt } from '@/lib/format';
 
 interface CountdownProps {
@@ -14,6 +15,7 @@ interface CountdownProps {
 const ZERO = { d: 0, h: 0, m: 0, s: 0, expired: false };
 
 export function Countdown({ targetMs, variant = 'boxes', className = '' }: CountdownProps) {
+  const t = useTranslations('countdown');
   const [time, setTime] = useState(ZERO);
 
   useEffect(() => {
@@ -37,10 +39,10 @@ export function Countdown({ targetMs, variant = 'boxes', className = '' }: Count
   return (
     <div className={`flex gap-2 ${className}`}>
       {[
-        { label: 'Days', value: pad(time.d) },
-        { label: 'Hours', value: pad(time.h) },
-        { label: 'Min', value: pad(time.m) },
-        { label: 'Sec', value: pad(time.s) },
+        { label: t('days'), value: pad(time.d) },
+        { label: t('hours'), value: pad(time.h) },
+        { label: t('min'), value: pad(time.m) },
+        { label: t('sec'), value: pad(time.s) },
       ].map((b) => (
         <div
           key={b.label}

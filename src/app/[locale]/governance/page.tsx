@@ -23,7 +23,7 @@ export default function GovernancePage() {
     if (votes[proposalId]) return;
     setVotes((v) => ({ ...v, [proposalId]: vote }));
     const proposal = PROPOSALS.find((p) => p.id === proposalId);
-    toast.success(`Vote cast: ${vote} on "${proposal?.title ?? 'proposal'}"`);
+    toast.success(t('voteCast', { vote, title: proposal?.title ?? 'proposal' }));
   };
 
   return (

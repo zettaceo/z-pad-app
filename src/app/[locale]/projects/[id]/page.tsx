@@ -108,8 +108,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               <div className="text-center">
                 <AiScore score={p.aiScore} size="xl" />
                 <div className="mt-3 text-[0.74rem] text-white/50 max-w-[140px]">
-                  <strong className="text-cyan-400 block mb-1">ZION AI VERIFIED</strong>
-                  Analyzed across 6 dimensions
+                  <strong className="text-cyan-400 block mb-1">{pd('zionVerified')}</strong>
+                  {pd('analyzedDims')}
                 </div>
               </div>
               <div className="flex gap-2">
@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   { l: tp('raised'), v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true },
                   { l: tp('target'), v: fmt.currency(p.target, { compact: true }), c: pd('hardCap') },
                   { l: tp('participants'), v: fmt.number(p.participants), c: `+${Math.floor(p.participants * 0.12)} today`, up: true },
-                  { l: pd('liquidity'), v: `${p.liquidity}%`, c: 'Locked 100y' },
+                  { l: pd('liquidity'), v: `${p.liquidity}%`, c: pd('locked100y') },
                 ].map((s) => (
                   <div key={s.l} className="bg-bg-075 border border-white/10 rounded-[14px] p-5 relative overflow-hidden">
                     <div className="text-[0.76rem] text-white/50 uppercase tracking-[0.08em] mb-2.5 font-semibold">
@@ -365,7 +365,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <div className="flex flex-col gap-2.5">
                   {[
                     { ok: p.kyc, label: p.kyc ? `${pd('kyc')} ${pd('yes')}` : `${pd('kyc')} ${pd('no')}` },
-                    { ok: !!p.audited, label: p.audited ? `${pd('audited')} ${p.audited}` : 'Audit Pending' },
+                    { ok: !!p.audited, label: p.audited ? `${pd('audited')} ${p.audited}` : pd('auditPending') },
                     { ok: true, label: pd('lpLocked') },
                     { ok: true, label: pd('antiBot') },
                     { ok: true, label: pd('aiAnalyzed') },

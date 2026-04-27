@@ -15,7 +15,9 @@ interface RiskFactor {
   action?: string;
 }
 
-function analyzePortfolio(positions: Position[]): {
+type TFn = (key: string, values?: Record<string, unknown>) => string;
+
+function analyzePortfolio(positions: Position[], t: TFn): {
   score: number;
   label: string;
   color: string;
@@ -25,84 +27,74 @@ function analyzePortfolio(positions: Position[]): {
   const factors: RiskFactor[] = [];
   const totalValue = positions.reduce((s, p) => s + p.value, 0);
 
-  // Concentration risk
   const maxConc = Math.max(...positions.map(p => p.value / totalValue));
   if (maxConc > 0.55) {
     factors.push({
       id: 'conc', level: 'critical',
-      title: 'High concentration risk',
-      detail: `${Math.round(maxConc * 100)}% of portfolio in a single asset. A single bad exit can wipe out the majority of gains.`,
-      action: 'Diversify across at least 5 projects.',
+      title: t('riskHighConc'),
+      detail: t('riskHighConcDetail', { pct: Math.round(maxConc * 100) }),
+      action: t('riskHighConcAction'),
     });
   } else if (maxConc > 0.35) {
     factors.push({
       id: 'conc', level: 'warning',
-      title: 'Moderate concentration',
-      detail: `${Math.round(maxConc * 100)}% concentration in top holding. Consider adding 2-3 more positions.`,
+      title: t('riskModConc'),
+      detail: t('riskModConcDetail', { pct: Math.round(maxConc * 100) }),
     });
   } else {
-    factors.push({ id: 'conc', level: 'ok', title: 'Good diversification', detail: 'No single asset dominates. Risk is spread well.' });
+    factors.push({ id: 'conc', level: 'ok', title: t('riskGoodDiv'), detail: t('riskGoodDivDetail') });
   }
 
-  // Losing positions
   const losers = positions.filter(p => p.change < 0);
   if (losers.length >= 2) {
     factors.push({
       id: 'loss', level: 'warning',
-      title: `${losers.length} positions underwater`,
-      detail: `${losers.map(p => p.symbol).join(', ')} are negative. Consider DCA-ing or cutting losses on assets below your stop-loss.`,
-      action: 'Review vesting schedules before exiting.',
+      title: t('riskUnderwater', { count: losers.length }),
+      detail: t('riskUnderwaterDetail', { symbols: losers.map(p => p.symbol).join(', ') }),
+      action: t('riskUnderwaterAction'),
     });
   }
 
-  // Vesting cliff risk
   const cliffPositions = positions.filter(p => p.vestingEnds && p.vestingEnds > Date.now() && p.claimable === 0);
   if (cliffPositions.length > 0) {
     factors.push({
       id: 'cliff', level: 'warning',
-      title: 'Vesting cliff upcoming',
-      detail: `${cliffPositions.map(p => p.symbol).join(', ')} are fully locked. Sell pressure may spike at unlock.`,
-      action: 'Plan exit strategy before TGE unlocks.',
+      title: t('riskCliff'),
+      detail: t('riskCliffDetail', { symbols: cliffPositions.map(p => p.symbol).join(', ') }),
+      action: t('riskCliffAction'),
     });
   }
 
-  // Claimable tokens sitting idle
   const idleClaim = positions.filter(p => p.claimable > 0);
   if (idleClaim.length > 0) {
     factors.push({
       id: 'idle', level: 'warning',
-      title: 'Unclaimed tokens sitting idle',
-      detail: `${idleClaim.map(p => p.symbol).join(', ')} have tokens ready. Unclaimed tokens miss potential staking rewards.`,
-      action: 'Claim and stake or LP immediately.',
+      title: t('riskIdle'),
+      detail: t('riskIdleDetail', { symbols: idleClaim.map(p => p.symbol).join(', ') }),
+      action: t('riskIdleAction'),
     });
   }
 
-  // Positive: profitable positions
   const winners = positions.filter(p => p.change >= 50);
   if (winners.length > 0) {
     factors.push({
       id: 'win', level: 'ok',
-      title: `${winners.length} strong performer${winners.length > 1 ? 's' : ''}`,
-      detail: `${winners.map(p => `${p.symbol} +${p.change}%`).join(', ')} — strong AI scores validated by market performance.`,
+      title: t('riskWinners', { count: winners.length, suffix: winners.length > 1 ? 's' : '' }),
+      detail: t('riskWinnersDetail', { items: winners.map(p => `${p.symbol} +${p.change}%`).join(', ') }),
     });
   }
 
-  // Compute score
   const criticals = factors.filter(f => f.level === 'critical').length;
   const warnings = factors.filter(f => f.level === 'warning').length;
   const score = Math.max(20, Math.min(98, 90 - criticals * 25 - warnings * 10));
 
-  const label = score >= 85 ? 'Healthy' : score >= 70 ? 'Moderate Risk' : score >= 50 ? 'High Risk' : 'Critical';
+  const labelKey = score >= 85 ? 'labelHealthy' : score >= 70 ? 'labelModerate' : score >= 50 ? 'labelHighRisk' : 'labelCritical';
+  const label = t(labelKey);
   const color = score >= 85 ? '#00e676' : score >= 70 ? '#00d4ff' : score >= 50 ? '#ffd700' : '#ff5252';
+  const summaryKey = score >= 85 ? 'summaryHealthy' : score >= 70 ? 'summaryModerate' : score >= 50 ? 'summaryHigh' : 'summaryCritical';
+  const summary = t(summaryKey);
 
-  const summaries = {
-    Healthy: 'Your portfolio shows strong fundamentals. Diversification is solid and your best performers are carrying gains.',
-    'Moderate Risk': 'Some risks detected. Addressing concentration and unclaimed tokens would improve your position.',
-    'High Risk': 'Multiple risk factors identified. Immediate action recommended to protect capital.',
-    Critical: 'Critical portfolio risks detected. Urgent rebalancing advised.',
-  };
-
-  return { score, label, color, summary: summaries[label as keyof typeof summaries], factors };
+  return { score, label, color, summary, factors };
 }
 
 interface Props {
@@ -115,13 +107,13 @@ export function ZionDiagnosis({ positions }: Props) {
   const [typing, setTyping] = useState(false);
   const [shown, setShown] = useState(false);
 
-  const result = analyzePortfolio(positions);
+  const result = analyzePortfolio(positions, t as TFn);
 
   useEffect(() => {
     if (open && !shown) {
       setTyping(true);
-      const t = setTimeout(() => { setTyping(false); setShown(true); }, 1600);
-      return () => clearTimeout(t);
+      const timer = setTimeout(() => { setTyping(false); setShown(true); }, 1600);
+      return () => clearTimeout(timer);
     }
     return undefined;
   }, [open, shown]);
@@ -138,7 +130,6 @@ export function ZionDiagnosis({ positions }: Props) {
 
   return (
     <div className="bg-bg-075 border border-white/10 rounded-[14px] overflow-hidden mb-5">
-      {/* Header — always visible */}
       <button
         type="button"
         onClick={() => setOpen(s => !s)}
@@ -172,7 +163,6 @@ export function ZionDiagnosis({ positions }: Props) {
         </div>
       </button>
 
-      {/* Expanded */}
       {open && (
         <div className="border-t border-white/10 p-5">
           {typing ? (
@@ -191,7 +181,6 @@ export function ZionDiagnosis({ positions }: Props) {
             </div>
           ) : (
             <>
-              {/* AI Message */}
               <div className="flex gap-3 mb-5">
                 <div className="w-8 h-8 rounded-full overflow-hidden bg-[#040d24] border border-cyan-500/25 shrink-0">
                   <Image src="/assets/zion-avatar.svg" alt="" width={32} height={32} />
@@ -210,7 +199,6 @@ export function ZionDiagnosis({ positions }: Props) {
                 </div>
               </div>
 
-              {/* Score breakdown */}
               <div className="grid grid-cols-3 gap-2 mb-5">
                 {[
                   { icon: Shield, label: t('riskScore'), val: `${result.score}/100`, color: result.color },
@@ -225,7 +213,6 @@ export function ZionDiagnosis({ positions }: Props) {
                 ))}
               </div>
 
-              {/* Risk factors */}
               <div className="space-y-2.5">
                 <div className="text-[0.74rem] text-white/40 uppercase tracking-wider font-semibold mb-3">{t('findings')}</div>
                 {result.factors.map(f => {

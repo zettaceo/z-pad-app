@@ -162,7 +162,11 @@
     "aiAnalyzed": "Analizado por ZION AI",
     "joinSale": "Unirse a la Venta",
     "notifyMe": "Notificarme",
-    "saleEnded": "Venta Finalizada"
+    "saleEnded": "Venta Finalizada",
+    "zionVerified": "VERIFICADO POR ZION AI",
+    "analyzedDims": "Analizado en 6 dimensiones",
+    "locked100y": "Bloqueado 100 años",
+    "auditPending": "Auditoría Pendiente"
   },
   "dashboard": {
     "breadcrumb": "Panel",
@@ -258,7 +262,8 @@
     "live": "En Vivo",
     "for": "A Favor",
     "against": "En Contra",
-    "zVoted": "Z votados"
+    "zVoted": "Z votados",
+    "voteCast": "Voto emitido: {vote} en \"{title}\""
   },
   "rewards": {
     "breadcrumb": "Recompensas",
@@ -591,9 +596,20 @@
   "wallet": {
     "title": "Conectar Billetera",
     "desc": "Elige tu billetera para conectarte a Z-PAD.",
-    "connected": "Conectado",
+    "connected": "Conectado a {name}",
     "demo": "Modo demo — sin transacciones reales",
-    "connecting": "Conectando..."
+    "connecting": "Conectando a {name}...",
+    "close": "Cerrar modal de billetera",
+    "failed": "Error de conexión",
+    "recommended": "Recomendado",
+    "newToCrypto": "¿Nuevo en cripto?",
+    "fiatDesc": "Z-PAD también soporta fiat on-ramp vía tarjeta de crédito y PIX — el único launchpad con rieles fiat nativos. No se necesita billetera para empezar.",
+    "descObelisk": "Billetera nativa ZETTA — recomendada",
+    "descMetaMask": "La billetera Ethereum más popular",
+    "descTrustWallet": "Billetera móvil multi-cadena",
+    "descWalletConnect": "Conectar vía código QR",
+    "descCoinbase": "Billetera de auto-custodia",
+    "descPhantom": "Billetera Solana"
   },
   "vesting": {
     "title": "Calendario de Vesting",
@@ -634,7 +650,33 @@
     "suggestFees": "¿Cómo funcionan las tarifas?",
     "suggestZpad": "¿Qué es Z-PAD?",
     "suggestFind": "Encontrar mejores proyectos IA",
-    "suggestVetting": "¿Cómo funciona el vetting?"
+    "suggestVetting": "¿Cómo funciona el vetting?",
+    "riskHighConc": "Alto riesgo de concentración",
+    "riskHighConcDetail": "{pct}% del portafolio en un solo activo. Una mala salida puede eliminar la mayoría de las ganancias.",
+    "riskHighConcAction": "Diversifica en al menos 5 proyectos.",
+    "riskModConc": "Concentración moderada",
+    "riskModConcDetail": "{pct}% de concentración en la principal posición. Considera agregar 2-3 posiciones más.",
+    "riskGoodDiv": "Buena diversificación",
+    "riskGoodDivDetail": "Ningún activo domina. El riesgo está bien distribuido.",
+    "riskUnderwater": "{count} posiciones en negativo",
+    "riskUnderwaterDetail": "{symbols} están en negativo. Considera DCA o cortar pérdidas bajo tu stop-loss.",
+    "riskUnderwaterAction": "Revisa los calendarios de vesting antes de salir.",
+    "riskCliff": "Acantilado de vesting próximo",
+    "riskCliffDetail": "{symbols} están completamente bloqueados. La presión de venta puede dispararse al desbloqueo.",
+    "riskCliffAction": "Planifica estrategia de salida antes del desbloqueo del TGE.",
+    "riskIdle": "Tokens sin reclamar inactivos",
+    "riskIdleDetail": "{symbols} tienen tokens listos. Los tokens sin reclamar pierden recompensas de staking.",
+    "riskIdleAction": "Reclama y haz staking o LP inmediatamente.",
+    "riskWinners": "{count} buen rendimiento{suffix}",
+    "riskWinnersDetail": "{items} — puntuaciones IA sólidas validadas por el rendimiento del mercado.",
+    "summaryHealthy": "Tu portafolio muestra fundamentos sólidos. La diversificación es buena y tus mejores posiciones generan ganancias.",
+    "summaryModerate": "Algunos riesgos detectados. Abordar la concentración y tokens sin reclamar mejoraría tu posición.",
+    "summaryHigh": "Múltiples factores de riesgo identificados. Acción inmediata recomendada para proteger el capital.",
+    "summaryCritical": "Riesgos críticos de portafolio detectados. Se aconseja reequilibrio urgente.",
+    "labelHealthy": "Saludable",
+    "labelModerate": "Riesgo Moderado",
+    "labelHighRisk": "Alto Riesgo",
+    "labelCritical": "Crítico"
   },
   "sentiment": {
     "title": "Inteligencia de Mercado",
@@ -650,5 +692,48 @@
     "bullish": "Alcista",
     "neutral": "Neutral",
     "bearish": "Bajista"
+  },
+  "errors": {
+    "errorTitle": "Algo salió mal",
+    "errorDesc": "Ocurrió un error inesperado. Nuestro equipo ha sido notificado. Puedes intentarlo de nuevo o volver al inicio.",
+    "errorId": "ID de Error",
+    "tryAgain": "Intentar de Nuevo",
+    "backHome": "Volver al Inicio",
+    "loading": "Cargando...",
+    "notFoundTitle": "Perdido en el espacio",
+    "notFoundDesc": "Esta página se ha perdido en el vacío. Puede haberse movido, renombrado o nunca haber existido.",
+    "exploreProjects": "Explorar Proyectos"
+  },
+  "countdown": {
+    "days": "Días",
+    "hours": "Horas",
+    "min": "Min",
+    "sec": "Seg"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAllRead": "Marcar todas como leídas",
+    "close": "Cerrar",
+    "dismiss": "Descartar",
+    "allCaughtUp": "¡Todo al día! 🎉",
+    "settings": "Configuración →",
+    "new": "nuevas",
+    "view": "Ver",
+    "justNow": "Ahora mismo",
+    "mAgo": "hace {m}min",
+    "hAgo": "hace {h}h",
+    "dAgo": "hace {d}d",
+    "n1Title": "Tokens listos para reclamar",
+    "n1Body": "78,125 ZETTA están desbloqueados y listos para reclamar de tu calendario de vesting.",
+    "n2Title": "NexGen AI lanza en 3 días",
+    "n2Body": "Puntuación IA 91/100 · Fair Launch · Objetivo $5M. Establece un recordatorio.",
+    "n3Title": "Votación de gobernanza terminando pronto",
+    "n3Body": "ZIP-003 (Tesoro Q3: $5M Motor IA) termina en 7 días. Tu voto importa.",
+    "n4Title": "Completa el KYC para desbloquear rondas privadas",
+    "n4Body": "Gana +1,500 XP y accede a proyectos exclusivos verificando tu identidad.",
+    "n5Title": "ZETTA sube +12,4% hoy",
+    "n5Body": "Tu posición en ZETTA ahora vale $4,875 — $2,375 más que tu inversión.",
+    "n6Title": "Misión completada: Primera Inversión",
+    "n6Body": "¡Ganaste +500 XP y +50 Z por tu primera inversión en Z-PAD!"
   }
 }
