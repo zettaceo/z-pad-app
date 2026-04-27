@@ -8,38 +8,38 @@ import { useWallet } from '@/lib/wallet-store';
 import { Button } from '@/components/ui/Button';
 import { fmt } from '@/lib/format';
 
-const POOLS = [
-  {
-    name: 'Flexible',
-    duration: 'No Lock',
-    sub: 'Withdraw anytime',
-    apy: 18,
-    features: ['No lock period', 'Compound daily', 'Tier 1 boost'],
-    variant: 'secondary' as const,
-  },
-  {
-    name: 'Balanced',
-    duration: '90 Days',
-    sub: 'Best risk/reward',
-    apy: 68,
-    features: ['90-day lock', '50% fee discount', 'Tier 3 boost · 2x voting'],
-    variant: 'primary' as const,
-    recommended: true,
-  },
-  {
-    name: 'Maximum',
-    duration: '365 Days',
-    sub: 'Maximum rewards',
-    apy: 142,
-    features: ['365-day lock', '100% fee discount', 'Tier 5 · private sales', 'Exclusive NFT drop'],
-    variant: 'gold' as const,
-  },
-];
-
 export default function StakingPage() {
   const { wallet } = useWallet();
   const t = useTranslations('staking');
   const tc = useTranslations('common');
+
+  const POOLS = [
+    {
+      name: t('poolFlexibleName'),
+      duration: t('poolFlexibleDuration'),
+      sub: t('poolFlexibleSub'),
+      apy: 18,
+      features: [t('featNoLock'), t('featCompound'), t('featTier1')],
+      variant: 'secondary' as const,
+    },
+    {
+      name: t('poolBalancedName'),
+      duration: t('poolBalancedDuration'),
+      sub: t('poolBalancedSub'),
+      apy: 68,
+      features: [t('feat90Lock'), t('featFee50'), t('featTier3')],
+      variant: 'primary' as const,
+      recommended: true,
+    },
+    {
+      name: t('poolMaximumName'),
+      duration: t('poolMaximumDuration'),
+      sub: t('poolMaximumSub'),
+      apy: 142,
+      features: [t('feat365Lock'), t('featFee100'), t('featTier5'), t('featNft')],
+      variant: 'gold' as const,
+    },
+  ];
 
   return (
     <div className="pt-[100px]">
@@ -126,7 +126,7 @@ export default function StakingPage() {
                   ))}
                 </ul>
                 <Button block variant={pool.variant}>
-                  {pool.duration === 'No Lock' ? t('stakeFlexible') : `${t('stake')} ${pool.duration}`}
+                  {pool.apy === 18 ? t('stakeFlexible') : `${t('stake')} ${pool.duration}`}
                 </Button>
               </div>
             ))}

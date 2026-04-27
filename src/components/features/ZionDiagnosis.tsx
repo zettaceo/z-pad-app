@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { AlertTriangle, CheckCircle, TrendingUp, Zap, Shield } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/cn';
 import type { Position } from '@/types';
 
@@ -109,6 +110,7 @@ interface Props {
 }
 
 export function ZionDiagnosis({ positions }: Props) {
+  const t = useTranslations('zion');
   const [open, setOpen] = useState(false);
   const [typing, setTyping] = useState(false);
   const [shown, setShown] = useState(false);
@@ -148,10 +150,10 @@ export function ZionDiagnosis({ positions }: Props) {
         </div>
         <div className="flex-1">
           <div className="font-[family-name:var(--font-display)] font-bold text-[1rem]">
-            ZION Portfolio Diagnosis
+            {t('diagnosisTitle')}
           </div>
           <div className="text-[0.78rem] text-white/50">
-            AI risk analysis · {result.factors.filter(f => f.level !== 'ok').length} issues detected
+            {t('aiRiskAnalysis')} · {result.factors.filter(f => f.level !== 'ok').length} {t('issuesDetected')}
           </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
@@ -159,7 +161,7 @@ export function ZionDiagnosis({ positions }: Props) {
             <div className="font-[family-name:var(--font-display)] text-[1.6rem] font-extrabold" style={{ color: result.color }}>
               {result.score}
             </div>
-            <div className="text-[0.65rem] text-white/40 uppercase tracking-wider">Risk Score</div>
+            <div className="text-[0.65rem] text-white/40 uppercase tracking-wider">{t('riskScore')}</div>
           </div>
           <div
             className="w-7 h-7 rounded-md flex items-center justify-center text-white/40 border border-white/10 text-[0.8rem] transition-transform"
@@ -185,7 +187,7 @@ export function ZionDiagnosis({ positions }: Props) {
                   ))}
                 </div>
               </div>
-              <span className="text-[0.78rem] text-white/40">Analyzing your portfolio…</span>
+              <span className="text-[0.78rem] text-white/40">{t('analyzing')}</span>
             </div>
           ) : (
             <>
@@ -211,9 +213,9 @@ export function ZionDiagnosis({ positions }: Props) {
               {/* Score breakdown */}
               <div className="grid grid-cols-3 gap-2 mb-5">
                 {[
-                  { icon: Shield, label: 'Risk Score', val: `${result.score}/100`, color: result.color },
-                  { icon: TrendingUp, label: 'Profit/Loss', val: `${positions.reduce((s, p) => s + (p.value - p.invested), 0) >= 0 ? '+' : ''}$${(positions.reduce((s, p) => s + (p.value - p.invested), 0)).toFixed(0)}`, color: positions.reduce((s, p) => s + (p.value - p.invested), 0) >= 0 ? '#00e676' : '#ff5252' },
-                  { icon: Zap, label: 'Claimable', val: `${positions.reduce((s, p) => s + p.claimable, 0).toLocaleString()} tokens`, color: '#ffd700' },
+                  { icon: Shield, label: t('riskScore'), val: `${result.score}/100`, color: result.color },
+                  { icon: TrendingUp, label: t('profitLoss'), val: `${positions.reduce((s, p) => s + (p.value - p.invested), 0) >= 0 ? '+' : ''}$${(positions.reduce((s, p) => s + (p.value - p.invested), 0)).toFixed(0)}`, color: positions.reduce((s, p) => s + (p.value - p.invested), 0) >= 0 ? '#00e676' : '#ff5252' },
+                  { icon: Zap, label: t('claimable'), val: `${positions.reduce((s, p) => s + p.claimable, 0).toLocaleString()} ${t('tokens')}`, color: '#ffd700' },
                 ].map(({ icon: Icon, label, val, color }) => (
                   <div key={label} className="rounded-[10px] bg-white/[0.02] border border-white/8 p-3 text-center">
                     <Icon className="w-4 h-4 mx-auto mb-1.5" style={{ color }} />
@@ -225,7 +227,7 @@ export function ZionDiagnosis({ positions }: Props) {
 
               {/* Risk factors */}
               <div className="space-y-2.5">
-                <div className="text-[0.74rem] text-white/40 uppercase tracking-wider font-semibold mb-3">Findings</div>
+                <div className="text-[0.74rem] text-white/40 uppercase tracking-wider font-semibold mb-3">{t('findings')}</div>
                 {result.factors.map(f => {
                   const Icon = iconMap[f.level]!;
                   return (

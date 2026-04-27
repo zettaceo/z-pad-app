@@ -13,7 +13,7 @@ import { useWallet } from '@/lib/wallet-store';
 interface PodMember {
   address: string;
   alias?: string;
-  contribution: number; // in BNB
+  contribution: number;
   joinedAt: number;
   isLeader?: boolean;
 }
@@ -32,7 +32,7 @@ interface Pod {
   tier: 'Silver' | 'Gold' | 'Diamond' | 'Legendary';
   tierColor: string;
   createdAt: number;
-  boostMultiplier: number; // allocation multiplier from pool size
+  boostMultiplier: number;
 }
 
 const MOCK_PODS: Pod[] = [
@@ -105,14 +105,7 @@ const MOCK_PODS: Pod[] = [
   },
 ];
 
-const TIERS = [
-  { name: 'Silver', minBNB: 5, maxMembers: 5, boost: '1.5×', color: '#94a3b8', desc: 'Pool 5–25 BNB, up to 5 wallets' },
-  { name: 'Gold', minBNB: 20, maxMembers: 8, boost: '2.5×', color: '#ffd700', desc: 'Pool 20–80 BNB, up to 8 wallets' },
-  { name: 'Diamond', minBNB: 80, maxMembers: 10, boost: '4×', color: '#00d4ff', desc: 'Pool 80–200 BNB, up to 10 wallets' },
-  { name: 'Legendary', minBNB: 200, maxMembers: 10, boost: '8×', color: '#c084fc', desc: 'Pool 200+ BNB, exclusive access' },
-];
-
-function PodCard({ pod }: { pod: Pod }) {
+function PodCard({ pod, t }: { pod: Pod; t: ReturnType<typeof useTranslations> }) {
   const fillPct = (pod.raisedBNB / pod.targetBNB) * 100;
   const membersLeft = pod.maxMembers - pod.members.length;
 
@@ -130,7 +123,7 @@ function PodCard({ pod }: { pod: Pod }) {
             </span>
           </div>
           <div className="text-[0.76rem] text-white/50">
-            Target: <span className="text-cyan-400 font-medium">{pod.targetProjectName}</span>
+            {t('cardTarget')} <span className="text-cyan-400 font-medium">{pod.targetProjectName}</span>
           </div>
         </div>
         <div className={cn(
@@ -139,16 +132,16 @@ function PodCard({ pod }: { pod: Pod }) {
           pod.status === 'locked' ? 'bg-yellow-400/10 text-yellow-400' :
           'bg-violet-500/10 text-violet-400'
         )}>
-          {pod.status === 'open' ? <><Unlock className="w-2.5 h-2.5 inline mr-1" />Open</> :
-           pod.status === 'locked' ? <><Lock className="w-2.5 h-2.5 inline mr-1" />Locked</> :
-           <><Zap className="w-2.5 h-2.5 inline mr-1" />Deployed</>}
+          {pod.status === 'open' ? <><Unlock className="w-2.5 h-2.5 inline mr-1" />{t('statusOpen')}</> :
+           pod.status === 'locked' ? <><Lock className="w-2.5 h-2.5 inline mr-1" />{t('statusLocked')}</> :
+           <><Zap className="w-2.5 h-2.5 inline mr-1" />{t('deployed')}</>}
         </div>
       </div>
 
       {/* Progress */}
       <div className="mb-4">
         <div className="flex justify-between text-[0.74rem] mb-1.5">
-          <span className="text-white/50">Pool Progress</span>
+          <span className="text-white/50">{t('poolProgress')}</span>
           <span className="font-[family-name:var(--font-mono)] text-white/70">{pod.raisedBNB} / {pod.targetBNB} BNB</span>
         </div>
         <div className="h-2 bg-white/5 rounded-full overflow-hidden">
@@ -158,8 +151,8 @@ function PodCard({ pod }: { pod: Pod }) {
           />
         </div>
         <div className="flex justify-between mt-1 text-[0.68rem] text-white/35">
-          <span>{fillPct.toFixed(0)}% filled</span>
-          <span>{pod.raisedBNB < pod.targetBNB ? `${(pod.targetBNB - pod.raisedBNB).toFixed(1)} BNB needed` : 'Target reached'}</span>
+          <span>{fillPct.toFixed(0)}% {t('filled')}</span>
+          <span>{pod.raisedBNB < pod.targetBNB ? `${(pod.targetBNB - pod.raisedBNB).toFixed(1)} ${t('bnbNeeded')}` : t('targetReached')}</span>
         </div>
       </div>
 
@@ -182,9 +175,9 @@ function PodCard({ pod }: { pod: Pod }) {
           )}
         </div>
         <div className="text-[0.74rem] text-white/50">
-          <span className="text-white font-medium">{pod.members.length}</span>/{pod.maxMembers} members
+          <span className="text-white font-medium">{pod.members.length}</span>/{pod.maxMembers} {t('membersCount')}
           {membersLeft > 0 && pod.status === 'open' && (
-            <span className="ml-2 text-green-400">{membersLeft} spots left</span>
+            <span className="ml-2 text-green-400">{membersLeft} {t('spotsLeft')}</span>
           )}
         </div>
       </div>
@@ -193,7 +186,7 @@ function PodCard({ pod }: { pod: Pod }) {
       <div className="flex items-center justify-between p-3 rounded-[10px] bg-white/[0.02] border border-white/8 mb-4">
         <div className="flex items-center gap-2">
           <TrendingUp className="w-4 h-4 text-cyan-400" />
-          <span className="text-[0.78rem] text-white/70">Allocation Boost</span>
+          <span className="text-[0.78rem] text-white/70">{t('allocationBoost')}</span>
         </div>
         <span className="font-[family-name:var(--font-mono)] font-bold text-cyan-400 text-[0.9rem]">
           {pod.boostMultiplier}×
@@ -206,7 +199,7 @@ function PodCard({ pod }: { pod: Pod }) {
         disabled={pod.status !== 'open'}
         size="sm"
       >
-        {pod.status === 'open' ? 'Join Pod' : pod.status === 'locked' ? 'Pod Locked' : 'Deployed'}
+        {pod.status === 'open' ? t('joinPod') : pod.status === 'locked' ? t('podLocked') : t('deployed')}
         {pod.status === 'open' && <ChevronRight className="w-4 h-4 ml-1" />}
       </Button>
     </div>
@@ -223,6 +216,13 @@ export default function PodsPage() {
   const [targetBNB, setTargetBNB] = useState('50');
   const [copied, setCopied] = useState(false);
 
+  const TIERS = [
+    { name: 'Silver', minBNB: 5, maxMembers: 5, boost: '1.5×', color: '#94a3b8', desc: t('how1Desc') },
+    { name: 'Gold', minBNB: 20, maxMembers: 8, boost: '2.5×', color: '#ffd700', desc: t('how2Desc') },
+    { name: 'Diamond', minBNB: 80, maxMembers: 10, boost: '4×', color: '#00d4ff', desc: t('how3Desc') },
+    { name: 'Legendary', minBNB: 200, maxMembers: 10, boost: '8×', color: '#c084fc', desc: t('how4Desc') },
+  ];
+
   const handleCopyInvite = useCallback(() => {
     navigator.clipboard.writeText('https://zpad.io/pods/pod-alpha?ref=0x072c').catch(() => {});
     setCopied(true);
@@ -230,6 +230,13 @@ export default function PodsPage() {
   }, []);
 
   const myPod = MOCK_PODS[0]!;
+
+  const HOW_STEPS = [
+    { icon: Users, title: t('how1Title'), desc: t('how1Desc'), color: 'text-cyan-400', bg: 'bg-cyan-500/8 border-cyan-500/20' },
+    { icon: TrendingUp, title: t('how2Title'), desc: t('how2Desc'), color: 'text-green-400', bg: 'bg-green-400/8 border-green-400/20' },
+    { icon: Zap, title: t('how3Title'), desc: t('how3Desc'), color: 'text-violet-400', bg: 'bg-violet-500/8 border-violet-500/20' },
+    { icon: Shield, title: t('how4Title'), desc: t('how4Desc'), color: 'text-gold-400', bg: 'bg-gold-500/8 border-gold-500/20' },
+  ];
 
   return (
     <div className="pt-[100px]">
@@ -243,21 +250,21 @@ export default function PodsPage() {
           <div className="flex items-end justify-between flex-wrap gap-5">
             <div>
               <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-                Group DeFi
+                {t('groupDefiLabel')}
               </span>
               <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
-                Investment{' '}
+                {t('title1')}{' '}
                 <span className="bg-gradient-to-br from-cyan-500 to-violet-500 bg-clip-text text-transparent">
-                  Pods
+                  {t('title2')}
                 </span>
               </h1>
               <p className="text-white/70 mt-2 max-w-[540px]">
-                Pool BNB with up to 10 wallets and unlock higher-tier allocations. The bigger the pod, the larger the boost — together you participate like a whale.
+                {t('desc')}
               </p>
             </div>
             <Button onClick={() => wallet.connected ? setShowCreate(s => !s) : openWalletModal()}>
               <Plus className="w-4 h-4 mr-1.5" />
-              Create Pod
+              {t('createPod')}
             </Button>
           </div>
         </div>
@@ -267,12 +274,7 @@ export default function PodsPage() {
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
           {/* How it works */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-8">
-            {[
-              { icon: Users, title: 'Form a Pod', desc: 'Create or join a group of up to 10 wallets targeting the same project', color: 'text-cyan-400', bg: 'bg-cyan-500/8 border-cyan-500/20' },
-              { icon: TrendingUp, title: 'Pool BNB', desc: 'Each member contributes BNB. Larger pools unlock higher allocation tiers', color: 'text-green-400', bg: 'bg-green-400/8 border-green-400/20' },
-              { icon: Zap, title: 'Deploy Together', desc: 'When target is reached the pod leader deploys in one transaction', color: 'text-violet-400', bg: 'bg-violet-500/8 border-violet-500/20' },
-              { icon: Shield, title: 'Smart Split', desc: 'Tokens distributed proportionally on-chain. No trust required', color: 'text-gold-400', bg: 'bg-gold-500/8 border-gold-500/20' },
-            ].map(({ icon: Icon, title, desc, color, bg }) => (
+            {HOW_STEPS.map(({ icon: Icon, title, desc, color, bg }) => (
               <div key={title} className={cn('rounded-[12px] border p-4', bg)}>
                 <Icon className={cn('w-5 h-5 mb-2.5', color)} />
                 <div className={cn('font-bold text-[0.9rem] mb-1', color)}>{title}</div>
@@ -285,11 +287,11 @@ export default function PodsPage() {
           {showCreate && (
             <div className="bg-bg-075 border border-cyan-500/30 rounded-[14px] p-6 mb-6">
               <div className="font-[family-name:var(--font-display)] font-bold text-[1.1rem] mb-5 flex items-center gap-2">
-                <Plus className="w-5 h-5 text-cyan-400" /> Create a New Pod
+                <Plus className="w-5 h-5 text-cyan-400" /> {t('createFormTitle')}
               </div>
               <div className="grid sm:grid-cols-3 gap-4 mb-5">
                 <div>
-                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Pod Name</label>
+                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldPodName')}</label>
                   <input
                     className="w-full bg-white/[0.03] border border-white/10 rounded-[10px] px-4 py-2.5 text-[0.9rem] outline-none focus:border-cyan-500/50 transition-colors"
                     placeholder="e.g. Alpha Squad"
@@ -298,7 +300,7 @@ export default function PodsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Target Project</label>
+                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldTargetProject')}</label>
                   <select
                     className="w-full bg-white/[0.03] border border-white/10 rounded-[10px] px-4 py-2.5 text-[0.9rem] outline-none focus:border-cyan-500/50 transition-colors"
                     value={selectedProject}
@@ -310,7 +312,7 @@ export default function PodsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Target Pool (BNB)</label>
+                  <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldTargetPool')}</label>
                   <input
                     type="number"
                     className="w-full bg-white/[0.03] border border-white/10 rounded-[10px] px-4 py-2.5 text-[0.9rem] outline-none focus:border-cyan-500/50 transition-colors font-[family-name:var(--font-mono)]"
@@ -322,7 +324,7 @@ export default function PodsPage() {
               </div>
               <div className="flex gap-3">
                 <Button>
-                  <Zap className="w-4 h-4 mr-1.5" /> Launch Pod
+                  <Zap className="w-4 h-4 mr-1.5" /> {t('launchPod')}
                 </Button>
                 <Button variant="secondary" onClick={() => setShowCreate(false)}>{tc('cancel')}</Button>
               </div>
@@ -333,11 +335,11 @@ export default function PodsPage() {
             {/* Pod list */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="font-[family-name:var(--font-display)] font-bold text-[1.1rem]">Active Pods</div>
-                <div className="text-[0.78rem] text-white/40">{MOCK_PODS.filter(p => p.status === 'open').length} open</div>
+                <div className="font-[family-name:var(--font-display)] font-bold text-[1.1rem]">{t('activePods')}</div>
+                <div className="text-[0.78rem] text-white/40">{t('openCount', { count: MOCK_PODS.filter(p => p.status === 'open').length })}</div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                {MOCK_PODS.map(pod => <PodCard key={pod.id} pod={pod} />)}
+                {MOCK_PODS.map(pod => <PodCard key={pod.id} pod={pod} t={t} />)}
               </div>
             </div>
 
@@ -347,7 +349,7 @@ export default function PodsPage() {
               {wallet.connected && (
                 <div className="bg-bg-075 border border-cyan-500/25 rounded-[14px] p-5">
                   <div className="font-[family-name:var(--font-display)] font-bold mb-4 flex items-center gap-2">
-                    <Flame className="w-4 h-4 text-cyan-400" /> My Pod
+                    <Flame className="w-4 h-4 text-cyan-400" /> {t('myPod')}
                   </div>
                   <div className="flex items-center gap-2.5 mb-3">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-[0.7rem] font-bold">
@@ -355,10 +357,10 @@ export default function PodsPage() {
                     </div>
                     <div>
                       <div className="font-semibold text-[0.92rem]">{myPod.name}</div>
-                      <div className="text-[0.72rem] text-white/50">Leader · {myPod.targetProjectName}</div>
+                      <div className="text-[0.72rem] text-white/50">{t('leaderLabel')} · {myPod.targetProjectName}</div>
                     </div>
                   </div>
-                  <div className="text-[0.78rem] text-white/50 mb-1.5">Your contribution</div>
+                  <div className="text-[0.78rem] text-white/50 mb-1.5">{t('yourContribution')}</div>
                   <div className="font-[family-name:var(--font-mono)] font-bold text-[1.4rem] text-cyan-400 mb-3">
                     8.5 BNB
                   </div>
@@ -370,27 +372,27 @@ export default function PodsPage() {
                     className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 hover:border-cyan-500/30 hover:bg-cyan-500/[0.04] transition-all text-[0.78rem] text-white/60"
                   >
                     {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span className="flex-1 text-left truncate">Invite link: zpad.io/pods/pod-alpha?ref=…</span>
+                    <span className="flex-1 text-left truncate">{t('inviteLink')} zpad.io/pods/pod-alpha?ref=…</span>
                   </button>
                 </div>
               )}
 
               {/* Tier table */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-5">
-                <div className="font-[family-name:var(--font-display)] font-bold mb-4">Pod Tiers</div>
+                <div className="font-[family-name:var(--font-display)] font-bold mb-4">{t('podTiers')}</div>
                 <div className="space-y-2">
-                  {TIERS.map(t => (
-                    <div key={t.name} className="flex items-center gap-3 p-3 rounded-[10px] bg-white/[0.02] border border-white/5">
+                  {TIERS.map(tier => (
+                    <div key={tier.name} className="flex items-center gap-3 p-3 rounded-[10px] bg-white/[0.02] border border-white/5">
                       <div
                         className="w-2.5 h-2.5 rounded-full shrink-0"
-                        style={{ background: t.color, boxShadow: `0 0 6px ${t.color}` }}
+                        style={{ background: tier.color, boxShadow: `0 0 6px ${tier.color}` }}
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-[0.84rem]" style={{ color: t.color }}>{t.name}</div>
-                        <div className="text-[0.7rem] text-white/40 truncate">{t.desc}</div>
+                        <div className="font-bold text-[0.84rem]" style={{ color: tier.color }}>{tier.name}</div>
+                        <div className="text-[0.7rem] text-white/40 truncate">{tier.desc}</div>
                       </div>
-                      <div className="font-[family-name:var(--font-mono)] font-bold text-[0.88rem]" style={{ color: t.color }}>
-                        {t.boost}
+                      <div className="font-[family-name:var(--font-mono)] font-bold text-[0.88rem]" style={{ color: tier.color }}>
+                        {tier.boost}
                       </div>
                     </div>
                   ))}
@@ -399,13 +401,13 @@ export default function PodsPage() {
 
               {/* Stats */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-5">
-                <div className="font-[family-name:var(--font-display)] font-bold mb-4">Pod Stats</div>
+                <div className="font-[family-name:var(--font-display)] font-bold mb-4">{t('podStats')}</div>
                 <div className="grid grid-cols-2 gap-2.5">
                   {[
-                    { v: '47', l: 'Active Pods' },
-                    { v: '312', l: 'Total Members' },
-                    { v: fmt.currency(2840000, { compact: true }), l: 'BNB Pooled' },
-                    { v: '4.2×', l: 'Avg Boost' },
+                    { v: '47', l: t('activePods') },
+                    { v: '312', l: t('totalMembers') },
+                    { v: fmt.currency(2840000, { compact: true }), l: t('bnbPooled') },
+                    { v: '4.2×', l: t('avgBoost') },
                   ].map(({ v, l }) => (
                     <div key={l} className="rounded-[10px] bg-white/[0.02] border border-white/8 p-3 text-center">
                       <div className="font-[family-name:var(--font-display)] font-extrabold text-[1.4rem] text-cyan-400">{v}</div>

@@ -21,21 +21,29 @@ const REFERRED_USERS = [
   { addr: '0x1e5f...2b8d', date: '12 days ago', invested: '$500', reward: '+10 Z', status: 'pending' },
 ];
 
-const TIERS = [
-  { refs: 1,   label: 'Starter',  reward: '2% of invest',   color: 'text-[#c0c0c0]',  bg: 'bg-[#c0c0c0]/10' },
-  { refs: 5,   label: 'Pro',      reward: '2.5% of invest', color: 'text-[#ffd700]',   bg: 'bg-[#ffd700]/10' },
-  { refs: 15,  label: 'Elite',    reward: '3% of invest',   color: 'text-cyan-400',    bg: 'bg-cyan-500/10'  },
-  { refs: 50,  label: 'Legend',   reward: '4% + NFT badge', color: 'text-violet-400',  bg: 'bg-violet-500/10'},
-];
-
 export default function ReferralPage() {
   const t = useTranslations('referral');
   const tc = useTranslations('common');
   const [copied, setCopied] = useState(false);
   const totalRefs = REFERRED_USERS.length;
-  const totalEarned = 74; // mock Z earned
-  const currentTier = TIERS.find(t => totalRefs >= t.refs) ?? TIERS[0]!;
+  const totalEarned = 74;
+
+  const TIERS = [
+    { refs: 1,  label: t('tier1Label'), reward: t('tier1Reward'), color: 'text-[#c0c0c0]', bg: 'bg-[#c0c0c0]/10' },
+    { refs: 5,  label: t('tier2Label'), reward: t('tier2Reward'), color: 'text-[#ffd700]', bg: 'bg-[#ffd700]/10' },
+    { refs: 15, label: t('tier3Label'), reward: t('tier3Reward'), color: 'text-cyan-400',   bg: 'bg-cyan-500/10'  },
+    { refs: 50, label: t('tier4Label'), reward: t('tier4Reward'), color: 'text-violet-400', bg: 'bg-violet-500/10'},
+  ];
+
+  const currentTier = TIERS.find(tier => totalRefs >= tier.refs) ?? TIERS[0]!;
   const nextTier = TIERS[TIERS.indexOf(currentTier) + 1];
+
+  const HOW_STEPS = [
+    { n: '1', text: t('how1') },
+    { n: '2', text: t('how2') },
+    { n: '3', text: t('how3') },
+    { n: '4', text: t('how4') },
+  ];
 
   const copy = (text: string) => {
     navigator.clipboard.writeText(text).catch(() => {});
@@ -69,22 +77,22 @@ export default function ReferralPage() {
           {/* Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-[0.78rem] font-semibold mb-4">
-              <Gift className="w-3.5 h-3.5" /> Earn Z tokens for every friend you bring
+              <Gift className="w-3.5 h-3.5" /> {t('earnBadge')}
             </div>
             <h1 className="font-[family-name:var(--font-display)] text-[clamp(2rem,5vw,3.2rem)] font-extrabold tracking-[-0.04em] mb-3">
-              Refer &amp; Earn
+              {t('title')}
             </h1>
             <p className="text-white/60 text-[1rem] max-w-[520px] mx-auto">
-              Share your unique link. Earn up to 4% of every investment your referrals make — paid instantly in Z tokens.
+              {t('desc')}
             </p>
           </div>
 
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3 mb-8">
             {[
-              { icon: Users, label: 'Referred Users', value: String(totalRefs), color: 'text-cyan-400' },
-              { icon: Zap, label: 'Z Earned', value: `${totalEarned} Z`, color: 'text-green-400' },
-              { icon: TrendingUp, label: 'Current Tier', value: currentTier.label, color: currentTier.color },
+              { icon: Users, label: t('statRefs'), value: String(totalRefs), color: 'text-cyan-400' },
+              { icon: Zap, label: t('statEarned'), value: `${totalEarned} Z`, color: 'text-green-400' },
+              { icon: TrendingUp, label: t('statTier'), value: currentTier.label, color: currentTier.color },
             ].map(({ icon: Icon, label, value, color }) => (
               <div key={label} className="bg-bg-075 border border-white/10 rounded-[14px] p-4 text-center">
                 <Icon className={cn('w-5 h-5 mx-auto mb-2', color)} />
@@ -102,7 +110,7 @@ export default function ReferralPage() {
 
               {/* Referral link card */}
               <div className="bg-bg-075 border border-cyan-500/20 rounded-[18px] p-6">
-                <div className="text-[0.76rem] text-white/50 uppercase tracking-wider font-semibold mb-2">Your referral link</div>
+                <div className="text-[0.76rem] text-white/50 uppercase tracking-wider font-semibold mb-2">{t('yourLink')}</div>
                 <div className="flex gap-2 mb-4">
                   <div className="flex-1 flex items-center px-4 py-3 rounded-[10px] bg-white/[0.03] border border-white/10 font-[family-name:var(--font-mono)] text-[0.84rem] text-cyan-300 overflow-hidden">
                     <span className="truncate">{MOCK_REF_LINK}</span>
@@ -124,7 +132,7 @@ export default function ReferralPage() {
 
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex-1 h-px bg-white/8"/>
-                  <span className="text-[0.74rem] text-white/30">or copy code</span>
+                  <span className="text-[0.74rem] text-white/30">{t('orCopyCode')}</span>
                   <div className="flex-1 h-px bg-white/8"/>
                 </div>
 
@@ -149,14 +157,14 @@ export default function ReferralPage() {
                     onClick={shareTwitter}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[10px] bg-[#1d9bf0]/10 border border-[#1d9bf0]/25 text-[#1d9bf0] text-[0.84rem] font-semibold hover:bg-[#1d9bf0]/15 transition-all"
                   >
-                    <Twitter className="w-4 h-4" /> Twitter
+                    <Twitter className="w-4 h-4" /> {t('twitterBtn')}
                   </button>
                   <button
                     type="button"
                     onClick={shareTelegram}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-[10px] bg-[#24a1de]/10 border border-[#24a1de]/25 text-[#24a1de] text-[0.84rem] font-semibold hover:bg-[#24a1de]/15 transition-all"
                   >
-                    <Send className="w-4 h-4" /> Telegram
+                    <Send className="w-4 h-4" /> {t('telegramBtn')}
                   </button>
                 </div>
               </div>
@@ -164,7 +172,7 @@ export default function ReferralPage() {
               {/* Referred users table */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
                 <div className="font-[family-name:var(--font-display)] font-bold text-[1.05rem] mb-4">
-                  Your Referrals ({totalRefs})
+                  {t('yourReferrals')} ({totalRefs})
                 </div>
                 {REFERRED_USERS.length > 0 ? (
                   <div className="space-y-2.5">
@@ -191,7 +199,7 @@ export default function ReferralPage() {
                   </div>
                 ) : (
                   <div className="text-center py-8 text-white/30 text-[0.9rem]">
-                    No referrals yet. Share your link to start earning!
+                    {t('noReferrals')}
                   </div>
                 )}
               </div>
@@ -202,32 +210,32 @@ export default function ReferralPage() {
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-5">
                 <div className="flex items-center gap-2 mb-4">
                   <Crown className="w-4 h-4 text-yellow-400" />
-                  <span className="font-[family-name:var(--font-display)] font-bold text-[0.95rem]">Reward Tiers</span>
+                  <span className="font-[family-name:var(--font-display)] font-bold text-[0.95rem]">{t('rewardTiers')}</span>
                 </div>
 
                 <div className="space-y-2.5">
-                  {TIERS.map((t) => {
-                    const active = t.label === currentTier.label;
+                  {TIERS.map((tier) => {
+                    const active = tier.label === currentTier.label;
                     return (
-                      <div key={t.label} className={cn(
+                      <div key={tier.label} className={cn(
                         'rounded-[10px] p-3.5 border transition-all',
-                        active ? cn(t.bg, 'border-cyan-500/30') : 'bg-white/[0.02] border-white/8'
+                        active ? cn(tier.bg, 'border-cyan-500/30') : 'bg-white/[0.02] border-white/8'
                       )}>
                         <div className="flex items-center justify-between mb-1">
                           <div className="flex items-center gap-2">
-                            <Star className={cn('w-3.5 h-3.5', active ? t.color : 'text-white/30')} fill={active ? 'currentColor' : 'none'} />
-                            <span className={cn('font-bold text-[0.88rem]', active ? t.color : 'text-white/50')}>
-                              {t.label}
+                            <Star className={cn('w-3.5 h-3.5', active ? tier.color : 'text-white/30')} fill={active ? 'currentColor' : 'none'} />
+                            <span className={cn('font-bold text-[0.88rem]', active ? tier.color : 'text-white/50')}>
+                              {tier.label}
                             </span>
                           </div>
                           {active && (
                             <span className="text-[0.65rem] uppercase tracking-wider bg-cyan-500/15 text-cyan-400 px-1.5 py-0.5 rounded-full font-bold">
-                              Current
+                              {t('currentBadge')}
                             </span>
                           )}
                         </div>
                         <div className="text-[0.78rem] text-white/50 ml-5.5">
-                          {t.refs}+ referrals · <span className="text-white/70">{t.reward}</span>
+                          {tier.refs}+ {t('referralsCount')} · <span className="text-white/70">{tier.reward}</span>
                         </div>
                       </div>
                     );
@@ -236,7 +244,7 @@ export default function ReferralPage() {
 
                 {nextTier && (
                   <div className="mt-4 pt-4 border-t border-white/10">
-                    <div className="text-[0.76rem] text-white/40 mb-2">Progress to {nextTier.label}</div>
+                    <div className="text-[0.76rem] text-white/40 mb-2">{t('progressTo')} {nextTier.label}</div>
                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden mb-1.5">
                       <div
                         className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
@@ -244,7 +252,7 @@ export default function ReferralPage() {
                       />
                     </div>
                     <div className="text-[0.72rem] text-white/40">
-                      {totalRefs}/{nextTier.refs} referrals
+                      {totalRefs}/{nextTier.refs} {t('referralsCount')}
                     </div>
                   </div>
                 )}
@@ -252,14 +260,9 @@ export default function ReferralPage() {
 
               {/* How it works */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-5">
-                <div className="font-[family-name:var(--font-display)] font-bold text-[0.95rem] mb-3.5">How it works</div>
+                <div className="font-[family-name:var(--font-display)] font-bold text-[0.95rem] mb-3.5">{t('howItWorksTitle')}</div>
                 <div className="space-y-3">
-                  {[
-                    { n: '1', text: 'Share your unique referral link or code' },
-                    { n: '2', text: 'Friend registers and connects wallet' },
-                    { n: '3', text: 'They invest in any project on Z-PAD' },
-                    { n: '4', text: 'You earn % instantly in Z tokens' },
-                  ].map(({ n, text }) => (
+                  {HOW_STEPS.map(({ n, text }) => (
                     <div key={n} className="flex gap-3 items-start">
                       <div className="w-6 h-6 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-[0.72rem] font-extrabold shrink-0">
                         {n}
@@ -271,7 +274,7 @@ export default function ReferralPage() {
               </div>
 
               <Button block variant="secondary" asChild>
-                <Link href="/projects">Explore Projects to Share →</Link>
+                <Link href="/projects">{t('exploreProjects')}</Link>
               </Button>
             </div>
           </div>

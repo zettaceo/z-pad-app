@@ -23,13 +23,6 @@ interface ProjectResult {
   status: 'live' | 'ended';
 }
 
-interface BacktestScenario {
-  id: string;
-  label: string;
-  desc: string;
-  filter: (p: ProjectResult) => boolean;
-}
-
 const ALL_PROJECTS: ProjectResult[] = [
   { id: 'zetta-chain', name: 'ZETTA CHAIN', symbol: 'ZETTA', aiScore: 93, entryDate: '2024-10-15', entryPrice: 0.012, currentMultiple: 4.8, invested: 0, currentValue: 0, roi: 0, status: 'live' },
   { id: 'ai-oracle', name: 'AI Oracle', symbol: 'AIO', aiScore: 96, entryDate: '2024-09-03', entryPrice: 0.008, currentMultiple: 8.2, invested: 0, currentValue: 0, roi: 0, status: 'ended' },
@@ -39,13 +32,6 @@ const ALL_PROJECTS: ProjectResult[] = [
   { id: 'zettabridge', name: 'ZettaBridge', symbol: 'ZBRG', aiScore: 79, entryDate: '2024-05-15', entryPrice: 0.055, currentMultiple: 1.4, invested: 0, currentValue: 0, roi: 0, status: 'ended' },
   { id: 'quantumdex', name: 'QuantumDEX', symbol: 'QDEX', aiScore: 74, entryDate: '2024-04-02', entryPrice: 0.018, currentMultiple: 0.7, invested: 0, currentValue: 0, roi: 0, status: 'ended' },
   { id: 'cryptoshield', name: 'CryptoShield', symbol: 'CSHD', aiScore: 95, entryDate: '2024-03-18', entryPrice: 0.006, currentMultiple: 18.3, invested: 0, currentValue: 0, roi: 0, status: 'ended' },
-];
-
-const SCENARIOS: BacktestScenario[] = [
-  { id: 'top3', label: 'Top 3 AI Score', desc: 'Only projects scored 90+', filter: p => p.aiScore >= 90 },
-  { id: 'top5', label: 'Top 5 AI Score', desc: 'Projects scored 85+', filter: p => p.aiScore >= 85 },
-  { id: 'all', label: 'All Projects', desc: 'Equal weight across all listings', filter: () => true },
-  { id: 'lowrisk', label: 'Low Risk Only', desc: 'AI score 85+, no PIXV', filter: p => p.aiScore >= 85 && p.id !== 'pixelverse' },
 ];
 
 function MiniBar({ value, max, color }: { value: number; max: number; color: string }) {
@@ -63,6 +49,19 @@ export default function BacktestPage() {
   const [scenarioId, setScenarioId] = useState('top3');
   const [period, setPeriod] = useState<'90d' | '180d' | '1y'>('90d');
   const [ran, setRan] = useState(false);
+
+  const SCENARIOS = [
+    { id: 'top3', label: t('scenario1Label'), desc: t('scenario1Desc'), filter: (p: ProjectResult) => p.aiScore >= 90 },
+    { id: 'top5', label: t('scenario2Label'), desc: t('scenario2Desc'), filter: (p: ProjectResult) => p.aiScore >= 85 },
+    { id: 'all', label: t('scenario3Label'), desc: t('scenario3Desc'), filter: () => true },
+    { id: 'lowrisk', label: t('scenario4Label'), desc: t('scenario4Desc'), filter: (p: ProjectResult) => p.aiScore >= 85 && p.id !== 'pixelverse' },
+  ];
+
+  const PERIODS = [
+    { v: '90d' as const, l: t('period90d'), icon: Clock },
+    { v: '180d' as const, l: t('period180d'), icon: Clock },
+    { v: '1y' as const, l: t('period1y'), icon: Clock },
+  ];
 
   const scenario = SCENARIOS.find(s => s.id === scenarioId)!;
   const filtered = ALL_PROJECTS.filter(scenario.filter);
@@ -103,16 +102,16 @@ export default function BacktestPage() {
           </div>
           <div>
             <span className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-cyan-400 uppercase tracking-[0.12em] font-[family-name:var(--font-mono)] before:content-[''] before:w-6 before:h-px before:bg-cyan-500">
-              AI Performance
+              {t('aiPerfLabel')}
             </span>
             <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-extrabold tracking-[-0.03em] mt-2.5">
-              ZION{' '}
+              {t('title1')}{' '}
               <span className="bg-gradient-to-br from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-                Backtest Engine
+                {t('title2')}
               </span>
             </h1>
             <p className="text-white/70 mt-2 max-w-[600px]">
-              Simulate what would have happened if you had invested in ZION-vetted projects. See how AI scores predicted real-world returns.
+              {t('desc')}
             </p>
           </div>
         </div>
@@ -126,12 +125,12 @@ export default function BacktestPage() {
               {/* Configuration */}
               <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
                 <div className="font-[family-name:var(--font-display)] font-bold text-[1.05rem] mb-5 flex items-center gap-2">
-                  <BarChart2 className="w-4 h-4 text-cyan-400" /> Simulation Parameters
+                  <BarChart2 className="w-4 h-4 text-cyan-400" /> {t('simParams')}
                 </div>
                 <div className="grid sm:grid-cols-3 gap-4 mb-5">
                   {/* Investment amount */}
                   <div>
-                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Investment ($)</label>
+                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldInvestment')}</label>
                     <div className="relative">
                       <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/30" />
                       <input
@@ -156,7 +155,7 @@ export default function BacktestPage() {
 
                   {/* Strategy */}
                   <div>
-                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Strategy</label>
+                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldStrategy')}</label>
                     <div className="space-y-1.5">
                       {SCENARIOS.map(s => (
                         <button key={s.id} onClick={() => { setScenarioId(s.id); setRan(false); }} className={cn(
@@ -172,13 +171,9 @@ export default function BacktestPage() {
 
                   {/* Period */}
                   <div>
-                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">Time Period</label>
+                    <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldTimePeriod')}</label>
                     <div className="space-y-1.5">
-                      {([
-                        { v: '90d', l: 'Last 90 days', icon: Clock },
-                        { v: '180d', l: 'Last 180 days', icon: Clock },
-                        { v: '1y', l: 'Last 12 months', icon: Clock },
-                      ] as const).map(({ v, l, icon: Icon }) => (
+                      {PERIODS.map(({ v, l, icon: Icon }) => (
                         <button key={v} onClick={() => { setPeriod(v); setRan(false); }} className={cn(
                           'w-full text-left flex items-center gap-2.5 px-3 py-2.5 rounded-[8px] border text-[0.82rem] transition-all',
                           period === v ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400' : 'bg-white/[0.02] border-white/8 text-white/60 hover:border-white/20'
@@ -189,13 +184,13 @@ export default function BacktestPage() {
                       ))}
                     </div>
                     <div className="mt-3 p-3 rounded-[10px] bg-white/[0.02] border border-white/8 text-[0.72rem] text-white/40 leading-[1.5]">
-                      Based on {filtered.length} projects matching your strategy. Equal-weight distribution.
+                      {t('basedOn', { count: filtered.length })}
                     </div>
                   </div>
                 </div>
 
                 <Button onClick={() => setRan(true)}>
-                  <RefreshCw className="w-4 h-4 mr-1.5" /> Run Simulation
+                  <RefreshCw className="w-4 h-4 mr-1.5" /> {t('runSim')}
                 </Button>
               </div>
 
@@ -203,13 +198,13 @@ export default function BacktestPage() {
               {ran && (
                 <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
                   <div className="font-[family-name:var(--font-display)] font-bold text-[1.05rem] mb-5">
-                    Simulation Results — {period} · {scenario.label}
+                    {t('simResults')} — {period} · {scenario.label}
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full min-w-[540px] text-[0.86rem]">
                       <thead>
                         <tr>
-                          {['Project', 'AI Score', 'Invested', 'Value', 'ROI', ''].map(h => (
+                          {[t('colProject'), t('colAiScore'), t('colInvested'), t('colValue'), t('colRoi'), ''].map(h => (
                             <th key={h} className="text-left p-3 text-[0.7rem] uppercase tracking-wider text-white/40 border-b border-white/8 font-semibold">{h}</th>
                           ))}
                         </tr>
@@ -247,7 +242,7 @@ export default function BacktestPage() {
                             </td>
                             <td className="p-3 border-b border-white/5">
                               <Link href={`/projects/${r.id}`} className="text-[0.72rem] text-cyan-400 hover:underline">
-                                View →
+                                {t('viewLink')}
                               </Link>
                             </td>
                           </tr>
@@ -266,17 +261,17 @@ export default function BacktestPage() {
                 'rounded-[14px] p-6 border transition-all duration-500',
                 ran ? 'bg-bg-075 border-white/15' : 'bg-white/[0.01] border-white/8'
               )}>
-                <div className="font-[family-name:var(--font-display)] font-bold mb-5">Outcome Summary</div>
+                <div className="font-[family-name:var(--font-display)] font-bold mb-5">{t('outcomeSummary')}</div>
 
                 {!ran ? (
                   <div className="flex flex-col items-center justify-center py-10 text-center">
                     <BarChart2 className="w-10 h-10 text-white/15 mb-3" />
-                    <div className="text-[0.82rem] text-white/30">Configure parameters and run the simulation to see results</div>
+                    <div className="text-[0.82rem] text-white/30">{t('configPrompt')}</div>
                   </div>
                 ) : (
                   <>
                     <div className="text-center mb-6">
-                      <div className="text-[0.72rem] text-white/40 uppercase tracking-wider mb-1">Portfolio Return</div>
+                      <div className="text-[0.72rem] text-white/40 uppercase tracking-wider mb-1">{t('portfolioReturn')}</div>
                       <div
                         className="font-[family-name:var(--font-display)] text-[3.5rem] font-extrabold tracking-[-0.04em] leading-[1]"
                         style={{ color: roiColor }}
@@ -290,10 +285,10 @@ export default function BacktestPage() {
 
                     <div className="grid grid-cols-2 gap-2.5 mb-5">
                       {[
-                        { icon: Target, label: 'Projects', val: `${filtered.length}`, color: '#00d4ff' },
-                        { icon: TrendingUp, label: 'Winners', val: `${winners}/${filtered.length}`, color: '#00e676' },
-                        { icon: Zap, label: 'Best Pick', val: bestProject.symbol, color: '#c084fc' },
-                        { icon: DollarSign, label: 'Profit', val: fmt.currency(totalValue - totalInvested, { compact: true, decimals: 0 }), color: roiColor },
+                        { icon: Target, label: t('labelProjects'), val: `${filtered.length}`, color: '#00d4ff' },
+                        { icon: TrendingUp, label: t('labelWinners'), val: `${winners}/${filtered.length}`, color: '#00e676' },
+                        { icon: Zap, label: t('labelBestPick'), val: bestProject.symbol, color: '#c084fc' },
+                        { icon: DollarSign, label: t('labelProfit'), val: fmt.currency(totalValue - totalInvested, { compact: true, decimals: 0 }), color: roiColor },
                       ].map(({ icon: Icon, label, val, color }) => (
                         <div key={label} className="rounded-[10px] bg-white/[0.02] border border-white/8 p-3.5 text-center">
                           <Icon className="w-4 h-4 mx-auto mb-1.5" style={{ color }} />
@@ -307,7 +302,7 @@ export default function BacktestPage() {
                     <div className="rounded-[10px] bg-cyan-500/[0.04] border border-cyan-500/20 p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Zap className="w-3.5 h-3.5 text-cyan-400" />
-                        <span className="text-[0.78rem] font-bold text-cyan-400">ZION Insight</span>
+                        <span className="text-[0.78rem] font-bold text-cyan-400">{t('zionInsight')}</span>
                       </div>
                       <p className="text-[0.78rem] text-white/60 leading-[1.55]">
                         Projects with AI score ≥ 90 averaged <strong className="text-green-400">+{(results.filter(r => r.aiScore >= 90).reduce((s, r) => s + r.roi, 0) / Math.max(1, results.filter(r => r.aiScore >= 90).length)).toFixed(0)}% ROI</strong> vs{' '}
@@ -320,17 +315,17 @@ export default function BacktestPage() {
 
               {/* Disclaimer */}
               <div className="rounded-[12px] bg-yellow-400/[0.04] border border-yellow-400/15 p-4">
-                <div className="text-[0.72rem] font-bold text-yellow-400 mb-1.5 uppercase tracking-wider">Disclaimer</div>
+                <div className="text-[0.72rem] font-bold text-yellow-400 mb-1.5 uppercase tracking-wider">{t('disclaimer')}</div>
                 <p className="text-[0.74rem] text-white/45 leading-[1.55]">
-                  Past performance does not guarantee future results. This simulation uses historical price data and AI scores for educational purposes only. Not financial advice.
+                  {t('disclaimerText')}
                 </p>
               </div>
 
               {/* CTA */}
               <div className="rounded-[14px] bg-bg-075 border border-white/10 p-5 text-center">
-                <div className="font-[family-name:var(--font-display)] font-bold mb-1.5">Ready to invest for real?</div>
-                <div className="text-[0.78rem] text-white/50 mb-4">Browse live ZION-vetted projects now</div>
-                <Button block asChild><Link href="/projects">Explore Projects</Link></Button>
+                <div className="font-[family-name:var(--font-display)] font-bold mb-1.5">{t('readyTitle')}</div>
+                <div className="text-[0.78rem] text-white/50 mb-4">{t('readyDesc')}</div>
+                <Button block asChild><Link href="/projects">{t('exploreProjects')}</Link></Button>
               </div>
             </div>
           </div>

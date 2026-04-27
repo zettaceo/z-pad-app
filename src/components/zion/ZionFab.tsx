@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { X, Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/cn';
 import { useFocusTrap } from '@/lib/use-focus-trap';
@@ -20,13 +21,13 @@ const INITIAL_MSG: Message = {
   text: "Hey! I'm ZION, your AI assistant for Z-PAD. I can analyze any project, explain tokenomics, help you find opportunities, or answer questions about the platform. What would you like to know?",
 };
 
-function getSuggestions(pathname: string): string[] {
+function getSuggestions(pathname: string, t: (key: string) => string): string[] {
   if (pathname.startsWith('/projects/') && pathname !== '/projects') {
-    return ['Is this project safe?', 'Explain the AI Score', 'What are the risks?'];
+    return [t('suggestSafe'), t('suggestScore'), t('suggestRisks')];
   }
-  if (pathname === '/dashboard') return ['How do I claim tokens?', 'What is my AI Rep?', 'Show top projects'];
-  if (pathname === '/create') return ['What are Fair Launches?', 'Best tokenomics practices', 'How do fees work?'];
-  return ['What is Z-PAD?', 'Find top AI projects', 'How does vetting work?'];
+  if (pathname === '/dashboard') return [t('suggestClaim'), t('suggestRep'), t('suggestTop')];
+  if (pathname === '/create') return [t('suggestFairLaunch'), t('suggestTokenomics'), t('suggestFees')];
+  return [t('suggestZpad'), t('suggestFind'), t('suggestVetting')];
 }
 
 function generateResponse(question: string, pathname: string): string {
@@ -96,6 +97,7 @@ function generateResponse(question: string, pathname: string): string {
 }
 
 export function ZionFab() {
+  const tz = useTranslations('zion');
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MSG]);
   const [input, setInput] = useState('');
@@ -200,7 +202,7 @@ export function ZionFab() {
               </div>
               <div className="text-[0.72rem] text-green-400 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_5px_#00e676] animate-pulse-dot" />
-                Online · Analyzing on-chain
+                {tz('online')}
               </div>
             </div>
             <button
@@ -271,7 +273,7 @@ export function ZionFab() {
 
           {/* Suggestions */}
           <div className="px-4 py-3 border-t border-white/10 flex flex-wrap gap-1.5">
-            {getSuggestions(pathname).map((s) => (
+            {getSuggestions(pathname, tz).map((s) => (
               <button
                 key={s}
                 onClick={() => send(s)}
@@ -292,7 +294,7 @@ export function ZionFab() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') send(input);
               }}
-              placeholder="Ask ZION anything..."
+              placeholder={tz('placeholder')}
               className="flex-1 px-3.5 py-2.5 rounded-[10px] bg-white/[0.02] border border-white/10 text-white text-[0.88rem] outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]"
               aria-label="Message ZION AI"
             />
