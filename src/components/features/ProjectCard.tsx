@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import type { Project } from '@/types';
 import { fmt } from '@/lib/format';
 import { AiScore } from './AiScore';
 import { Badge } from '@/components/ui/Badge';
+import { getProjectContent } from '@/lib/project-i18n';
 
 interface ProjectCardProps {
   project: Project;
@@ -14,6 +15,9 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project: p }: ProjectCardProps) {
   const t = useTranslations('projects');
+  const locale = useLocale();
+  const i18n = getProjectContent(p.id, locale);
+  const description = i18n?.description ?? p.description;
   const progress = p.target > 0 ? Math.min(100, (p.raised / p.target) * 100) : 0;
 
   return (
@@ -54,7 +58,7 @@ export function ProjectCard({ project: p }: ProjectCardProps) {
       </div>
 
       {/* Description */}
-      <p className="text-[0.82rem] text-white/50 leading-[1.5] mb-3.5 line-clamp-2">{p.description}</p>
+      <p className="text-[0.82rem] text-white/50 leading-[1.5] mb-3.5 line-clamp-2">{description}</p>
 
       {/* Rows */}
       <div className="flex justify-between items-center mb-1.5 text-[0.82rem]">

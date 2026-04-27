@@ -3,9 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { Share2, ExternalLink, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 
 import { PROJECTS } from '@/lib/mock-data';
+import { getProjectContent } from '@/lib/project-i18n';
 import { fmt } from '@/lib/format';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -45,11 +46,18 @@ export default async function ProjectDetailPage({ params }: Props) {
   const p = PROJECTS.find((x) => x.id === id);
   if (!p) notFound();
 
-  const [pd, tp, tc] = await Promise.all([
+  const [pd, tp, tc, locale] = await Promise.all([
     getTranslations('projectDetail'),
     getTranslations('projects'),
     getTranslations('common'),
+    getLocale(),
   ]);
+
+  const i18n = getProjectContent(p.id, locale);
+  const desc = i18n?.description ?? p.description;
+  const aiSummary = i18n?.aiSummary ?? p.aiSummary;
+  const aiStrengths = i18n?.aiStrengths ?? p.aiStrengths;
+  const aiFlags = i18n?.aiFlags ?? p.aiFlags;
 
   const progress = p.target > 0 ? Math.min(100, (p.raised / p.target) * 100) : 0;
   const currency = p.chain === 'eth' ? 'ETH' : p.chain === 'solana' ? 'SOL' : 'BNB';
@@ -93,7 +101,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   {p.refundable && <Badge variant="refundable" />}
                   <Badge variant="ai" />
                 </div>
-                <p className="text-white/70 max-w-[640px] leading-relaxed">{p.description}</p>
+                <p className="text-white/70 max-w-[640px] leading-relaxed">{desc}</p>
               </div>
             </div>
             <div className="flex items-center gap-4 shrink-0">
@@ -178,7 +186,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </div>
                   <Badge variant="ai">POWERED BY ZION</Badge>
                 </div>
-                <p className="text-white/70 leading-[1.65] mb-5">{p.aiSummary}</p>
+                <p className="text-white/70 leading-[1.65] mb-5">{aiSummary}</p>
 
                 <div className="grid grid-cols-2 gap-2.5">
                   {Object.entries(p.aiBreakdown).map(([k, v]) => (
@@ -203,13 +211,13 @@ export default async function ProjectDetailPage({ params }: Props) {
                   ))}
                 </div>
 
-                {p.aiStrengths.length > 0 && (
+                {aiStrengths.length > 0 && (
                   <div className="mt-5 p-4 rounded-[10px] bg-green-400/[0.04] border border-green-400/15">
                     <div className="font-bold text-green-400 mb-2.5 text-[0.88rem] flex items-center gap-2">
                       <CheckCircle className="w-4 h-4" /> {pd('strengths')}
                     </div>
                     <ul className="space-y-1.5">
-                      {p.aiStrengths.map((s, i) => (
+                      {aiStrengths.map((s, i) => (
                         <li key={i} className="text-[0.86rem] text-white/70 flex gap-2">
                           <span className="text-green-400">•</span>
                           {s}
@@ -219,13 +227,13 @@ export default async function ProjectDetailPage({ params }: Props) {
                   </div>
                 )}
 
-                {p.aiFlags.length > 0 && (
+                {aiFlags.length > 0 && (
                   <div className="mt-3 p-4 rounded-[10px] bg-gold-500/[0.04] border border-gold-500/15">
                     <div className="font-bold text-gold-400 mb-2.5 text-[0.88rem] flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4" /> {pd('flags')}
                     </div>
                     <ul className="space-y-1.5">
-                      {p.aiFlags.map((f, i) => (
+                      {aiFlags.map((f, i) => (
                         <li key={i} className="text-[0.86rem] text-white/70 flex gap-2">
                           <span className="text-gold-400">•</span>
                           {f}
