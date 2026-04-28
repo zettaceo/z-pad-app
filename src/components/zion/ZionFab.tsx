@@ -5,23 +5,22 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { X, Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 import { cn } from '@/lib/cn';
 import { useFocusTrap } from '@/lib/use-focus-trap';
 import { PROJECTS } from '@/lib/mock-data';
 import { FEES } from '@/config/fees';
+import { getProjectContent } from '@/lib/project-i18n';
 
 interface Message {
   role: 'ai' | 'user';
   text: string;
 }
 
-const INITIAL_MSG: Message = {
-  role: 'ai',
-  text: "Hey! I'm ZION, your AI assistant for Z-PAD. I can analyze any project, explain tokenomics, help you find opportunities, or answer questions about the platform. What would you like to know?",
-};
+type TFn = (key: string, values?: Record<string, unknown>) => string;
 
-function getSuggestions(pathname: string, t: (key: string) => string): string[] {
+function getSuggestions(pathname: string, t: TFn): string[] {
   if (pathname.startsWith('/projects/') && pathname !== '/projects') {
     return [t('suggestSafe'), t('suggestScore'), t('suggestRisks')];
   }
@@ -30,82 +29,109 @@ function getSuggestions(pathname: string, t: (key: string) => string): string[] 
   return [t('suggestZpad'), t('suggestFind'), t('suggestVetting')];
 }
 
-function generateResponse(question: string, pathname: string): string {
+function generateResponse(question: string, pathname: string, t: TFn, locale: string): string {
   const q = question.toLowerCase();
 
-  // Project-specific
+  // Multi-language keyword helpers
+  const matches = (patterns: string[]) => patterns.some((p) => q.includes(p));
+
   if (pathname.startsWith('/projects/') && pathname !== '/projects') {
     const projectId = pathname.split('/').pop();
     const p = PROJECTS.find((x) => x.id === projectId);
     if (p) {
-      if (q.includes('safe') || q.includes('risk') || q.includes('scam')) {
+      const i18n = getProjectContent(p.id, locale);
+      const aiSummary = i18n?.aiSummary ?? p.aiSummary;
+
+      if (matches(['safe', 'risk', 'scam', 'seguro', 'risco', 'golpe', 'seguridad', 'riesgo', 'estafa', '安全', '风险', '骗'])) {
         const riskLevel =
-          p.aiScore >= 90 ? 'very low' : p.aiScore >= 75 ? 'low' : p.aiScore >= 60 ? 'moderate' : 'elevated';
-        return `Based on my analysis, ${p.name} has a ${riskLevel} risk profile (AI Score: ${p.aiScore}/100). ${p.aiSummary}${
-          p.aiFlags.length > 0 ? ' Flags: ' + p.aiFlags.join(', ') + '.' : ''
-        }`;
+          p.aiScore >= 90
+            ? t('riskVeryLow')
+            : p.aiScore >= 75
+            ? t('riskLow')
+            : p.aiScore >= 60
+            ? t('riskModerate')
+            : t('riskElevated');
+        const flags = p.aiFlags.length > 0 ? t('respFlags', { flags: p.aiFlags.join(', ') }) : '';
+        return t('respRisk', { name: p.name, riskLevel, score: p.aiScore, summary: aiSummary }) + flags;
       }
-      if (q.includes('score') || q.includes('rating')) {
-        const parts = Object.entries(p.aiBreakdown)
+
+      if (matches(['score', 'rating', 'pontuacao', 'nota', 'puntuacion', 'calificacion', '评分', '分数'])) {
+        const breakdown = Object.entries(p.aiBreakdown)
           .map(([k, v]) => `${k}: ${v}`)
           .join(', ');
-        return `${p.name} scored ${p.aiScore}/100 on my AI Vetting Engine. Breakdown: ${parts}. This composite score evaluates tokenomics, smart contract security, team verification, market positioning, liquidity ratios, and community signals.`;
+        return t('respScore', { name: p.name, score: p.aiScore, breakdown });
       }
     }
   }
 
-  if (q.includes('z-pad') || q.includes('what is') || q.includes('about')) {
-    return "Z-PAD is the next-generation decentralized launchpad from the ZETTA ecosystem. Unlike PinkSale or Binance Launchpad, we combine: AI-powered vetting, fiat on-ramp (PIX, credit card), native banking via Z-BANCK, KYC-enforced creator verification, refundable sales (DYCO), and reputation-based allocation. We're the only launchpad where everything is connected — wallet, DEX, banking, and now AI.";
+  if (matches(['z-pad', 'what is', 'about', 'o que e', 'sobre', 'que es', '什么是', 'zpad'])) {
+    return t('respZpad');
   }
 
-  if (q.includes('top') || q.includes('best') || q.includes('find')) {
+  if (matches(['top', 'best', 'find', 'melhor', 'encontrar', 'mejor', 'buscar', '最好', '找'])) {
     const top = PROJECTS.filter((p) => p.status === 'live')
       .sort((a, b) => b.aiScore - a.aiScore)
       .slice(0, 3);
-    return `Based on current AI Scores, here are my top picks: ${top.map((p, i) => `${i + 1}. ${p.name} (${p.symbol}) — Score: ${p.aiScore}/100`).join('. ')}.`;
+    const list = top.map((p, i) => `${i + 1}. ${p.name} (${p.symbol}) — Score: ${p.aiScore}/100`).join('. ');
+    return t('respTop', { list });
   }
 
-  if (q.includes('fair launch')) {
-    return "A Fair Launch is a token sale where everyone gets tokens at the same price — no presale advantages, no VC discounts. Z-PAD supports Fair Launches as one of 5 sale mechanics (Fair Launch, Presale, Private, LBP, Bonding Curve).";
+  if (matches(['fair launch', 'fair', 'lancamento justo', 'lanzamiento justo', '公平启动', '公平发行'])) {
+    return t('respFairLaunch');
   }
 
-  if (q.includes('fee') || q.includes('cost')) {
-    return `Z-PAD platform fees: ${FEES.platformPct}% standard on successful raises, ${FEES.stakerPlatformPct}% for users staking ${FEES.stakerMinZ.toLocaleString()}+ Z (${FEES.stakerDiscountPct}% discount), ${FEES.listingBnb} BNB listing fee for creators. Compared to PinkSale (2-5%) and CEX launchpads, we offer the most competitive rates plus way more features.`;
+  if (matches(['fee', 'cost', 'taxa', 'custo', 'comision', 'costo', '费用', '手续费'])) {
+    return t('respFees', {
+      platformPct: FEES.platformPct,
+      stakerPct: FEES.stakerPlatformPct,
+      minZ: FEES.stakerMinZ.toLocaleString(),
+      discountPct: FEES.stakerDiscountPct,
+      listingBnb: FEES.listingBnb,
+    });
   }
 
-  if (q.includes('kyc') || q.includes('verify')) {
-    return 'KYC verification unlocks higher allocation tiers, access to private sales, fiat payment methods, governance voting weight boost, and tax reporting tools. We use institutional-grade KYC (Veriff). Takes ~5 minutes. All creators launching on Z-PAD must complete KYC.';
+  if (matches(['kyc', 'verify', 'verificar', 'verificacao', 'verificacion', '验证', 'kyc'])) {
+    return t('respKyc');
   }
 
-  if (q.includes('refund') || q.includes('dyco')) {
-    return "Refundable Sales (DYCO) let you get your money back within 48h of TGE if the project fails to hit agreed KPIs. Think of it as warranty for crypto. Projects tagged 'Refundable' commit to this upfront.";
+  if (matches(['refund', 'dyco', 'reembolso', 'devolver', 'reembolsar', '退款', '退钱'])) {
+    return t('respRefund');
   }
 
-  if (q.includes('reputation') || q.includes('rep')) {
-    return 'Your Reputation Score (0-100) replaces staking requirements. Earned through successful past participations, KYC verification, community contributions, governance votes. Higher reputation = bigger allocation cap. No need to lock $50,000 in tokens.';
+  if (matches(['reputation', 'rep', 'reputacao', 'reputacion', '声誉', '信誉'])) {
+    return t('respReputation');
   }
 
-  if (q.includes('claim')) {
-    return 'To claim vested tokens: Dashboard → Positions → click any position with "Claim Available" → confirm transaction. Tokens appear in your wallet instantly. You can claim multiple times without losing the vesting schedule.';
+  if (matches(['claim', 'resgatar', 'reclamar', '领取', '提取'])) {
+    return t('respClaim');
   }
 
-  if (q.includes('launch') || q.includes('create')) {
-    return `To launch your project on Z-PAD: Click Create in the nav, follow the 5-step wizard (Info → Tokenomics → Sale → Review → Deploy), complete creator KYC (mandatory), my AI will pre-screen your contract. Launch fee: ${FEES.listingBnb} BNB + ${FEES.platformPct}% of raise. Takes ~30 min, no code required.`;
+  if (matches(['launch', 'create', 'lancar', 'criar', 'lanzar', 'crear', '启动', '发射', '创建'])) {
+    return t('respLaunch', {
+      listingBnb: FEES.listingBnb,
+      platformPct: FEES.platformPct,
+    });
   }
 
-  return "That's a great question. Z-PAD's edge comes from combining permissionless launches with institutional-grade vetting, fiat rails, and AI analysis. If you want specific guidance, try asking about a particular project, feature, or mechanism.";
+  return t('respDefault');
 }
 
 export function ZionFab() {
   const tz = useTranslations('zion');
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MSG]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const pathname = usePathname();
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Set initial message after mount so it uses the current locale
+  useEffect(() => {
+    setMessages([{ role: 'ai', text: tz('initialMsg') }]);
+  }, [tz]);
 
   useFocusTrap(dialogRef, open);
 
@@ -135,7 +161,10 @@ export function ZionFab() {
     setTimeout(
       () => {
         setTyping(false);
-        setMessages((m) => [...m, { role: 'ai', text: generateResponse(t, pathname) }]);
+        setMessages((m) => [
+          ...m,
+          { role: 'ai', text: generateResponse(t, pathname, tz as TFn, locale) },
+        ]);
       },
       800 + Math.random() * 600
     );
@@ -155,7 +184,7 @@ export function ZionFab() {
         )}
         style={!open ? { animation: 'glow-pulse 3s ease-in-out infinite' } : {}}
         type="button"
-        aria-label={open ? 'Close ZION AI' : 'Open ZION AI'}
+        aria-label={open ? tz('closeLabel') : tz('openLabel')}
         aria-expanded={open}
       >
         {open ? (
@@ -187,11 +216,10 @@ export function ZionFab() {
           aria-modal="true"
           aria-labelledby="zion-title"
         >
-
           {/* Header */}
           <div className="px-[18px] py-4 border-b border-white/10 flex items-center gap-3 bg-gradient-to-br from-cyan-500/5 to-violet-500/5">
             <div className="w-[38px] h-[38px] rounded-full overflow-hidden bg-[#040d24] border border-cyan-500/30 shadow-[0_0_12px_rgba(0,212,255,0.35)] shrink-0">
-              <Image src="/assets/zion-avatar.svg" alt="" width={38} height={38} className="w-full h-full object-cover"/>
+              <Image src="/assets/zion-avatar.svg" alt="" width={38} height={38} className="w-full h-full object-cover" />
             </div>
             <div className="flex-1 min-w-0">
               <div
@@ -209,7 +237,7 @@ export function ZionFab() {
               onClick={() => setOpen(false)}
               className="w-8 h-8 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-white/10 transition-all"
               type="button"
-              aria-label="Close"
+              aria-label={tz('closeLabel')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -233,8 +261,10 @@ export function ZionFab() {
                   )}
                 >
                   {m.role === 'ai' ? (
-                    <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover"/>
-                  ) : 'U'}
+                    <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover" />
+                  ) : (
+                    'U'
+                  )}
                 </div>
                 <div
                   className={cn(
@@ -251,7 +281,7 @@ export function ZionFab() {
             {typing && (
               <div className="flex gap-2.5">
                 <div className="w-7 h-7 rounded-full shrink-0 overflow-hidden bg-[#040d24] border border-cyan-500/30">
-                  <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover"/>
+                  <Image src="/assets/zion-avatar.svg" alt="" width={28} height={28} className="w-full h-full object-cover" />
                 </div>
                 <div className="bg-white/[0.04] border border-white/10 rounded-[14px] rounded-tl-[4px] px-3.5 py-3">
                   <div className="flex gap-1">
@@ -259,10 +289,7 @@ export function ZionFab() {
                       <span
                         key={i}
                         className="w-1.5 h-1.5 rounded-full bg-cyan-400"
-                        style={{
-                          animation: `pulse-dot 1.2s infinite`,
-                          animationDelay: `${delay}s`,
-                        }}
+                        style={{ animation: 'pulse-dot 1.2s infinite', animationDelay: `${delay}s` }}
                       />
                     ))}
                   </div>
@@ -273,7 +300,7 @@ export function ZionFab() {
 
           {/* Suggestions */}
           <div className="px-4 py-3 border-t border-white/10 flex flex-wrap gap-1.5">
-            {getSuggestions(pathname, tz).map((s) => (
+            {getSuggestions(pathname, tz as TFn).map((s) => (
               <button
                 key={s}
                 onClick={() => send(s)}
@@ -296,13 +323,13 @@ export function ZionFab() {
               }}
               placeholder={tz('placeholder')}
               className="flex-1 px-3.5 py-2.5 rounded-[10px] bg-white/[0.02] border border-white/10 text-white text-[0.88rem] outline-none focus:border-cyan-500 focus:bg-cyan-500/[0.03]"
-              aria-label="Message ZION AI"
+              aria-label={tz('msgLabel')}
             />
             <button
               onClick={() => send(input)}
               className="w-10 h-10 rounded-[10px] bg-gradient-to-br from-cyan-500 to-blue-500 text-[#021628] flex items-center justify-center hover:brightness-110 hover:scale-105 transition-all shrink-0"
               type="button"
-              aria-label="Send"
+              aria-label={tz('sendLabel')}
             >
               <Send className="w-[18px] h-[18px]" />
             </button>
