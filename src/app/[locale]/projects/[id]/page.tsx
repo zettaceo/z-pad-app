@@ -113,10 +113,10 @@ export default async function ProjectDetailPage({ params }: Props) {
                 </div>
               </div>
               <div className="flex gap-2">
-                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Share">
+                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label={pd('share')}>
                   <Share2 className="w-[18px] h-[18px]" />
                 </button>
-                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label="Website">
+                <button className="w-10 h-10 rounded-md bg-white/[0.03] border border-white/10 text-white/70 flex items-center justify-center hover:bg-cyan-500/8 hover:border-cyan-500/35 hover:text-cyan-400 transition-all" aria-label={pd('viewWebsite')}>
                   <ExternalLink className="w-[18px] h-[18px]" />
                 </button>
               </div>

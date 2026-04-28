@@ -1,6 +1,8 @@
+import { getTranslations } from 'next-intl/server';
 import { TICKER_ITEMS } from '@/lib/mock-data';
 
-export function Ticker() {
+export async function Ticker() {
+  const t = await getTranslations('ticker');
   // Duplicate items for seamless infinite scroll
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
@@ -8,7 +10,7 @@ export function Ticker() {
     <div className="fixed top-0 left-0 right-0 h-8 z-[51] bg-gradient-to-r from-bg-000 via-bg-050 to-bg-000 border-b border-white/10 overflow-hidden flex items-center text-[0.75rem] font-[family-name:var(--font-mono)]">
       <div className="px-3 py-0 h-full flex items-center gap-1.5 font-bold text-[0.65rem] uppercase tracking-[0.1em] text-cyan-400 border-r border-white/10 whitespace-nowrap bg-cyan-500/5 shrink-0">
         <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#00e676] animate-pulse-dot" />
-        Live
+        {t('live')}
       </div>
       <div
         className="flex gap-8 whitespace-nowrap pl-8"

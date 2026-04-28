@@ -281,7 +281,7 @@ export function Nav() {
 
             {/* Mobile language switcher */}
             <div className="mt-4 pt-4 border-t border-white/10">
-              <p className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2 px-1">Language</p>
+              <p className="text-[0.7rem] text-white/40 uppercase tracking-wider mb-2 px-1">{t('langLabel')}</p>
               <div className="flex gap-2">
                 {routing.locales.map((loc) => (
                   <button

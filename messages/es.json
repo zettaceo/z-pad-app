@@ -24,7 +24,8 @@
     "network": "BSC",
     "new": "NUEVO",
     "pods": "Pods",
-    "backtest": "Backtest"
+    "backtest": "Backtest",
+    "langLabel": "Idioma"
   },
   "home": {
     "badge1": "En Vivo en 7 Cadenas",
@@ -345,7 +346,12 @@
     "viewProjects": "Ver Proyectos",
     "cancelAction": "Cancelar",
     "nextAction": "Siguiente",
-    "backAction": "Volver"
+    "backAction": "Volver",
+    "toastValidFailed": "Validación fallida",
+    "toastAcceptTerms": "Por favor, acepta los términos",
+    "toastAiCheck": "ZION AI ejecutando comprobación final del contrato...",
+    "toastDeploying": "Implementando contrato inteligente...",
+    "toastDeployed": "¡Proyecto desplegado con éxito!"
   },
   "terms": {
     "pageTitle": "Terminos de Servicio",
@@ -439,7 +445,12 @@
     "uploadedLabel": "Subido",
     "removeLabel": "Eliminar",
     "fileHint": "JPG, PNG o PDF — máx. 10 MB",
-    "poweredBy": "Impulsado por Veriff · Cifrado extremo a extremo · Conforme con GDPR"
+    "poweredBy": "Impulsado por Veriff · Cifrado extremo a extremo · Conforme con GDPR",
+    "phFirstName": "Juan",
+    "phLastName": "García",
+    "phAddress": "Calle Mayor 123",
+    "phCity": "Madrid",
+    "phZip": "28001"
   },
   "referral": {
     "breadcrumb": "Programa de Referidos",
@@ -472,7 +483,8 @@
     "tier1Reward": "2% de la inversión",
     "tier2Reward": "2.5% de la inversión",
     "tier3Reward": "3% de la inversión",
-    "tier4Reward": "4% + insignia NFT"
+    "tier4Reward": "4% + insignia NFT",
+    "copied": "¡Copiado al portapapeles!"
   },
   "pods": {
     "breadcrumb": "Pods de Inversión",
@@ -517,7 +529,8 @@
     "podStats": "Estadísticas del Pod",
     "totalMembers": "Miembros Totales",
     "bnbPooled": "BNB Reunido",
-    "avgBoost": "Boost Promedio"
+    "avgBoost": "Boost Promedio",
+    "podNamePlaceholder": "p. ej. Alpha Squad"
   },
   "backtest": {
     "breadcrumb": "Motor de Backtest",
@@ -760,5 +773,28 @@
     "n5Body": "Tu posición en ZETTA ahora vale $4,875 — $2,375 más que tu inversión.",
     "n6Title": "Misión completada: Primera Inversión",
     "n6Body": "¡Ganaste +500 XP y +50 Z por tu primera inversión en Z-PAD!"
+  },
+  "calc": {
+    "title": "Calculadora de Inversión",
+    "youReceive": "Recibirás",
+    "investment": "Inversión",
+    "platformFee": "Comisión de plataforma ({feeRate}%)",
+    "netInvested": "Inversión neta",
+    "vestingSchedule": "Calendario de vesting",
+    "atTge": "En TGE (desbloqueo)",
+    "linearVesting": "Vesting lineal",
+    "stakePromo": "Haz staking de {minZ}+ Z para reducir la comisión a {stakerPct}%",
+    "maxWallet": "Máx. {max} {currency} por billetera",
+    "minBuy": "Mín. {min} {currency}"
+  },
+  "alloc": {
+    "title": "Tu Asignación",
+    "maxCap": "Límite máximo de asignación",
+    "ofMax": "de {max} {currency} máx.",
+    "zHeld": "Z retenido",
+    "stakeMore": "Haz staking de {amount} Z más → desbloquea {tier} (límite de {alloc} {currency})"
+  },
+  "ticker": {
+    "live": "En Vivo"
   }
 }

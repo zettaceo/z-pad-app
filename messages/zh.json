@@ -24,7 +24,8 @@
     "network": "BSC",
     "new": "新",
     "pods": "集资池",
-    "backtest": "回测"
+    "backtest": "回测",
+    "langLabel": "语言"
   },
   "home": {
     "badge1": "支持7条公链",
@@ -345,7 +346,12 @@
     "viewProjects": "查看项目",
     "cancelAction": "取消",
     "nextAction": "下一步",
-    "backAction": "返回"
+    "backAction": "返回",
+    "toastValidFailed": "验证失败",
+    "toastAcceptTerms": "请接受条款",
+    "toastAiCheck": "ZION AI正在运行最终合约预检...",
+    "toastDeploying": "正在部署智能合约...",
+    "toastDeployed": "项目部署成功！"
   },
   "terms": {
     "pageTitle": "服务条款",
@@ -439,7 +445,12 @@
     "uploadedLabel": "已上传",
     "removeLabel": "删除",
     "fileHint": "JPG、PNG 或 PDF — 最大 10 MB",
-    "poweredBy": "由 Veriff 提供 · 端对端加密 · 符合 GDPR"
+    "poweredBy": "由 Veriff 提供 · 端对端加密 · 符合 GDPR",
+    "phFirstName": "张",
+    "phLastName": "伟",
+    "phAddress": "北京路123号",
+    "phCity": "上海",
+    "phZip": "200001"
   },
   "referral": {
     "breadcrumb": "推荐计划",
@@ -472,7 +483,8 @@
     "tier1Reward": "投资额的2%",
     "tier2Reward": "投资额的2.5%",
     "tier3Reward": "投资额的3%",
-    "tier4Reward": "4% + NFT 徽章"
+    "tier4Reward": "4% + NFT 徽章",
+    "copied": "已复制到剪贴板！"
   },
   "pods": {
     "breadcrumb": "投资组合",
@@ -517,7 +529,8 @@
     "podStats": "组合统计",
     "totalMembers": "总成员数",
     "bnbPooled": "BNB 总池",
-    "avgBoost": "平均加成"
+    "avgBoost": "平均加成",
+    "podNamePlaceholder": "例如：Alpha Squad"
   },
   "backtest": {
     "breadcrumb": "回测引擎",
@@ -760,5 +773,28 @@
     "n5Body": "您的ZETTA仓位现值$4,875——比投资额多$2,375。",
     "n6Title": "任务完成：首次投资",
     "n6Body": "您在Z-PAD的首次投资赚取了+500 XP和+50 Z！"
+  },
+  "calc": {
+    "title": "投资计算器",
+    "youReceive": "您将获得",
+    "investment": "投资",
+    "platformFee": "平台费用 ({feeRate}%)",
+    "netInvested": "净投资",
+    "vestingSchedule": "归属时间表",
+    "atTge": "TGE时解锁",
+    "linearVesting": "线性归属",
+    "stakePromo": "质押{minZ}+ Z可将费率降至{stakerPct}%",
+    "maxWallet": "每个钱包最多 {max} {currency}",
+    "minBuy": "最少 {min} {currency}"
+  },
+  "alloc": {
+    "title": "您的分配",
+    "maxCap": "最大分配上限",
+    "ofMax": "上限 {max} {currency}",
+    "zHeld": "持有 Z",
+    "stakeMore": "再质押{amount}个Z → 解锁{tier}（上限{alloc} {currency}）"
+  },
+  "ticker": {
+    "live": "实时"
   }
 }

@@ -200,7 +200,7 @@ export default function KycPage() {
                       type="text"
                       value={form.firstName}
                       onChange={e => update('firstName', e.target.value)}
-                      placeholder="John"
+                      placeholder={t('phFirstName')}
                       className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 text-white text-[0.9rem] outline-none focus:border-cyan-500 transition-colors"
                     />
                   </div>
@@ -210,7 +210,7 @@ export default function KycPage() {
                       type="text"
                       value={form.lastName}
                       onChange={e => update('lastName', e.target.value)}
-                      placeholder="Smith"
+                      placeholder={t('phLastName')}
                       className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 text-white text-[0.9rem] outline-none focus:border-cyan-500 transition-colors"
                     />
                   </div>
@@ -255,7 +255,7 @@ export default function KycPage() {
                     type="text"
                     value={form.address}
                     onChange={e => update('address', e.target.value)}
-                    placeholder="123 Main Street"
+                    placeholder={t('phAddress')}
                     className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 text-white text-[0.9rem] outline-none focus:border-cyan-500 transition-colors"
                   />
                 </div>
@@ -263,12 +263,12 @@ export default function KycPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[0.76rem] text-white/50 uppercase tracking-wider mb-1.5 font-semibold">{t('fieldCity')}</label>
-                    <input type="text" value={form.city} onChange={e => update('city', e.target.value)} placeholder="São Paulo"
+                    <input type="text" value={form.city} onChange={e => update('city', e.target.value)} placeholder={t('phCity')}
                       className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 text-white text-[0.9rem] outline-none focus:border-cyan-500 transition-colors" />
                   </div>
                   <div>
                     <label className="block text-[0.76rem] text-white/50 uppercase tracking-wider mb-1.5 font-semibold">{t('fieldZip')}</label>
-                    <input type="text" value={form.zip} onChange={e => update('zip', e.target.value)} placeholder="01310-100"
+                    <input type="text" value={form.zip} onChange={e => update('zip', e.target.value)} placeholder={t('phZip')}
                       className="w-full px-3.5 py-2.5 rounded-[10px] bg-white/[0.03] border border-white/10 text-white text-[0.9rem] outline-none focus:border-cyan-500 transition-colors" />
                   </div>
                 </div>

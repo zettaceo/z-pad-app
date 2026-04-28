@@ -24,7 +24,8 @@
     "network": "BSC",
     "new": "NEW",
     "pods": "Pods",
-    "backtest": "Backtest"
+    "backtest": "Backtest",
+    "langLabel": "Language"
   },
   "home": {
     "badge1": "Live on 7 Chains",
@@ -345,7 +346,12 @@
     "viewProjects": "View Projects",
     "cancelAction": "Cancel",
     "nextAction": "Next",
-    "backAction": "Back"
+    "backAction": "Back",
+    "toastValidFailed": "Validation failed",
+    "toastAcceptTerms": "Please accept the terms",
+    "toastAiCheck": "ZION AI running final contract pre-check...",
+    "toastDeploying": "Deploying smart contract...",
+    "toastDeployed": "Project deployed successfully!"
   },
   "terms": {
     "pageTitle": "Terms of Service",
@@ -439,7 +445,12 @@
     "uploadedLabel": "Uploaded",
     "removeLabel": "Remove",
     "fileHint": "JPG, PNG or PDF — max 10 MB",
-    "poweredBy": "Powered by Veriff · Encrypted end-to-end · GDPR compliant"
+    "poweredBy": "Powered by Veriff · Encrypted end-to-end · GDPR compliant",
+    "phFirstName": "John",
+    "phLastName": "Smith",
+    "phAddress": "123 Main Street",
+    "phCity": "New York",
+    "phZip": "10001"
   },
   "referral": {
     "breadcrumb": "Referral Program",
@@ -472,7 +483,8 @@
     "tier1Reward": "2% of invest",
     "tier2Reward": "2.5% of invest",
     "tier3Reward": "3% of invest",
-    "tier4Reward": "4% + NFT badge"
+    "tier4Reward": "4% + NFT badge",
+    "copied": "Copied to clipboard!"
   },
   "pods": {
     "breadcrumb": "Investment Pods",
@@ -517,7 +529,8 @@
     "podStats": "Pod Stats",
     "totalMembers": "Total Members",
     "bnbPooled": "BNB Pooled",
-    "avgBoost": "Avg Boost"
+    "avgBoost": "Avg Boost",
+    "podNamePlaceholder": "e.g. Alpha Squad"
   },
   "backtest": {
     "breadcrumb": "Backtest Engine",
@@ -760,5 +773,28 @@
     "n5Body": "Your ZETTA position is now worth $4,875 — up $2,375 from your investment.",
     "n6Title": "Quest completed: First Investment",
     "n6Body": "You earned +500 XP and +50 Z for your first investment on Z-PAD!"
+  },
+  "calc": {
+    "title": "Investment Calculator",
+    "youReceive": "You receive",
+    "investment": "Investment",
+    "platformFee": "Platform fee ({feeRate}%)",
+    "netInvested": "Net invested",
+    "vestingSchedule": "Vesting schedule",
+    "atTge": "At TGE (unlock)",
+    "linearVesting": "Linear vesting",
+    "stakePromo": "Stake {minZ}+ Z to reduce fee to {stakerPct}%",
+    "maxWallet": "Max {max} {currency} per wallet",
+    "minBuy": "Min {min} {currency}"
+  },
+  "alloc": {
+    "title": "Your Allocation",
+    "maxCap": "Max allocation cap",
+    "ofMax": "of {max} {currency} max",
+    "zHeld": "Z held",
+    "stakeMore": "Stake {amount} more Z → unlock {tier} ({alloc} {currency} cap)"
+  },
+  "ticker": {
+    "live": "Live"
   }
 }

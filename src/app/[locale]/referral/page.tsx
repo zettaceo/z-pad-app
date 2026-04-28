@@ -48,7 +48,7 @@ export default function ReferralPage() {
   const copy = (text: string) => {
     navigator.clipboard.writeText(text).catch(() => {});
     setCopied(true);
-    toast.success('Copied to clipboard!');
+    toast.success(t('copied'));
     setTimeout(() => setCopied(false), 2000);
   };
 

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { Calculator, Info } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/cn';
 import { FEES } from '@/config/fees';
 
@@ -18,6 +19,7 @@ interface Props {
 const PRESETS = [0.1, 0.5, 1, 5];
 
 export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, symbol, vesting, status }: Props) {
+  const t = useTranslations('calc');
   const [amount, setAmount] = useState('');
   const [isStaker] = useState(false); // future: pull from wallet store
 
@@ -51,7 +53,7 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
           <Calculator className="w-3.5 h-3.5 text-cyan-400" />
         </div>
         <span className="font-[family-name:var(--font-display)] font-bold text-[0.95rem]">
-          Investment Calculator
+          {t('title')}
         </span>
       </div>
 
@@ -98,7 +100,7 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
 
       {(overMax || underMin) && (
         <p className="text-[0.76rem] text-red-400 mb-2">
-          {overMax ? `Max ${maxBuy} ${currency} per wallet` : `Min ${minBuy} ${currency}`}
+          {overMax ? t('maxWallet', { max: maxBuy, currency }) : t('minBuy', { min: minBuy, currency })}
         </p>
       )}
 
@@ -107,7 +109,7 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
         <div className="mt-3 rounded-[10px] bg-gradient-to-br from-cyan-500/8 to-blue-500/5 border border-cyan-500/20 p-4 space-y-3">
           {/* Token amount — hero */}
           <div className="text-center pb-3 border-b border-white/8">
-            <div className="text-[0.7rem] text-white/50 uppercase tracking-wider mb-1">You receive</div>
+            <div className="text-[0.7rem] text-white/50 uppercase tracking-wider mb-1">{t('youReceive')}</div>
             <div className="font-[family-name:var(--font-display)] text-[1.8rem] font-extrabold tracking-[-0.03em] text-cyan-300">
               {Math.floor(calc.tokens).toLocaleString()}
             </div>
@@ -117,18 +119,18 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
           {/* Fee breakdown */}
           <div className="space-y-1.5 text-[0.8rem]">
             <div className="flex justify-between">
-              <span className="text-white/50">Investment</span>
+              <span className="text-white/50">{t('investment')}</span>
               <span className="font-[family-name:var(--font-mono)]">{parseFloat(amount).toFixed(3)} {currency}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-white/50 flex items-center gap-1">
-                Platform fee ({feeRate}%)
+                {t('platformFee', { feeRate })}
                 {isStaker && <span className="text-cyan-400 text-[0.7rem]">★ staker</span>}
               </span>
               <span className="font-[family-name:var(--font-mono)] text-red-400/80">−{calc.fee.toFixed(4)} {currency}</span>
             </div>
             <div className="flex justify-between font-semibold border-t border-white/8 pt-1.5">
-              <span className="text-white/70">Net invested</span>
+              <span className="text-white/70">{t('netInvested')}</span>
               <span className="font-[family-name:var(--font-mono)] text-green-400">{calc.net.toFixed(4)} {currency}</span>
             </div>
           </div>
@@ -137,14 +139,14 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
           {vesting && calc.tgeTokens < calc.tokens && (
             <div className="pt-2 border-t border-white/8 space-y-1 text-[0.78rem]">
               <div className="flex items-center gap-1 text-white/40 uppercase tracking-wider text-[0.68rem] mb-1.5">
-                <Info className="w-3 h-3" /> Vesting schedule
+                <Info className="w-3 h-3" /> {t('vestingSchedule')}
               </div>
               <div className="flex justify-between">
-                <span className="text-white/50">At TGE (unlock)</span>
+                <span className="text-white/50">{t('atTge')}</span>
                 <span className="font-[family-name:var(--font-mono)] text-cyan-400">{Math.floor(calc.tgeTokens).toLocaleString()} {symbol}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/50">Linear vesting</span>
+                <span className="text-white/50">{t('linearVesting')}</span>
                 <span className="font-[family-name:var(--font-mono)]">{Math.floor(calc.vestingTokens).toLocaleString()} {symbol}</span>
               </div>
               <div className="text-white/40 text-[0.72rem] mt-1">{vesting}</div>
@@ -156,7 +158,7 @@ export function InvestmentCalculator({ ratePerBase, minBuy, maxBuy, currency, sy
       {!isStaker && (
         <p className="mt-2.5 text-[0.73rem] text-white/40 flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/40 shrink-0"/>
-          Stake 10,000+ Z to reduce fee to {FEES.stakerPlatformPct}%
+          {t('stakePromo', { minZ: FEES.stakerMinZ.toLocaleString(), stakerPct: FEES.stakerPlatformPct })}
         </p>
       )}
     </div>

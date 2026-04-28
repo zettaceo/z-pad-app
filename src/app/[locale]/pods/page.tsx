@@ -294,7 +294,7 @@ export default function PodsPage() {
                   <label className="block text-[0.74rem] text-white/50 uppercase tracking-wider mb-2">{t('fieldPodName')}</label>
                   <input
                     className="w-full bg-white/[0.03] border border-white/10 rounded-[10px] px-4 py-2.5 text-[0.9rem] outline-none focus:border-cyan-500/50 transition-colors"
-                    placeholder="e.g. Alpha Squad"
+                    placeholder={t('podNamePlaceholder')}
                     value={podName}
                     onChange={e => setPodName(e.target.value)}
                   />

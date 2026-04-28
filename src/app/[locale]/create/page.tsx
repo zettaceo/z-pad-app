@@ -120,9 +120,9 @@ export default function CreatePage() {
     } catch (err) {
       if (err instanceof ZodError) {
         const first = err.errors[0];
-        toast.error(first?.message ?? 'Validation failed');
+        toast.error(first?.message ?? t('toastValidFailed'));
       } else {
-        toast.error('Validation failed');
+        toast.error(t('toastValidFailed'));
       }
       return false;
     }
@@ -132,14 +132,14 @@ export default function CreatePage() {
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   const deploy = () => {
-    if (!form.terms) { toast.error('Please accept the terms'); return; }
+    if (!form.terms) { toast.error(t('toastAcceptTerms')); return; }
     if (deploying) return; // idempotent: prevent double-click
     setDeploying(true);
-    toast.loading('ZION AI running final contract pre-check...', { id: 'deploy' });
+    toast.loading(t('toastAiCheck'), { id: 'deploy' });
     setTimeout(() => {
-      toast.loading('Deploying smart contract...', { id: 'deploy' });
+      toast.loading(t('toastDeploying'), { id: 'deploy' });
       setTimeout(() => {
-        toast.success('Project deployed successfully!', { id: 'deploy' });
+        toast.success(t('toastDeployed'), { id: 'deploy' });
         setStep(5);
         setDeploying(false);
       }, 1400);
