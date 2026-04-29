@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { Share2, ExternalLink, Shield, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Share2, ExternalLink, Shield, CheckCircle, AlertTriangle, Lock, Twitter } from 'lucide-react';
 import { getTranslations, getLocale } from 'next-intl/server';
 
 import { PROJECTS } from '@/lib/mock-data';
@@ -244,6 +244,77 @@ export default async function ProjectDetailPage({ params }: Props) {
                 )}
               </div>
 
+              {/* Market Metrics + Tokenomics Score */}
+              {p.marketCap && (
+                <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
+                  <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+                    <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] font-bold">{pd('marketMetrics')}</h3>
+                    {p.tokenomicsScore != null && (() => {
+                      const s = p.tokenomicsScore!;
+                      const [color, label] = s >= 95 ? ['text-cyan-400 border-cyan-500/40 bg-cyan-500/10', pd('scoreExcellent')]
+                        : s >= 85 ? ['text-green-400 border-green-500/40 bg-green-500/10', pd('scoreGreat')]
+                        : s >= 70 ? ['text-blue-400 border-blue-500/40 bg-blue-500/10', pd('scoreGood')]
+                        : s >= 55 ? ['text-gold-400 border-gold-500/40 bg-gold-500/10', pd('scoreFair')]
+                        : ['text-red-400 border-red-500/40 bg-red-500/10', pd('scorePoor')];
+                      return (
+                        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-[0.78rem] font-bold ${color}`}>
+                          <span className="font-[family-name:var(--font-mono)]">{s}</span>
+                          <span>·</span>
+                          <span>{label}</span>
+                          <span className="text-[0.68rem] font-normal opacity-70">{pd('tokenomicsScore')}</span>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      { l: pd('initialMc'), v: fmt.currency(p.marketCap.initial, { compact: true }) },
+                      { l: pd('circulatingMc'), v: fmt.currency(p.marketCap.circulating, { compact: true }) },
+                      { l: pd('fdvMc'), v: fmt.currency(p.marketCap.fdv, { compact: true }) },
+                    ].map(({ l, v }) => (
+                      <div key={l} className="p-3.5 rounded-[10px] bg-white/[0.02] border border-white/5 text-center">
+                        <div className="text-[0.7rem] text-white/50 uppercase tracking-wider mb-1.5 font-semibold">{l}</div>
+                        <div className="font-[family-name:var(--font-mono)] font-bold text-[1.05rem]">{v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {(p.saleRate || p.listingRate) && (
+                    <div className="mt-3 flex flex-col gap-2">
+                      {p.saleRate != null && p.saleRate > 0 && (
+                        <div className="flex justify-between p-3 rounded-[10px] bg-white/[0.02] border border-white/5 text-[0.84rem]">
+                          <span className="text-white/50">{pd('saleRate')} {currency}</span>
+                          <span className="font-[family-name:var(--font-mono)] font-semibold">{fmt.number(p.saleRate)} {p.symbol}</span>
+                        </div>
+                      )}
+                      {p.listingRate != null && p.listingRate > 0 && (
+                        <div className="flex justify-between p-3 rounded-[10px] bg-white/[0.02] border border-white/5 text-[0.84rem]">
+                          <span className="text-white/50">{pd('listingRate')} {currency}</span>
+                          <span className="font-[family-name:var(--font-mono)] font-semibold">{fmt.number(p.listingRate)} {p.symbol}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between p-3 rounded-[10px] bg-white/[0.02] border border-white/5 text-[0.84rem]">
+                        <span className="text-white/50">{pd('totalContributors')}</span>
+                        <span className="font-[family-name:var(--font-mono)] font-semibold">{fmt.number(p.participants)}</span>
+                      </div>
+                      {p.participants > 0 && p.raised > 0 && (
+                        <div className="flex justify-between p-3 rounded-[10px] bg-white/[0.02] border border-white/5 text-[0.84rem]">
+                          <span className="text-white/50">{pd('avgContribution')}</span>
+                          <span className="font-[family-name:var(--font-mono)] font-semibold">{(p.raised / p.participants / 600).toFixed(4)} {currency}</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between p-3 rounded-[10px] bg-cyan-500/[0.04] border border-cyan-500/15 text-[0.84rem]">
+                        <span className="text-white/50">{pd('myContribution')}</span>
+                        <span className="font-[family-name:var(--font-mono)] font-semibold">0 {currency}</span>
+                      </div>
+                      <div className="flex justify-between p-3 rounded-[10px] bg-cyan-500/[0.04] border border-cyan-500/15 text-[0.84rem]">
+                        <span className="text-white/50">{pd('myTokens')}</span>
+                        <span className="font-[family-name:var(--font-mono)] font-semibold">0 {p.symbol}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Social Sentiment + Whale Tracker */}
               <SentimentOracle projectId={p.id} aiScore={p.aiScore} status={p.status} />
 
@@ -298,6 +369,90 @@ export default async function ProjectDetailPage({ params }: Props) {
                   ))}
                 </div>
               </div>
+
+              {/* Token Locks */}
+              {p.locks && p.locks.length > 0 && (
+                <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] font-bold mb-4 flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-cyan-400" />
+                    {pd('tokenLocks')}
+                  </h3>
+                  <div className="flex flex-col gap-3">
+                    {p.locks.map((lock, i) => {
+                      const totalMs = lock.unlocksAt - lock.lockedAt;
+                      const elapsedMs = Date.now() - lock.lockedAt;
+                      const progressPct = Math.min(100, Math.max(0, (elapsedMs / totalMs) * 100));
+                      const lockDate = new Date(lock.lockedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                      const unlockDate = new Date(lock.unlocksAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+                      return (
+                        <div key={i} className="p-4 rounded-[12px] bg-white/[0.02] border border-white/8">
+                          <div className="flex items-start justify-between gap-3 mb-3">
+                            <div>
+                              <div className="font-semibold text-[0.9rem]">{lock.label}</div>
+                              <div className="text-[0.76rem] text-white/50 mt-0.5">{lock.purpose}</div>
+                            </div>
+                            <div className="font-[family-name:var(--font-mono)] font-bold text-cyan-400 text-[0.88rem] shrink-0">
+                              {lock.pct}%
+                            </div>
+                          </div>
+                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden mb-2">
+                            <div
+                              className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                              style={{ width: `${progressPct}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between text-[0.72rem] text-white/40">
+                            <span>{pd('lockLockedOn')} {lockDate}</span>
+                            <span className="text-cyan-400/70">{lock.vested}% {pd('lockVested')}</span>
+                            <span>{pd('lockUnlocksOn')} {unlockDate}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Team */}
+              {p.team && p.team.length > 0 && (
+                <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
+                  <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] font-bold mb-4">{pd('teamSection')}</h3>
+                  <div className="flex flex-col gap-3">
+                    {p.team.map((member, i) => (
+                      <div key={i} className="flex items-center gap-4 p-4 rounded-[12px] bg-white/[0.02] border border-white/8 hover:border-white/15 transition-colors">
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-[0.8rem] font-extrabold text-white shrink-0 shadow-[0_0_16px_rgba(0,212,255,0.25)]">
+                          {member.avatar}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-[0.92rem]">{member.name}</span>
+                            {i === 0 && (
+                              <span className="text-[0.62rem] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/25 font-bold uppercase">
+                                {pd('ownerLabel')}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-[0.76rem] text-white/50 mt-0.5">{member.role}</div>
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <CheckCircle className="w-3 h-3 text-green-400 shrink-0" />
+                            <span className="font-[family-name:var(--font-mono)] text-[0.72rem] text-cyan-400">{member.address}</span>
+                          </div>
+                        </div>
+                        {member.twitter && (
+                          <a
+                            href={`https://twitter.com/${member.twitter.replace('@', '')}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-8 h-8 rounded-[8px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white/40 hover:text-[#1d9bf0] hover:border-[#1d9bf0]/30 transition-colors shrink-0"
+                          >
+                            <Twitter className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Sticky buy panel */}

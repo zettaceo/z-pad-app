@@ -23,6 +23,29 @@ export interface Tokenomics {
   marketing: number;
 }
 
+export interface TokenLock {
+  label: string;
+  purpose: string;
+  pct: number;
+  lockedAt: number;
+  unlocksAt: number;
+  vested: number;
+}
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  address: string;
+  avatar: string;
+  twitter?: string;
+}
+
+export interface MarketCap {
+  initial: number;
+  circulating: number;
+  fdv: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -57,6 +80,12 @@ export interface Project {
   aiStrengths: string[];
   aiFlags: string[];
   tokenomics: Tokenomics;
+  tokenomicsScore?: number;
+  marketCap?: MarketCap;
+  saleRate?: number;
+  listingRate?: number;
+  locks?: TokenLock[];
+  team?: TeamMember[];
   vesting?: string;
 }
 

@@ -23,7 +23,21 @@ export const PROJECTS: Project[] = [
     aiStrengths: ['100-year LP lock', 'Cyberscope audited — 0 critical issues', 'Verified team with 4+ years on-chain history', 'Anti-bot protection', 'Multi-sig treasury'],
     aiFlags: [],
     tokenomics: { supply: '1,000,000,000', presale: 20, liquidity: 70, team: 5, marketing: 5 },
+    tokenomicsScore: 96,
+    marketCap: { initial: 420000, circulating: 210000, fdv: 2100000 },
+    saleRate: 125000,
+    listingRate: 100000,
     vesting: 'TGE: 25% | 3 months linear',
+    locks: [
+      { label: 'Team Tokens', purpose: '5% for Team', pct: 5, lockedAt: now - 12 * d, unlocksAt: now + 353 * d, vested: 3 },
+      { label: 'Marketing', purpose: '5% for Marketing', pct: 5, lockedAt: now - 12 * d, unlocksAt: now + 168 * d, vested: 7 },
+      { label: 'Liquidity', purpose: '70% Locked LP', pct: 70, lockedAt: now - 12 * d, unlocksAt: now + 36500 * d, vested: 0 },
+    ],
+    team: [
+      { name: 'Marcus Oliveira', role: 'CEO & Founder', address: '0x3A4c...f82E', avatar: 'MO', twitter: '@marcus_zetta' },
+      { name: 'Sarah Chen', role: 'CTO', address: '0x7B2d...a91F', avatar: 'SC', twitter: '@sarah_tech' },
+      { name: 'Diego Reyes', role: 'Head of DeFi', address: '0x1E5f...c34D', avatar: 'DR' },
+    ],
   },
   {
     id: 'ai-oracle', name: 'AI Oracle', symbol: 'AIO', logo: '/assets/projects/ai-oracle.svg',
@@ -42,6 +56,19 @@ export const PROJECTS: Project[] = [
     aiStrengths: ['Trail of Bits audit (elite)', 'Team from Anthropic & OpenAI', 'Bonding curve (anti-bot)', '85% liquidity', 'Zero pre-mine'],
     aiFlags: [],
     tokenomics: { supply: '1,000,000,000', presale: 10, liquidity: 85, team: 3, marketing: 2 },
+    tokenomicsScore: 98,
+    marketCap: { initial: 280000, circulating: 168000, fdv: 2800000 },
+    saleRate: 28000,
+    listingRate: 22400,
+    locks: [
+      { label: 'Team Tokens', purpose: '3% for Team', pct: 3, lockedAt: now - d, unlocksAt: now + 364 * d, vested: 0 },
+      { label: 'Liquidity', purpose: '85% Locked LP', pct: 85, lockedAt: now - d, unlocksAt: now + 36500 * d, vested: 0 },
+      { label: 'Marketing', purpose: '2% Marketing Reserve', pct: 2, lockedAt: now - d, unlocksAt: now + 180 * d, vested: 0 },
+    ],
+    team: [
+      { name: 'Alex Kim', role: 'CEO (ex-Anthropic)', address: '0xAA2b...7F1C', avatar: 'AK', twitter: '@alexkim_ai' },
+      { name: 'Priya Nair', role: 'Chief AI Officer', address: '0x8C3e...2B4D', avatar: 'PN', twitter: '@priya_oracle' },
+    ],
   },
   {
     id: 'pixelverse', name: 'PixelVerse', symbol: 'PIXV', logo: '/assets/projects/pixelverse.svg',
@@ -60,6 +87,20 @@ export const PROJECTS: Project[] = [
     aiStrengths: ['LBP (anti-whale)', 'Team from Blizzard/Riot', 'Cyberscope audit', '150k+ Discord'],
     aiFlags: [],
     tokenomics: { supply: '1,500,000,000', presale: 15, liquidity: 70, team: 10, marketing: 5 },
+    tokenomicsScore: 89,
+    marketCap: { initial: 960000, circulating: 640000, fdv: 6400000 },
+    saleRate: 0,
+    listingRate: 0,
+    locks: [
+      { label: 'Team Tokens', purpose: '10% for Team', pct: 10, lockedAt: now - 3 * d, unlocksAt: now + 362 * d, vested: 1 },
+      { label: 'Marketing', purpose: '5% Marketing', pct: 5, lockedAt: now - 3 * d, unlocksAt: now + 177 * d, vested: 2 },
+      { label: 'Liquidity', purpose: '70% Locked LP', pct: 70, lockedAt: now - 3 * d, unlocksAt: now + 36500 * d, vested: 0 },
+    ],
+    team: [
+      { name: 'Jordan Blake', role: 'Game Director (ex-Blizzard)', address: '0x5F9a...1C8E', avatar: 'JB', twitter: '@jordan_pixel' },
+      { name: 'Mei Zhang', role: 'Lead Engineer', address: '0x2D4c...8A3F', avatar: 'MZ' },
+      { name: 'Carlos Vega', role: 'Art Director (ex-Riot)', address: '0x9E1b...5D2A', avatar: 'CV', twitter: '@carlos_art' },
+    ],
   },
   {
     id: 'metavault', name: 'MetaVault Finance', symbol: 'MVT', logo: '/assets/projects/metavault.svg',
