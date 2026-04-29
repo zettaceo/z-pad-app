@@ -305,11 +305,25 @@ export default function CreatePage() {
                         {total}% / 100%
                       </div>
                     </div>
-                    <div className="h-7 rounded-[10px] overflow-hidden flex border border-white/10">
-                      {Number(form.presale) > 0 && <div className="bg-cyan-500 flex items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: form.presale }}>{form.presale}%</div>}
-                      {Number(form.liquidity) > 0 && <div className="bg-blue-500 flex items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: form.liquidity }}>{form.liquidity}%</div>}
-                      {Number(form.team) > 0 && <div className="bg-gold-500 flex items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: form.team }}>{form.team}%</div>}
-                      {Number(form.marketing) > 0 && <div className="bg-violet-500 flex items-center justify-center text-[0.7rem] font-bold text-white" style={{ flex: form.marketing }}>{form.marketing}%</div>}
+                    <div className="w-full h-2.5 rounded-full overflow-hidden flex mb-2">
+                      {Number(form.presale) > 0   && <div className="bg-cyan-500"   style={{ width: `${form.presale}%` }} />}
+                      {Number(form.liquidity) > 0  && <div className="bg-blue-500"   style={{ width: `${form.liquidity}%` }} />}
+                      {Number(form.team) > 0       && <div className="bg-amber-400"  style={{ width: `${form.team}%` }} />}
+                      {Number(form.marketing) > 0  && <div className="bg-violet-500" style={{ width: `${form.marketing}%` }} />}
+                    </div>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                      {[
+                        { color: 'bg-cyan-500',   label: t('presaleField'),   val: form.presale },
+                        { color: 'bg-blue-500',   label: t('liquidityField'), val: form.liquidity },
+                        { color: 'bg-amber-400',  label: t('teamField'),      val: form.team },
+                        { color: 'bg-violet-500', label: t('marketingField'), val: form.marketing },
+                      ].map((item) => (
+                        <div key={item.label} className="flex items-center gap-2 text-[0.74rem]">
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${item.color}`} />
+                          <span className="text-white/60 flex-1 truncate">{item.label}</span>
+                          <span className="font-[family-name:var(--font-mono)] font-semibold">{item.val || 0}%</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 

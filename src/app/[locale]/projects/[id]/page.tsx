@@ -272,23 +272,30 @@ export default async function ProjectDetailPage({ params }: Props) {
                 </div>
 
                 <h4 className="font-[family-name:var(--font-display)] font-bold mb-3 text-[0.95rem]">{pd('allocation')}</h4>
-                <div className="flex h-11 rounded-[10px] overflow-hidden border border-white/10 bg-white/[0.02]">
-                  <div className="bg-cyan-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.presale }}>
-                    <div>{pd('presale')}</div>
-                    <div>{p.tokenomics.presale}%</div>
-                  </div>
-                  <div className="bg-blue-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.liquidity }}>
-                    <div>{pd('liquidityPct')}</div>
-                    <div>{p.tokenomics.liquidity}%</div>
-                  </div>
-                  <div className="bg-gold-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-[#021628]" style={{ flex: p.tokenomics.team }}>
-                    <div>{pd('team')}</div>
-                    <div>{p.tokenomics.team}%</div>
-                  </div>
-                  <div className="bg-violet-500 flex flex-col items-center justify-center text-[0.7rem] font-bold text-white" style={{ flex: p.tokenomics.marketing }}>
-                    <div>{pd('marketing')}</div>
-                    <div>{p.tokenomics.marketing}%</div>
-                  </div>
+                {/* Allocation bar — no text inside segments, legend below */}
+                <div className="w-full h-2.5 rounded-full overflow-hidden flex mb-3">
+                  {[
+                    { pct: p.tokenomics.presale,   color: 'bg-cyan-500' },
+                    { pct: p.tokenomics.liquidity,  color: 'bg-blue-500' },
+                    { pct: p.tokenomics.team,       color: 'bg-amber-400' },
+                    { pct: p.tokenomics.marketing,  color: 'bg-violet-500' },
+                  ].map((s, i) => (
+                    <div key={i} className={s.color} style={{ width: `${s.pct}%` }} />
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  {[
+                    { color: 'bg-cyan-500',   label: pd('presale'),      pct: p.tokenomics.presale },
+                    { color: 'bg-blue-500',   label: pd('liquidityPct'), pct: p.tokenomics.liquidity },
+                    { color: 'bg-amber-400',  label: pd('team'),         pct: p.tokenomics.team },
+                    { color: 'bg-violet-500', label: pd('marketing'),    pct: p.tokenomics.marketing },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-2 text-[0.78rem]">
+                      <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${item.color}`} />
+                      <span className="text-white/60 flex-1 truncate">{item.label}</span>
+                      <span className="font-[family-name:var(--font-mono)] font-semibold">{item.pct}%</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
