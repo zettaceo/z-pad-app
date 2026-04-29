@@ -386,7 +386,11 @@
     "toastAcceptTerms": "Por favor, aceite os termos",
     "toastAiCheck": "ZION AI executando verificação final do contrato...",
     "toastDeploying": "Implantando contrato inteligente...",
-    "toastDeployed": "Projeto implantado com sucesso!"
+    "toastDeployed": "Projeto implantado com sucesso!",
+    "presaleField": "Pré-venda",
+    "liquidityField": "Liquidez",
+    "teamField": "Equipe",
+    "marketingField": "Marketing"
   },
   "terms": {
     "pageTitle": "Termos de Servico",

@@ -386,7 +386,11 @@
     "toastAcceptTerms": "请接受条款",
     "toastAiCheck": "ZION AI正在运行最终合约预检...",
     "toastDeploying": "正在部署智能合约...",
-    "toastDeployed": "项目部署成功！"
+    "toastDeployed": "项目部署成功！",
+    "presaleField": "预售",
+    "liquidityField": "流动性",
+    "teamField": "团队",
+    "marketingField": "营销"
   },
   "terms": {
     "pageTitle": "服务条款",
