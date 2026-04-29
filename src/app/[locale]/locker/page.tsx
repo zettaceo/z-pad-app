@@ -116,15 +116,15 @@ export default function LockerPage() {
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-3 gap-3 mb-8">
             {[
               { l: t('statTotal'), v: '$48.2M' },
               { l: t('statCount'), v: '1,247' },
               { l: t('statProjects'), v: '89' },
             ].map(({ l, v }) => (
-              <div key={l} className="bg-bg-075 border border-white/10 rounded-[14px] p-5 text-center">
-                <div className="font-[family-name:var(--font-display)] text-[2rem] font-extrabold tracking-[-0.025em] text-cyan-400 mb-1">{v}</div>
-                <div className="text-[0.76rem] text-white/50 uppercase tracking-wider font-semibold">{l}</div>
+              <div key={l} className="bg-bg-075 border border-white/10 rounded-[14px] p-4 sm:p-5 text-center">
+                <div className="font-[family-name:var(--font-display)] text-[1.4rem] sm:text-[2rem] font-extrabold tracking-[-0.025em] text-cyan-400 mb-1 leading-tight">{v}</div>
+                <div className="text-[0.62rem] sm:text-[0.76rem] text-white/50 uppercase tracking-wider font-semibold leading-tight">{l}</div>
               </div>
             ))}
           </div>
