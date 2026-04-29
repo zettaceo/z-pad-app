@@ -389,7 +389,7 @@ export default function PodsPage() {
                       />
                       <div className="flex-1 min-w-0">
                         <div className="font-bold text-[0.84rem]" style={{ color: tier.color }}>{tier.name}</div>
-                        <div className="text-[0.7rem] text-white/40 truncate">{tier.desc}</div>
+                        <div className="text-[0.7rem] text-white/40 leading-snug">{tier.desc}</div>
                       </div>
                       <div className="font-[family-name:var(--font-mono)] font-bold text-[0.88rem]" style={{ color: tier.color }}>
                         {tier.boost}
