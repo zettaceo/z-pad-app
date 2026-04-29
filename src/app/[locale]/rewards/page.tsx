@@ -118,6 +118,7 @@ export default function RewardsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {QUESTS.map((q) => {
               const Icon = ICONS[q.icon as keyof typeof ICONS] ?? Gift;
+              const qKey = q.id as string;
               return (
                 <div
                   key={q.id}
@@ -141,9 +142,9 @@ export default function RewardsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-[family-name:var(--font-display)] font-bold text-[0.98rem] tracking-[-0.015em]">
-                        {q.title}
+                        {t(`${qKey}Title`)}
                       </div>
-                      <div className="text-[0.8rem] text-white/70 mt-1 leading-snug">{q.desc}</div>
+                      <div className="text-[0.8rem] text-white/70 mt-1 leading-snug">{t(`${qKey}Desc`)}</div>
                     </div>
                   </div>
                   <div className="h-1 bg-white/5 rounded-full overflow-hidden mb-2">
@@ -158,7 +159,7 @@ export default function RewardsPage() {
                     />
                   </div>
                   <div className="flex items-center justify-between text-[0.76rem]">
-                    <span className="text-cyan-400 font-[family-name:var(--font-mono)] font-semibold">{q.reward}</span>
+                    <span className="text-cyan-400 font-[family-name:var(--font-mono)] font-semibold">{t(`${qKey}Reward`)}</span>
                     <span className="text-white/50 font-[family-name:var(--font-mono)]">
                       {q.completed ? t('completed') : `${q.progress}%`}
                     </span>

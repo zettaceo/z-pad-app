@@ -264,7 +264,24 @@
     "for": "For",
     "against": "Against",
     "zVoted": "Z voted",
-    "voteCast": "Vote cast: {vote} on \"{title}\""
+    "voteCast": "Vote cast: {vote} on \"{title}\"",
+    "zip001Title": "Reduce platform fees for Z-staked users",
+    "zip001Desc": "Proposal to reduce platform fees by 50% for users staking 10,000+ Z tokens, incentivizing long-term ecosystem commitment.",
+    "zip001Category": "Protocol",
+    "zip001Author": "Z-PAD Core Team",
+    "zip002Title": "Add Solana native launchpad support",
+    "zip002Desc": "Expand Z-PAD beyond EVM chains by integrating native Solana support.",
+    "zip002Category": "Technical",
+    "zip002Author": "Core Dev Team",
+    "zip003Title": "Q3 Treasury Allocation: $5M for AI Vetting Engine",
+    "zip003Desc": "Allocate $5M to accelerate ZION AI vetting engine.",
+    "zip003Category": "Treasury",
+    "zip003Author": "Treasury Committee",
+    "zip004Title": "Enable refundable sales (DYCO) as default",
+    "zip004Desc": "Make DYCO-style refundable sales the default for all new presales.",
+    "zip004Category": "Protocol",
+    "zip004Author": "Community",
+    "by": "By"
   },
   "rewards": {
     "breadcrumb": "Rewards",
@@ -285,7 +302,25 @@
     "colTier": "Tier",
     "colStaked": "Staked Z",
     "colPortfolio": "Portfolio",
-    "you": "You"
+    "you": "You",
+    "q1Title": "First Investment",
+    "q1Desc": "Participate in your first token sale",
+    "q1Reward": "+500 XP · +50 Z",
+    "q2Title": "Refer 3 Friends",
+    "q2Desc": "Invite friends using your referral code",
+    "q2Reward": "+800 XP · +100 Z",
+    "q3Title": "Stake 1,000 Z",
+    "q3Desc": "Stake tokens in any Z staking pool",
+    "q3Reward": "+1,000 XP · Tier Boost",
+    "q4Title": "Vote on a Proposal",
+    "q4Desc": "Participate in governance",
+    "q4Reward": "+300 XP · +30 Z",
+    "q5Title": "Complete KYC",
+    "q5Desc": "Verify your identity",
+    "q5Reward": "+1,500 XP · +200 Z",
+    "q6Title": "Reach Top 100",
+    "q6Desc": "Climb the leaderboard to top 100",
+    "q6Reward": "+2,000 XP · Exclusive NFT"
   },
   "create": {
     "breadcrumb": "Create",
@@ -796,5 +831,22 @@
   },
   "ticker": {
     "live": "Live"
+  },
+  "badge": {
+    "live": "Live",
+    "upcoming": "Upcoming",
+    "ended": "Ended",
+    "passed": "✓ Passed",
+    "hot": "🔥 Hot",
+    "trending": "📈 Trending",
+    "kyc": "✓ KYC",
+    "audit": "⚡ Audited",
+    "fairlaunch": "Fair Launch",
+    "presale": "Presale",
+    "private": "Private",
+    "lbp": "LBP",
+    "bondingcurve": "Bonding Curve",
+    "refundable": "↩ Refundable",
+    "ai": "✨ AI Verified"
   }
 }

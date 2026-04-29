@@ -264,7 +264,24 @@
     "for": "赞成",
     "against": "反对",
     "zVoted": "Z 已投票",
-    "voteCast": "已投票：对\"{title}\"投{vote}"
+    "voteCast": "已投票：对\"{title}\"投{vote}",
+    "zip001Title": "为Z代币质押用户降低平台费用",
+    "zip001Desc": "提议将质押10,000+个Z代币用户的平台费用降低50%，激励长期生态系统承诺。",
+    "zip001Category": "协议",
+    "zip001Author": "Z-PAD核心团队",
+    "zip002Title": "添加Solana原生发射台支持",
+    "zip002Desc": "通过整合原生Solana支持，将Z-PAD扩展到EVM链之外。",
+    "zip002Category": "技术",
+    "zip002Author": "核心开发团队",
+    "zip003Title": "Q3国库分配：500万美元用于AI审核引擎",
+    "zip003Desc": "拨款500万美元加速ZION AI审核引擎的开发。",
+    "zip003Category": "国库",
+    "zip003Author": "国库委员会",
+    "zip004Title": "将可退款销售（DYCO）设为默认",
+    "zip004Desc": "将DYCO风格的可退款销售设为所有新预售的默认选项。",
+    "zip004Category": "协议",
+    "zip004Author": "社区",
+    "by": "作者："
   },
   "rewards": {
     "breadcrumb": "奖励",
@@ -285,7 +302,25 @@
     "colTier": "等级",
     "colStaked": "已质押 Z",
     "colPortfolio": "投资组合",
-    "you": "我"
+    "you": "我",
+    "q1Title": "首次投资",
+    "q1Desc": "参与您的第一次代币销售",
+    "q1Reward": "+500 XP · +50 Z",
+    "q2Title": "推荐3位好友",
+    "q2Desc": "使用您的推荐码邀请好友",
+    "q2Reward": "+800 XP · +100 Z",
+    "q3Title": "质押1,000个Z",
+    "q3Desc": "在任意Z质押池中质押代币",
+    "q3Reward": "+1,000 XP · 等级提升",
+    "q4Title": "对提案投票",
+    "q4Desc": "参与治理",
+    "q4Reward": "+300 XP · +30 Z",
+    "q5Title": "完成KYC",
+    "q5Desc": "验证您的身份",
+    "q5Reward": "+1,500 XP · +200 Z",
+    "q6Title": "进入前100名",
+    "q6Desc": "在排行榜上爬升到前100名",
+    "q6Reward": "+2,000 XP · 专属NFT"
   },
   "create": {
     "breadcrumb": "创建",
@@ -796,5 +831,22 @@
   },
   "ticker": {
     "live": "实时"
+  },
+  "badge": {
+    "live": "进行中",
+    "upcoming": "即将开始",
+    "ended": "已结束",
+    "passed": "✓ 已通过",
+    "hot": "🔥 热门",
+    "trending": "📈 趋势",
+    "kyc": "✓ KYC",
+    "audit": "⚡ 已审计",
+    "fairlaunch": "公平启动",
+    "presale": "预售",
+    "private": "私募",
+    "lbp": "LBP",
+    "bondingcurve": "联合曲线",
+    "refundable": "↩ 可退款",
+    "ai": "✨ AI已验证"
   }
 }

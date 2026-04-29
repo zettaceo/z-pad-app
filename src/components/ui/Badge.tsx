@@ -1,4 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/cn';
 
 type BadgeVariant =
@@ -42,26 +45,9 @@ const variantStyles: Record<BadgeVariant, string> = {
   bondingcurve: 'bg-orange-500/10 text-orange-500 border-orange-500/30',
 };
 
-const defaultLabels: Partial<Record<BadgeVariant, string>> = {
-  live: 'Live',
-  kyc: '✓ KYC',
-  audit: '⚡ Audited',
-  hot: '🔥 Hot',
-  trending: '📈 Trending',
-  fairlaunch: 'Fair Launch',
-  presale: 'Presale',
-  private: 'Private',
-  lbp: 'LBP',
-  bondingcurve: 'Bonding Curve',
-  refundable: '↩ Refundable',
-  ai: '✨ AI Verified',
-  upcoming: 'Upcoming',
-  ended: 'Ended',
-  passed: '✓ Passed',
-};
-
 export function Badge({ variant, children, className }: BadgeProps) {
-  const label = children ?? defaultLabels[variant];
+  const t = useTranslations('badge');
+  const label = children ?? t(variant);
   return (
     <span
       className={cn(

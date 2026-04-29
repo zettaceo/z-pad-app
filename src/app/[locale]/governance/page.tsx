@@ -79,23 +79,25 @@ export default function GovernancePage() {
             {t('activeTitle')}<span className="text-cyan-500 font-black">.</span>
           </h2>
 
-          {PROPOSALS.map((p) => (
+          {PROPOSALS.map((p) => {
+            const key = p.id.replace('zip-', 'zip').replace('-', '') as string;
+            return (
             <div key={p.id} className="bg-bg-075 border border-white/10 rounded-[14px] p-6 mb-4 hover:border-cyan-500/35 transition-colors">
               <div className="flex items-start justify-between gap-4 mb-3">
                 <div>
                   <div className="font-[family-name:var(--font-display)] font-bold text-[1.05rem] tracking-[-0.015em]">
-                    {p.title}
+                    {t(`${key}Title`)}
                   </div>
                   <div className="text-[0.76rem] text-white/50 mt-1 flex gap-3 flex-wrap">
                     <span>{p.id.toUpperCase()}</span>
-                    <span>·</span><span>{p.category}</span>
-                    <span>·</span><span>By {p.author}</span>
+                    <span>·</span><span>{t(`${key}Category`)}</span>
+                    <span>·</span><span>{t('by')} {t(`${key}Author`)}</span>
                     <span>·</span><span>{p.status === 'active' ? `${t('ends')} ${fmt.timeLeft(p.endsAt).d}d` : t('ended')}</span>
                   </div>
                 </div>
                 {p.status === 'active' ? <Badge variant="live">{t('live')}</Badge> : <Badge variant="passed" />}
               </div>
-              <p className="text-white/70 text-[0.9rem] leading-relaxed mb-4">{p.desc}</p>
+              <p className="text-white/70 text-[0.9rem] leading-relaxed mb-4">{t(`${key}Desc`)}</p>
 
               <div className="flex flex-col gap-2.5">
                 {[
@@ -134,7 +136,7 @@ export default function GovernancePage() {
                 )}
               </div>
             </div>
-          ))}
+          );})}
         </div>
       </section>
     </div>

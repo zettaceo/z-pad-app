@@ -3,7 +3,8 @@ export const revalidate = 3600;
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Plus, Shield, CheckCircle, Lock, Sparkles } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
+import { getProjectContent } from '@/lib/project-i18n';
 
 import { PROJECTS } from '@/lib/mock-data';
 import { fmt } from '@/lib/format';
@@ -15,9 +16,11 @@ import { ProjectCard } from '@/components/features/ProjectCard';
 import { Countdown } from '@/components/features/Countdown';
 
 export default async function HomePage() {
-  const t = await getTranslations('home');
+  const [t, locale] = await Promise.all([getTranslations('home'), getLocale()]);
 
   const featured = PROJECTS.find((p) => p.featured);
+  const featuredI18n = featured ? getProjectContent(featured.id, locale) : null;
+  const featuredDesc = featuredI18n?.description ?? featured?.description;
   const liveProjects = PROJECTS.filter((p) => p.status === 'live' || p.status === 'upcoming').slice(0, 6);
 
   const FEATURES = [
@@ -198,7 +201,7 @@ export default async function HomePage() {
                       <Badge variant="ai" />
                     </div>
                     <p className="text-white/70 text-[0.92rem] leading-relaxed max-w-[380px]">
-                      {featured.description}
+                      {featuredDesc}
                     </p>
                   </div>
                 </div>

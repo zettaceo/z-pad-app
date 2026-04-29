@@ -264,7 +264,24 @@
     "for": "A Favor",
     "against": "Contra",
     "zVoted": "Z votados",
-    "voteCast": "Voto registrado: {vote} em \"{title}\""
+    "voteCast": "Voto registrado: {vote} em \"{title}\"",
+    "zip001Title": "Reduzir taxas da plataforma para usuários com Z em stake",
+    "zip001Desc": "Proposta para reduzir as taxas da plataforma em 50% para usuários com 10.000+ tokens Z em stake, incentivando o compromisso de longo prazo com o ecossistema.",
+    "zip001Category": "Protocolo",
+    "zip001Author": "Equipe Z-PAD",
+    "zip002Title": "Adicionar suporte nativo ao launchpad Solana",
+    "zip002Desc": "Expandir o Z-PAD além das chains EVM integrando suporte nativo à Solana.",
+    "zip002Category": "Técnico",
+    "zip002Author": "Equipe de Dev",
+    "zip003Title": "Alocação do Tesouro Q3: $5M para Motor de Vetting por IA",
+    "zip003Desc": "Alocar $5M para acelerar o motor de vetting ZION AI.",
+    "zip003Category": "Tesouro",
+    "zip003Author": "Comitê do Tesouro",
+    "zip004Title": "Habilitar vendas reembolsáveis (DYCO) como padrão",
+    "zip004Desc": "Tornar as vendas reembolsáveis no estilo DYCO o padrão para todos os novos presales.",
+    "zip004Category": "Protocolo",
+    "zip004Author": "Comunidade",
+    "by": "Por"
   },
   "rewards": {
     "breadcrumb": "Recompensas",
@@ -285,7 +302,25 @@
     "colTier": "Nível",
     "colStaked": "Z em Staking",
     "colPortfolio": "Portfólio",
-    "you": "Você"
+    "you": "Você",
+    "q1Title": "Primeiro Investimento",
+    "q1Desc": "Participe da sua primeira venda de tokens",
+    "q1Reward": "+500 XP · +50 Z",
+    "q2Title": "Indicar 3 Amigos",
+    "q2Desc": "Convide amigos usando seu código de referência",
+    "q2Reward": "+800 XP · +100 Z",
+    "q3Title": "Fazer Stake de 1.000 Z",
+    "q3Desc": "Faça stake de tokens em qualquer pool Z",
+    "q3Reward": "+1.000 XP · Boost de Tier",
+    "q4Title": "Votar em uma Proposta",
+    "q4Desc": "Participe da governança",
+    "q4Reward": "+300 XP · +30 Z",
+    "q5Title": "Completar KYC",
+    "q5Desc": "Verifique sua identidade",
+    "q5Reward": "+1.500 XP · +200 Z",
+    "q6Title": "Alcançar Top 100",
+    "q6Desc": "Suba no ranking até o top 100",
+    "q6Reward": "+2.000 XP · NFT Exclusivo"
   },
   "create": {
     "breadcrumb": "Criar",
@@ -796,5 +831,22 @@
   },
   "ticker": {
     "live": "Ao Vivo"
+  },
+  "badge": {
+    "live": "Ao Vivo",
+    "upcoming": "Em Breve",
+    "ended": "Encerrado",
+    "passed": "✓ Aprovado",
+    "hot": "🔥 Quente",
+    "trending": "📈 Tendência",
+    "kyc": "✓ KYC",
+    "audit": "⚡ Auditado",
+    "fairlaunch": "Lançamento Justo",
+    "presale": "Pré-venda",
+    "private": "Privado",
+    "lbp": "LBP",
+    "bondingcurve": "Bonding Curve",
+    "refundable": "↩ Reembolsável",
+    "ai": "✨ Verificado por IA"
   }
 }
