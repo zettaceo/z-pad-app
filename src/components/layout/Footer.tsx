@@ -30,6 +30,7 @@ export async function Footer() {
     {
       title: t('sectionProducts'),
       links: [
+        { label: t('linkLocker'), href: '/locker' },
         { label: 'Z-FINANCE', href: '#' },
         { label: 'Z-PAY', href: '#' },
         { label: 'Z-SWAP', href: '#' },

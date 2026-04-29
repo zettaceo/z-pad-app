@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { z, ZodError } from 'zod';
-import { Rocket, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Rocket, ArrowRight, ArrowLeft, CheckCircle2, Plus, X, Lock } from 'lucide-react';
 
 import { useTranslations } from 'next-intl';
 
@@ -13,7 +13,15 @@ import { computeAiPrescore } from '@/lib/ai-prescore';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { AiScore } from '@/components/features/AiScore';
+import { cn } from '@/lib/cn';
 
+interface LockEntry {
+  id: string;
+  label: string;
+  pct: string;
+  vesting: 'cliff' | 'linear';
+  months: string;
+}
 
 interface FormState {
   name: string;
@@ -37,10 +45,21 @@ interface FormState {
   terms: boolean;
 }
 
+const PURPOSE_COLORS: Record<string, string> = {
+  'Team':      'bg-amber-400/10 text-amber-400 border-amber-400/25',
+  'Liquidity': 'bg-cyan-400/10 text-cyan-400 border-cyan-400/25',
+  'Marketing': 'bg-violet-400/10 text-violet-400 border-violet-400/25',
+  'Staking':   'bg-blue-400/10 text-blue-400 border-blue-400/25',
+};
+
 export default function CreatePage() {
   const { wallet, openWalletModal } = useWallet();
   const [step, setStep] = useState(1);
   const [deploying, setDeploying] = useState(false);
+  const [locks, setLocks] = useState<LockEntry[]>([
+    { id: '1', label: 'Team Tokens', pct: '', vesting: 'cliff', months: '12' },
+    { id: '2', label: 'Marketing', pct: '', vesting: 'linear', months: '6' },
+  ]);
   const [form, setForm] = useState<FormState>({
     name: '', symbol: '', description: '', chain: 'bsc', saleType: 'presale', refundable: false,
     supply: '', presale: '', liquidity: '', team: '', marketing: '',
@@ -62,6 +81,13 @@ export default function CreatePage() {
 
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
+
+  const addLock = () => setLocks(l => [...l, { id: Date.now().toString(), label: '', pct: '', vesting: 'cliff', months: '12' }]);
+  const removeLock = (id: string) => setLocks(l => l.filter(x => x.id !== id));
+  const updateLock = <K extends keyof LockEntry>(id: string, key: K, val: LockEntry[K]) =>
+    setLocks(l => l.map(x => x.id === id ? { ...x, [key]: val } : x));
+
+  const totalLockedPct = locks.reduce((s, l) => s + Number(l.pct || 0), 0);
 
   // Zod schemas per step
   const step1Schema = z.object({
@@ -88,7 +114,7 @@ export default function CreatePage() {
       { message: 'Allocation must equal 100%' }
     );
 
-  const step3Schema = z
+  const step4Schema = z
     .object({
       rate: z.string().min(1, 'Rate required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
       softCap: z.string().min(1, 'Soft cap required').refine((v) => Number(v) > 0, 'Must be greater than 0'),
@@ -115,7 +141,7 @@ export default function CreatePage() {
     try {
       if (step === 1) step1Schema.parse(form);
       if (step === 2) step2Schema.parse(form);
-      if (step === 3) step3Schema.parse(form);
+      if (step === 4) step4Schema.parse(form);
       return true;
     } catch (err) {
       if (err instanceof ZodError) {
@@ -128,7 +154,7 @@ export default function CreatePage() {
     }
   };
 
-  const next = () => { if (validateStep()) setStep((s) => Math.min(5, s + 1)); };
+  const next = () => { if (validateStep()) setStep((s) => Math.min(6, s + 1)); };
   const back = () => setStep((s) => Math.max(1, s - 1));
 
   const deploy = () => {
@@ -140,7 +166,7 @@ export default function CreatePage() {
       toast.loading(t('toastDeploying'), { id: 'deploy' });
       setTimeout(() => {
         toast.success(t('toastDeployed'), { id: 'deploy' });
-        setStep(5);
+        setStep(6);
         setDeploying(false);
       }, 1400);
     }, 1000);
@@ -340,6 +366,98 @@ export default function CreatePage() {
 
               {step === 3 && (
                 <>
+                  <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('locksTitle')}</h2>
+                  <p className="text-white/70 text-[0.92rem] mb-7">{t('locksDesc')}</p>
+
+                  <div className="flex flex-col gap-3 mb-5">
+                    {locks.length === 0 ? (
+                      <div className="p-5 rounded-[10px] border border-dashed border-white/15 text-center text-[0.84rem] text-white/40">
+                        {t('noLocksHint')}
+                      </div>
+                    ) : locks.map((lock) => {
+                      const colorKey = lock.label.toLowerCase().includes('team') ? 'Team'
+                        : lock.label.toLowerCase().includes('liquid') ? 'Liquidity'
+                        : lock.label.toLowerCase().includes('market') ? 'Marketing'
+                        : lock.label.toLowerCase().includes('stak') ? 'Staking'
+                        : 'Team';
+                      return (
+                        <div key={lock.id} className={cn('p-4 rounded-[12px] border', PURPOSE_COLORS[colorKey])}>
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="font-semibold text-[0.9rem]">
+                              {lock.label || t('lockLabel')}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeLock(lock.id)}
+                              className="w-7 h-7 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-red-400 hover:border-red-400/30 transition-colors"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          <div className="grid sm:grid-cols-4 gap-3">
+                            <div className="sm:col-span-1">
+                              <label className="block text-[0.68rem] text-white/50 uppercase tracking-wider mb-1.5">{t('lockLabel')}</label>
+                              <input
+                                className="w-full px-3 py-2 rounded-[8px] border border-white/10 bg-white/[0.03] text-white text-[0.84rem] outline-none focus:border-cyan-500 transition-colors"
+                                placeholder={t('lockLabelPlaceholder')}
+                                value={lock.label}
+                                onChange={e => updateLock(lock.id, 'label', e.target.value)}
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[0.68rem] text-white/50 uppercase tracking-wider mb-1.5">{t('lockPct')}</label>
+                              <input
+                                type="number"
+                                className="w-full px-3 py-2 rounded-[8px] border border-white/10 bg-white/[0.03] text-white text-[0.84rem] outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)] transition-colors"
+                                placeholder="10"
+                                value={lock.pct}
+                                onChange={e => updateLock(lock.id, 'pct', e.target.value)}
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[0.68rem] text-white/50 uppercase tracking-wider mb-1.5">{t('lockVestingType')}</label>
+                              <select
+                                className="w-full px-3 py-2 rounded-[8px] border border-white/10 bg-[#040d24] text-white text-[0.84rem] outline-none focus:border-cyan-500 transition-colors"
+                                value={lock.vesting}
+                                onChange={e => updateLock(lock.id, 'vesting', e.target.value as 'cliff' | 'linear')}
+                              >
+                                <option value="cliff">{t('lockCliff')}</option>
+                                <option value="linear">{t('lockLinear')}</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="block text-[0.68rem] text-white/50 uppercase tracking-wider mb-1.5">{t('lockMonths')}</label>
+                              <input
+                                type="number"
+                                className="w-full px-3 py-2 rounded-[8px] border border-white/10 bg-white/[0.03] text-white text-[0.84rem] outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)] transition-colors"
+                                placeholder="12"
+                                min="1"
+                                value={lock.months}
+                                onChange={e => updateLock(lock.id, 'months', e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-6">
+                    <Button variant="secondary" size="sm" type="button" onClick={addLock}>
+                      <Plus className="w-3.5 h-3.5 mr-1.5" /> {t('addLock')}
+                    </Button>
+                    {locks.length > 0 && (
+                      <div className="flex items-center gap-2 text-[0.82rem] text-white/50">
+                        <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                        {t('totalLocked')}: <strong className={cn('font-[family-name:var(--font-mono)]', totalLockedPct > 100 ? 'text-red-400' : 'text-cyan-400')}>{totalLockedPct}%</strong>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {step === 4 && (
+                <>
                   <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('saleConfigTitle')}</h2>
                   <p className="text-white/70 text-[0.92rem] mb-7">{t('saleConfigDesc')}</p>
 
@@ -372,7 +490,7 @@ export default function CreatePage() {
                 </>
               )}
 
-              {step === 4 && (
+              {step === 5 && (
                 <>
                   <h2 className="font-[family-name:var(--font-display)] text-[1.4rem] font-extrabold tracking-[-0.02em] mb-1.5">{t('reviewTitle')}</h2>
                   <p className="text-white/70 text-[0.92rem] mb-7">{t('reviewDesc')}</p>
@@ -418,7 +536,7 @@ export default function CreatePage() {
                 </>
               )}
 
-              {step === 5 && (
+              {step === 6 && (
                 <div className="text-center py-10">
                   <div className="w-[100px] h-[100px] mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center shadow-[0_0_64px_rgba(0,212,255,0.4)]" style={{ animation: 'glow-pulse 2s infinite' }}>
                     <CheckCircle2 className="w-12 h-12 text-[#021628]" strokeWidth={3} />
@@ -447,14 +565,14 @@ export default function CreatePage() {
               )}
 
               {/* Actions */}
-              {step < 5 && (
+              {step < 6 && (
                 <div className="flex justify-between pt-6 mt-7 border-t border-white/10 gap-3 flex-wrap">
                   {step === 1 ? (
                     <Button variant="ghost" asChild><Link href="/">{t('cancelAction')}</Link></Button>
                   ) : (
                     <Button variant="ghost" onClick={back}><ArrowLeft className="w-4 h-4" /> {t('backAction')}</Button>
                   )}
-                  {step < 4 ? (
+                  {step < 5 ? (
                     <Button onClick={next}>{t('nextAction')} <ArrowRight className="w-4 h-4" /></Button>
                   ) : (
                     <Button size="lg" onClick={deploy} disabled={deploying}><Rocket className="w-5 h-5" /> {deploying ? t('deploying') : t('deployButton')}</Button>
