@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { z, ZodError } from 'zod';
-import { Rocket, ArrowRight, ArrowLeft, CheckCircle2, Plus, X, Lock } from 'lucide-react';
+import { Rocket, ArrowRight, ArrowLeft, CheckCircle2, Plus, X, Lock, EyeOff, Shield, Users, Upload } from 'lucide-react';
 
 import { useTranslations } from 'next-intl';
 
@@ -30,6 +30,7 @@ interface FormState {
   chain: string;
   saleType: string;
   refundable: boolean;
+  stealthLaunch: boolean;
   supply: string;
   presale: string;
   liquidity: string;
@@ -42,6 +43,12 @@ interface FormState {
   maxBuy: string;
   startDate: string;
   endDate: string;
+  antiBotEnabled: boolean;
+  maxWalletPct: string;
+  txDelay: string;
+  maxTxPerBlock: string;
+  whitelistEnabled: boolean;
+  whitelistRaw: string;
   terms: boolean;
 }
 
@@ -52,18 +59,30 @@ const PURPOSE_COLORS: Record<string, string> = {
   'Staking':   'bg-blue-400/10 text-blue-400 border-blue-400/25',
 };
 
+const SALE_TYPES = [
+  { value: 'presale',      icon: Rocket,  titleKey: 'saleTypePresale',      descKey: 'saleTypePresaleDesc' },
+  { value: 'fairlaunch',   icon: Users,   titleKey: 'saleTypeFairLaunch',   descKey: 'saleTypeFairLaunchDesc' },
+  { value: 'private',      icon: Lock,    titleKey: 'saleTypePrivate',      descKey: 'saleTypePrivateDesc' },
+  { value: 'lbp',          icon: Shield,  titleKey: 'saleTypeLbp',          descKey: 'saleTypeLbpDesc' },
+  { value: 'bondingcurve', icon: Rocket,  titleKey: 'saleTypeBondingCurve', descKey: 'saleTypeBondingCurveDesc' },
+] as const;
+
 export default function CreatePage() {
   const { wallet, openWalletModal } = useWallet();
   const [step, setStep] = useState(1);
   const [deploying, setDeploying] = useState(false);
+  const whitelistFileRef = useRef<HTMLInputElement>(null);
   const [locks, setLocks] = useState<LockEntry[]>([
     { id: '1', label: 'Team Tokens', pct: '', vesting: 'cliff', months: '12' },
     { id: '2', label: 'Marketing', pct: '', vesting: 'linear', months: '6' },
   ]);
   const [form, setForm] = useState<FormState>({
-    name: '', symbol: '', description: '', chain: 'bsc', saleType: 'presale', refundable: false,
+    name: '', symbol: '', description: '', chain: 'bsc', saleType: 'presale',
+    refundable: false, stealthLaunch: false,
     supply: '', presale: '', liquidity: '', team: '', marketing: '',
     rate: '', softCap: '', hardCap: '', minBuy: '', maxBuy: '', startDate: '', endDate: '',
+    antiBotEnabled: false, maxWalletPct: '3', txDelay: '30', maxTxPerBlock: '1',
+    whitelistEnabled: false, whitelistRaw: '',
     terms: false,
   });
 
@@ -275,42 +294,78 @@ export default function CreatePage() {
                     <div className="text-[0.78rem] text-white/50 mt-1.5">{t('fieldDescHint')}</div>
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4 mb-5">
-                    <div>
-                      <label htmlFor="field-chain" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldChain')} *</label>
-                      <select id="field-chain" value={form.chain} onChange={(e) => update('chain', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500">
-                        <option value="bsc">BSC</option>
-                        <option value="eth">Ethereum</option>
-                        <option value="polygon">Polygon</option>
-                        <option value="arbitrum">Arbitrum</option>
-                        <option value="zetta">ZettaChain</option>
-                        <option value="solana">Solana</option>
-                        <option value="base">Base</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="field-sale-type" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldSaleType')} *</label>
-                      <select id="field-sale-type" value={form.saleType} onChange={(e) => update('saleType', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500">
-                        <option value="fairlaunch">Fair Launch</option>
-                        <option value="presale">Presale</option>
-                        <option value="private">Private</option>
-                        <option value="lbp">LBP</option>
-                        <option value="bondingcurve">Bonding Curve</option>
-                      </select>
+                  <div className="mb-5">
+                    <label htmlFor="field-chain" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('fieldChain')} *</label>
+                    <select id="field-chain" value={form.chain} onChange={(e) => update('chain', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500">
+                      <option value="bsc">BSC</option>
+                      <option value="eth">Ethereum</option>
+                      <option value="polygon">Polygon</option>
+                      <option value="arbitrum">Arbitrum</option>
+                      <option value="zetta">ZettaChain</option>
+                      <option value="solana">Solana</option>
+                      <option value="base">Base</option>
+                    </select>
+                  </div>
+
+                  {/* Sale type cards */}
+                  <div className="mb-5">
+                    <label className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-3">{t('fieldSaleType')} *</label>
+                    <div className="grid sm:grid-cols-2 gap-2.5">
+                      {SALE_TYPES.map(({ value, icon: Icon, titleKey, descKey }) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => update('saleType', value)}
+                          className={cn(
+                            'flex items-start gap-3 p-3.5 rounded-[10px] border text-left transition-all',
+                            form.saleType === value
+                              ? 'border-cyan-500/50 bg-cyan-500/[0.06]'
+                              : 'border-white/10 bg-white/[0.02] hover:border-white/20'
+                          )}
+                        >
+                          <div className={cn(
+                            'w-8 h-8 rounded-[8px] flex items-center justify-center shrink-0 mt-0.5',
+                            form.saleType === value ? 'bg-cyan-500/20 text-cyan-400' : 'bg-white/5 text-white/40'
+                          )}>
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className={cn('font-semibold text-[0.88rem]', form.saleType === value ? 'text-cyan-400' : 'text-white/80')}>
+                              {t(titleKey as any)}
+                            </div>
+                            <p className="text-white/45 text-[0.75rem] leading-snug mt-0.5">{t(descKey as any)}</p>
+                          </div>
+                        </button>
+                      ))}
                     </div>
                   </div>
 
-                  <label className={`flex items-start gap-3 p-3.5 rounded-[10px] border cursor-pointer transition-all ${form.refundable ? 'border-cyan-500/35 bg-cyan-500/[0.04]' : 'border-white/10 bg-white/[0.02]'}`}>
-                    <input type="checkbox" checked={form.refundable} onChange={(e) => update('refundable', e.target.checked)} className="mt-1 accent-cyan-500" />
-                    <div>
-                      <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
-                        {t('refundableTitle')} <Badge variant="refundable" />
+                  {/* Options row */}
+                  <div className="flex flex-col gap-3">
+                    <label className={`flex items-start gap-3 p-3.5 rounded-[10px] border cursor-pointer transition-all ${form.refundable ? 'border-cyan-500/35 bg-cyan-500/[0.04]' : 'border-white/10 bg-white/[0.02]'}`}>
+                      <input type="checkbox" checked={form.refundable} onChange={(e) => update('refundable', e.target.checked)} className="mt-1 accent-cyan-500" />
+                      <div>
+                        <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
+                          {t('refundableTitle')} <Badge variant="refundable" />
+                        </div>
+                        <div className="text-[0.78rem] text-white/50 leading-relaxed">
+                          {t('refundableDesc')}
+                        </div>
                       </div>
-                      <div className="text-[0.78rem] text-white/50 leading-relaxed">
-                        {t('refundableDesc')}
+                    </label>
+
+                    <label className={`flex items-start gap-3 p-3.5 rounded-[10px] border cursor-pointer transition-all ${form.stealthLaunch ? 'border-violet-500/35 bg-violet-500/[0.04]' : 'border-white/10 bg-white/[0.02]'}`}>
+                      <input type="checkbox" checked={form.stealthLaunch} onChange={(e) => update('stealthLaunch', e.target.checked)} className="mt-1 accent-violet-500" />
+                      <div>
+                        <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
+                          <EyeOff className="w-4 h-4 text-violet-400" /> {t('stealthLaunch')}
+                        </div>
+                        <div className="text-[0.78rem] text-white/50 leading-relaxed">
+                          {t('stealthLaunchDesc')}
+                        </div>
                       </div>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
                 </>
               )}
 
@@ -467,17 +522,24 @@ export default function CreatePage() {
                   </div>
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-5">
-                    {(['softCap', 'hardCap', 'minBuy', 'maxBuy'] as const).map((k) => (
-                      <div key={k}>
-                        <label htmlFor={`field-${k}`} className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">
-                          {k === 'softCap' ? t('softCap') : k === 'hardCap' ? t('hardCap') : k === 'minBuy' ? t('minBuy') : t('maxBuy')} *
-                        </label>
-                        <input id={`field-${k}`} type="number" step="0.01" value={form[k]} onChange={(e) => update(k, e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)]" />
-                      </div>
-                    ))}
+                    {(['softCap', 'hardCap', 'minBuy', 'maxBuy'] as const)
+                      .filter(k => !(k === 'hardCap' && form.saleType === 'fairlaunch'))
+                      .map((k) => (
+                        <div key={k}>
+                          <label htmlFor={`field-${k}`} className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">
+                            {k === 'softCap' ? t('softCap') : k === 'hardCap' ? t('hardCap') : k === 'minBuy' ? t('minBuy') : t('maxBuy')} *
+                          </label>
+                          <input id={`field-${k}`} type="number" step="0.01" value={form[k]} onChange={(e) => update(k, e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500 font-[family-name:var(--font-mono)]" />
+                        </div>
+                      ))}
                   </div>
+                  {form.saleType === 'fairlaunch' && (
+                    <div className="mb-5 p-3 rounded-[8px] bg-cyan-500/[0.04] border border-cyan-500/15 text-[0.8rem] text-cyan-400">
+                      Fair Launch: no hard cap — the sale closes when the end date is reached.
+                    </div>
+                  )}
 
-                  <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-4 mb-7">
                     <div>
                       <label htmlFor="field-start-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('startDate')} *</label>
                       <input id="field-start-date" type="datetime-local" value={form.startDate} onChange={(e) => update('startDate', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500" />
@@ -486,6 +548,117 @@ export default function CreatePage() {
                       <label htmlFor="field-end-date" className="block text-[0.74rem] font-semibold text-white/70 uppercase tracking-wider mb-2">{t('endDate')} *</label>
                       <input id="field-end-date" type="datetime-local" value={form.endDate} onChange={(e) => update('endDate', e.target.value)} className="w-full px-4 py-3 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-cyan-500" />
                     </div>
+                  </div>
+
+                  {/* Anti-bot section */}
+                  <div className="mb-5">
+                    <label className={cn(
+                      'flex items-start gap-3 p-3.5 rounded-[10px] border cursor-pointer transition-all mb-3',
+                      form.antiBotEnabled ? 'border-green-500/35 bg-green-500/[0.04]' : 'border-white/10 bg-white/[0.02]'
+                    )}>
+                      <input type="checkbox" checked={form.antiBotEnabled} onChange={e => update('antiBotEnabled', e.target.checked)} className="mt-1 accent-green-500" />
+                      <div>
+                        <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
+                          <Shield className="w-4 h-4 text-green-400" /> {t('antiBotEnable')}
+                        </div>
+                        <p className="text-[0.78rem] text-white/50">{t('antiBotEnableDesc')}</p>
+                      </div>
+                    </label>
+
+                    {form.antiBotEnabled && (
+                      <div className="pl-4 border-l-2 border-green-500/30 space-y-4">
+                        <div className="grid sm:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-[0.72rem] font-semibold text-white/60 uppercase tracking-wider mb-2">{t('maxWalletPct')}</label>
+                            <input type="number" value={form.maxWalletPct} min={0.1} max={100} step={0.5}
+                              onChange={e => update('maxWalletPct', e.target.value)}
+                              className="w-full px-3 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-green-500 font-[family-name:var(--font-mono)] text-[0.88rem]"
+                            />
+                            <p className="text-[0.7rem] text-white/35 mt-1">{t('maxWalletPctDesc')}</p>
+                          </div>
+                          <div>
+                            <label className="block text-[0.72rem] font-semibold text-white/60 uppercase tracking-wider mb-2">{t('txDelay')}</label>
+                            <input type="number" value={form.txDelay} min={0} max={300}
+                              onChange={e => update('txDelay', e.target.value)}
+                              className="w-full px-3 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-green-500 font-[family-name:var(--font-mono)] text-[0.88rem]"
+                            />
+                            <p className="text-[0.7rem] text-white/35 mt-1">{t('txDelayDesc')}</p>
+                          </div>
+                          <div>
+                            <label className="block text-[0.72rem] font-semibold text-white/60 uppercase tracking-wider mb-2">{t('maxTxPerBlock')}</label>
+                            <input type="number" value={form.maxTxPerBlock} min={1} max={10}
+                              onChange={e => update('maxTxPerBlock', e.target.value)}
+                              className="w-full px-3 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-green-500 font-[family-name:var(--font-mono)] text-[0.88rem]"
+                            />
+                            <p className="text-[0.7rem] text-white/35 mt-1">{t('maxTxPerBlockDesc')}</p>
+                          </div>
+                        </div>
+                        <div className="p-3 rounded-[8px] bg-green-500/[0.04] border border-green-500/20 text-[0.78rem] text-green-400">
+                          {t('antiBotNote')}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Whitelist section */}
+                  <div>
+                    <label className={cn(
+                      'flex items-start gap-3 p-3.5 rounded-[10px] border cursor-pointer transition-all mb-3',
+                      form.whitelistEnabled ? 'border-amber-500/35 bg-amber-500/[0.04]' : 'border-white/10 bg-white/[0.02]'
+                    )}>
+                      <input type="checkbox" checked={form.whitelistEnabled} onChange={e => update('whitelistEnabled', e.target.checked)} className="mt-1 accent-amber-500" />
+                      <div>
+                        <div className="font-semibold text-[0.9rem] flex items-center gap-2 mb-1">
+                          <Users className="w-4 h-4 text-amber-400" /> {t('whitelistEnable')}
+                        </div>
+                        <p className="text-[0.78rem] text-white/50">{t('whitelistEnableDesc')}</p>
+                      </div>
+                    </label>
+
+                    {form.whitelistEnabled && (
+                      <div className="pl-4 border-l-2 border-amber-500/30 space-y-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <label className="text-[0.72rem] font-semibold text-white/60 uppercase tracking-wider">{t('whitelistAddrs')}</label>
+                          <div className="flex items-center gap-2">
+                            {form.whitelistRaw && (
+                              <span className="text-[0.72rem] text-amber-400 font-[family-name:var(--font-mono)]">
+                                {form.whitelistRaw.split('\n').filter(l => l.trim()).length} {t('whitelistCount')}
+                              </span>
+                            )}
+                            <input ref={whitelistFileRef} type="file" accept=".csv,.txt" className="hidden"
+                              onChange={e => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = ev => update('whitelistRaw', (ev.target?.result as string).replace(/,.*$/gm, '').replace(/\r/g, ''));
+                                reader.readAsText(file);
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => whitelistFileRef.current?.click()}
+                              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] border border-white/15 bg-white/[0.02] text-white/50 hover:text-white text-[0.72rem] transition-all"
+                            >
+                              <Upload className="w-3 h-3" /> {t('whitelistUploadCsv')}
+                            </button>
+                            {form.whitelistRaw && (
+                              <button type="button" onClick={() => update('whitelistRaw', '')}
+                                className="text-[0.72rem] text-white/30 hover:text-red-400 transition-colors"
+                              >
+                                {t('whitelistClear')}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <textarea
+                          className="w-full px-3 py-2.5 rounded-[10px] border border-white/10 bg-white/[0.02] text-white outline-none focus:border-amber-500 font-[family-name:var(--font-mono)] text-[0.82rem] min-h-[120px] resize-y transition-colors"
+                          placeholder={t('whitelistPlaceholder')}
+                          value={form.whitelistRaw}
+                          onChange={e => update('whitelistRaw', e.target.value)}
+                        />
+                        <p className="text-[0.72rem] text-white/35">{t('whitelistHint')}</p>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
