@@ -100,14 +100,16 @@ export function Nav() {
       <nav
         className={cn(
           'fixed top-8 left-0 right-0 h-[68px] z-50',
-          'bg-bg-000/70 backdrop-blur-[24px] backdrop-saturate-[1.6]',
-          'border-b transition-all duration-[250ms]',
+          'backdrop-blur-[28px] backdrop-saturate-[1.8]',
+          'border-b transition-all duration-300',
           scrolled
-            ? 'border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)] bg-bg-000/90'
-            : 'border-white/5'
+            ? 'bg-bg-000/92 border-white/[0.1] shadow-[0_8px_40px_rgba(0,0,0,0.5),0_1px_0_rgba(0,212,255,0.04)]'
+            : 'bg-bg-000/70 border-white/[0.05]'
         )}
         aria-label="Primary navigation"
       >
+        {/* Bottom shimmer line */}
+        <div className="absolute bottom-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
         <div className="flex items-center h-full gap-2 max-w-[1360px] mx-auto px-6">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 mr-5" aria-label="Z-PAD Home">
@@ -132,16 +134,19 @@ export function Nav() {
                 href={link.href}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 className={cn(
-                  'px-3 py-2 rounded-md text-[0.86rem] font-medium flex items-center gap-1.5',
-                  'transition-colors whitespace-nowrap',
+                  'relative px-3 py-2 rounded-md text-[0.85rem] font-medium flex items-center gap-1.5',
+                  'transition-all duration-150 whitespace-nowrap',
                   isActive(link.href)
-                    ? 'text-cyan-400 bg-cyan-500/10'
-                    : 'text-white/70 hover:text-white hover:bg-white/5'
+                    ? 'text-cyan-400 bg-cyan-500/[0.09]'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 )}
               >
                 {link.label}
+                {isActive(link.href) && (
+                  <span className="absolute bottom-0 left-2 right-2 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/70 to-transparent rounded-full" />
+                )}
                 {'pill' in link && link.pill && (
-                  <span className="text-[0.62rem] px-1.5 py-0.5 rounded bg-gradient-to-br from-cyan-500 to-blue-500 text-[#021628] font-bold tracking-[0.05em]">
+                  <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-gradient-to-br from-cyan-500 to-blue-500 text-[#021628] font-bold tracking-[0.05em]">
                     {link.pill}
                   </span>
                 )}
@@ -179,7 +184,7 @@ export function Nav() {
                 <span>{LOCALE_LABELS[locale] ?? locale.toUpperCase()}</span>
               </button>
               {langOpen && (
-                <div className="absolute right-0 top-full mt-2 w-28 bg-bg-100 border border-white/14 rounded-[10px] shadow-xl overflow-hidden z-50">
+                <div className="absolute right-0 top-full mt-2 w-28 bg-bg-100/95 backdrop-blur-xl border border-white/[0.12] rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden z-50">
                   {routing.locales.map((loc) => (
                     <button
                       key={loc}
@@ -209,7 +214,7 @@ export function Nav() {
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#00e676]" aria-hidden="true" />
                   {fmt.address(wallet.address)}
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-56 bg-bg-100 border border-white/14 rounded-[10px] shadow-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all">
+                <div className="absolute right-0 top-full mt-2 w-56 bg-bg-100/95 backdrop-blur-xl border border-white/[0.12] rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-150">
                   <div className="p-3 border-b border-white/10">
                     <div className="text-[0.7rem] text-white/60 uppercase tracking-wider font-semibold mb-1">
                       {wallet.walletName}
@@ -232,7 +237,7 @@ export function Nav() {
             ) : (
               <button
                 onClick={openWalletModal}
-                className="inline-flex items-center gap-2 px-4 py-[9px] rounded-[10px] bg-cyan-500/5 border border-cyan-500/35 text-cyan-400 font-semibold text-[0.85rem] hover:bg-gradient-to-br hover:from-cyan-500 hover:to-blue-500 hover:text-[#021628] hover:border-transparent hover:shadow-[0_0_32px_rgba(0,212,255,0.28)] hover:-translate-y-px transition-all"
+                className="inline-flex items-center gap-2 px-4 py-[9px] rounded-[10px] bg-gradient-to-br from-cyan-500/10 to-blue-500/5 border border-cyan-500/40 text-cyan-400 font-semibold text-[0.85rem] shadow-[0_0_12px_rgba(0,212,255,0.08)] hover:from-cyan-500 hover:to-blue-500 hover:text-[#021628] hover:border-transparent hover:shadow-[0_0_28px_rgba(0,212,255,0.35)] hover:-translate-y-px transition-all duration-200"
                 type="button"
               >
                 <Wallet className="w-3.5 h-3.5" aria-hidden="true" />
@@ -260,7 +265,7 @@ export function Nav() {
         <div
           ref={mobileMenuRef}
           id="mobile-menu"
-          className="fixed inset-0 top-[100px] z-[49] bg-bg-000/98 backdrop-blur-xl p-6 overflow-y-auto lg:hidden"
+          className="fixed inset-0 top-[100px] z-[49] bg-bg-000/97 backdrop-blur-2xl p-6 overflow-y-auto lg:hidden border-t border-white/[0.06]"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
