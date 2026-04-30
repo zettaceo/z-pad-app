@@ -41,6 +41,8 @@ export function Nav() {
     { href: '/create', label: t('create'), pill: t('new') },
     { href: '/pods', label: t('pods'), pill: t('new') },
     { href: '/locker', label: t('locker') },
+    { href: '/token-creator', label: t('tokenCreator') },
+    { href: '/airdrop', label: t('airdrop') },
     { href: '/staking', label: t('staking') },
     { href: '/governance', label: t('governance') },
     { href: '/rewards', label: t('rewards') },

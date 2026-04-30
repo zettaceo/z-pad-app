@@ -31,6 +31,8 @@ export async function Footer() {
       title: t('sectionProducts'),
       links: [
         { label: t('linkLocker'), href: '/locker' },
+        { label: t('linkTokenCreator'), href: '/token-creator' },
+        { label: t('linkAirdrop'), href: '/airdrop' },
         { label: 'Z-FINANCE', href: '#' },
         { label: 'Z-PAY', href: '#' },
         { label: 'Z-SWAP', href: '#' },
