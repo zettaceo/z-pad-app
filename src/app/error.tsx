@@ -16,8 +16,10 @@ export default function GlobalError({
   useEffect(() => {
     // In production, send to error tracking service (Sentry, etc.)
     if (process.env.NODE_ENV === 'production') {
-      // Placeholder for error telemetry
-      console.error('[z-pad]', error.digest, error.message);
+      // Only log the digest (opaque hash) — never log error.message in production
+      // as it may contain internal stack traces or sensitive path information.
+      // Forward error.digest to your error tracking service (e.g. Sentry) instead.
+      console.error('[z-pad] error', error.digest ?? 'no-digest');
     }
   }, [error]);
 

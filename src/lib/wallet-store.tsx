@@ -38,7 +38,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     await new Promise((r) => setTimeout(r, 500));
     setWallet({
       connected: true,
-      address: '0x072c4A1b3D8F2e5C9A7d3B4e6F5a8C1b9D2E1668a',
+      address: '0x072c4A1b3D8F2e5C9A7d3B4e6F5a8C1b9D2e1f8a',
       walletName,
       balance: { bnb: 2.485, usdt: 1250.5, z: 12500, eth: 0.82, sol: 45.2 },
       kyc: false,

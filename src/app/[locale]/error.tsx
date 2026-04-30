@@ -18,7 +18,9 @@ export default function GlobalError({
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
-      console.error('[z-pad]', error.digest, error.message);
+      // Only log the digest — never expose error.message to the browser console
+      // in production (may contain internal stack traces / path info).
+      console.error('[z-pad] error', error.digest ?? 'no-digest');
     }
   }, [error]);
 

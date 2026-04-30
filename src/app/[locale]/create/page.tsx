@@ -444,6 +444,7 @@ export default function CreatePage() {
                             <button
                               type="button"
                               onClick={() => removeLock(lock.id)}
+                              aria-label="Remove lock entry"
                               className="w-7 h-7 rounded-md bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-red-400 hover:border-red-400/30 transition-colors"
                             >
                               <X className="w-3.5 h-3.5" />
@@ -629,8 +630,9 @@ export default function CreatePage() {
                               onChange={e => {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
+                                if (file.size > 512_000) { toast.error('CSV too large (max 500 KB)'); return; }
                                 const reader = new FileReader();
-                                reader.onload = ev => update('whitelistRaw', (ev.target?.result as string).replace(/,.*$/gm, '').replace(/\r/g, ''));
+                                reader.onload = ev => update('whitelistRaw', (ev.target?.result as string).replace(/,.*$/gm, '').replace(/\r/g, '').slice(0, 100_000));
                                 reader.readAsText(file);
                               }}
                             />

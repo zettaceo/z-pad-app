@@ -59,14 +59,24 @@ export default function TokenCreatorPage() {
     setForm(f => ({ ...f, [k]: !f[k] }));
 
   const hasTax = parseFloat(form.buyTax) > 0 || parseFloat(form.sellTax) > 0;
+  const isValidEthAddress = (addr: string) => /^0x[0-9a-fA-F]{40}$/.test(addr);
 
   const handleDeploy = () => {
     if (!wallet.connected) { openWalletModal(); return; }
-    if (!form.name || !form.symbol || !form.supply) {
+    if (!form.name.trim() || !form.symbol.trim() || !form.supply) {
       toast.error('Fill in all required fields'); return;
+    }
+    if (form.symbol.length < 2 || form.symbol.length > 8) {
+      toast.error('Symbol must be 2–8 characters'); return;
+    }
+    if (Number(form.supply) <= 0 || !Number.isFinite(Number(form.supply))) {
+      toast.error('Supply must be a positive number'); return;
     }
     if (hasTax && !form.taxWallet) {
       toast.error('Tax wallet address is required when tax > 0'); return;
+    }
+    if (hasTax && !isValidEthAddress(form.taxWallet)) {
+      toast.error('Tax wallet must be a valid Ethereum address (0x…)'); return;
     }
     setDeploying(true);
     toast.loading('Compiling contract…', { id: 'deploy' });
@@ -229,6 +239,7 @@ export default function TokenCreatorPage() {
                         type="button"
                         role="switch"
                         aria-checked={form[key]}
+                        aria-label={t(titleKey)}
                       >
                         <span className={cn('absolute top-1 w-4 h-4 rounded-full bg-white transition-all', form[key] ? 'left-6' : 'left-1')} />
                       </button>

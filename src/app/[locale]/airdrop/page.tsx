@@ -78,10 +78,12 @@ export default function AirdropPage() {
   const handleCsv = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    // Limit CSV size to 500 KB to prevent memory issues from giant files
+    if (file.size > 512_000) { toast.error('CSV file too large (max 500 KB)'); return; }
     const reader = new FileReader();
     reader.onload = ev => {
       const text = ev.target?.result as string;
-      setRawRecipients(text.replace(/\r/g, ''));
+      setRawRecipients(text.replace(/\r/g, '').slice(0, 100_000));
     };
     reader.readAsText(file);
   };
@@ -320,8 +322,8 @@ export default function AirdropPage() {
                             {r.amount} <span className="text-white/40 font-normal">{tokenInfo?.symbol}</span>
                           </td>
                           <td className="p-3">
-                            <button onClick={() => removeRecipient(i)} className="text-white/30 hover:text-red-400 transition-colors">
-                              <X className="w-3.5 h-3.5" />
+                            <button onClick={() => removeRecipient(i)} className="text-white/30 hover:text-red-400 transition-colors" type="button" aria-label={`Remove recipient ${r.address}`}>
+                              <X className="w-3.5 h-3.5" aria-hidden="true" />
                             </button>
                           </td>
                         </tr>
