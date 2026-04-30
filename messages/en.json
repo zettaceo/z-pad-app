@@ -30,7 +30,8 @@
     "docs": "Docs",
     "tokenCreator": "Token Creator",
     "airdrop": "Airdrop",
-    "otc": "OTC"
+    "otc": "OTC",
+    "partners": "Partners"
   },
   "home": {
     "badge1": "Live on 7 Chains",
@@ -228,7 +229,21 @@
     "typeStake": "🔒 Stake",
     "connectTitle": "Connect Your Wallet",
     "connectDesc": "Connect to view your portfolio, positions, reputation, and activity on Z-PAD.",
-    "welcomeBack": "Welcome back,"
+    "welcomeBack": "Welcome back,",
+    "chartTitle": "Portfolio Performance",
+    "chart7d": "7D",
+    "chart30d": "30D",
+    "chartAll": "ALL",
+    "allocationTitle": "Portfolio Allocation",
+    "pnlTitle": "P&L Overview",
+    "pnlRealized": "Realized",
+    "pnlUnrealized": "Unrealized",
+    "pnlBestPosition": "Best Position",
+    "pnlWorstPosition": "Worst Position",
+    "participationsTitle": "Participation History",
+    "participationsSales": "Sales Joined",
+    "participationsWinRate": "Win Rate",
+    "participationsAvgReturn": "Avg Return"
   },
   "staking": {
     "breadcrumb": "Staking",
@@ -725,7 +740,8 @@
     "linkLocker": "Token Locker",
     "linkTokenCreator": "Token Creator",
     "linkAirdrop": "Airdrop",
-    "linkOtc": "OTC Market"
+    "linkOtc": "OTC Market",
+    "linkPartners": "Partners"
   },
   "wallet": {
     "title": "Connect Wallet",
@@ -1241,5 +1257,22 @@
     "cancelListing": "Cancel",
     "cancelConfirm": "Listing cancelled",
     "feeTip": "Platform fee: 1% of the total deal value, charged to the buyer at settlement."
+  },
+  "partners": {
+    "breadcrumb": "Partners",
+    "label": "Ecosystem Partners",
+    "title1": "Our",
+    "title2": "Partners",
+    "desc": "Z-PAD is backed by leading investors, secured by top auditors, and integrated with the most trusted infrastructure in Web3.",
+    "catAll": "All",
+    "catVc": "Investors & VCs",
+    "catAudit": "Security Auditors",
+    "catDex": "DEX & CEX",
+    "catInfra": "Infrastructure",
+    "catMedia": "Media & Community",
+    "visitWebsite": "Visit Website",
+    "becomePartner": "Become a Partner",
+    "becomePartnerDesc": "Interested in integrating with Z-PAD or listing your project? Reach out to our partnerships team.",
+    "contactUs": "Contact Us"
   }
 }

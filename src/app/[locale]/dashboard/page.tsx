@@ -11,6 +11,8 @@ import { fmt } from '@/lib/format';
 import { Button } from '@/components/ui/Button';
 import { VestingSchedule } from '@/components/features/VestingSchedule';
 import { ZionDiagnosis } from '@/components/features/ZionDiagnosis';
+import { PortfolioChart } from '@/components/features/PortfolioChart';
+import { PortfolioAnalytics } from '@/components/features/PortfolioAnalytics';
 
 export default function DashboardPage() {
   const { wallet, openWalletModal } = useWallet();
@@ -109,6 +111,12 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
+
+          {/* Portfolio Performance Chart */}
+          <PortfolioChart />
+
+          {/* Analytics: Allocation + PnL + Participations */}
+          <PortfolioAnalytics positions={POSITIONS} />
 
           {/* Wallet Balance */}
           <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6 mb-6">

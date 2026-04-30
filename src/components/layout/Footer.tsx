@@ -44,6 +44,7 @@ export async function Footer() {
       title: t('sectionResources'),
       links: [
         { label: t('linkDocs'), href: '/docs' },
+        { label: t('linkPartners'), href: '/partners' },
         { label: t('linkSecurity'), href: '/.well-known/security.txt', external: true },
         { label: t('linkTerms'), href: '/terms' },
         { label: t('linkPrivacy'), href: '/privacy' },

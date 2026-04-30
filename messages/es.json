@@ -30,7 +30,8 @@
     "docs": "Docs",
     "tokenCreator": "Crear Token",
     "airdrop": "Airdrop",
-    "otc": "OTC"
+    "otc": "OTC",
+    "partners": "Socios"
   },
   "home": {
     "badge1": "En Vivo en 7 Cadenas",
@@ -228,7 +229,21 @@
     "typeStake": "🔒 Stake",
     "connectTitle": "Conecta Tu Billetera",
     "connectDesc": "Conéctate para ver tu portafolio, posiciones, reputación y actividad en Z-PAD.",
-    "welcomeBack": "Bienvenido de nuevo,"
+    "welcomeBack": "Bienvenido de nuevo,",
+    "chartTitle": "Rendimiento del Portafolio",
+    "chart7d": "7D",
+    "chart30d": "30D",
+    "chartAll": "TODO",
+    "allocationTitle": "Asignación del Portafolio",
+    "pnlTitle": "Resumen de P&L",
+    "pnlRealized": "Realizado",
+    "pnlUnrealized": "No Realizado",
+    "pnlBestPosition": "Mejor Posición",
+    "pnlWorstPosition": "Peor Posición",
+    "participationsTitle": "Historial de Participaciones",
+    "participationsSales": "Ventas Participadas",
+    "participationsWinRate": "Tasa de Éxito",
+    "participationsAvgReturn": "Retorno Promedio"
   },
   "staking": {
     "breadcrumb": "Staking",
@@ -725,7 +740,8 @@
     "linkLocker": "Token Locker",
     "linkTokenCreator": "Crear Token",
     "linkAirdrop": "Airdrop",
-    "linkOtc": "Mercado OTC"
+    "linkOtc": "Mercado OTC",
+    "linkPartners": "Socios"
   },
   "wallet": {
     "title": "Conectar Billetera",
@@ -1241,5 +1257,22 @@
     "cancelListing": "Cancelar",
     "cancelConfirm": "Oferta cancelada",
     "feeTip": "Tarifa de plataforma: 1% del valor total del trato, cobrado al comprador en la liquidación."
+  },
+  "partners": {
+    "breadcrumb": "Socios",
+    "label": "Socios del Ecosistema",
+    "title1": "Nuestros",
+    "title2": "Socios",
+    "desc": "Z-PAD está respaldado por inversores líderes, asegurado por los mejores auditores e integrado con la infraestructura más confiable de Web3.",
+    "catAll": "Todos",
+    "catVc": "Inversores y VCs",
+    "catAudit": "Auditores de Seguridad",
+    "catDex": "DEX y CEX",
+    "catInfra": "Infraestructura",
+    "catMedia": "Medios y Comunidad",
+    "visitWebsite": "Visitar Sitio",
+    "becomePartner": "Conviértete en Socio",
+    "becomePartnerDesc": "¿Interesado en integrarte con Z-PAD o listar tu proyecto? Contacta a nuestro equipo de partnerships.",
+    "contactUs": "Contáctanos"
   }
 }

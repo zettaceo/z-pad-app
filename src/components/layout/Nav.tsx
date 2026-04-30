@@ -49,6 +49,7 @@ export function Nav() {
     { href: '/rewards', label: t('rewards') },
     { href: '/backtest', label: t('backtest') },
     { href: '/docs', label: t('docs') },
+    { href: '/partners', label: t('partners') },
   ] as const;
 
   useFocusTrap(mobileMenuRef, mobileOpen);

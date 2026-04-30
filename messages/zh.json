@@ -30,7 +30,8 @@
     "docs": "文档",
     "tokenCreator": "创建代币",
     "airdrop": "空投",
-    "otc": "OTC"
+    "otc": "OTC",
+    "partners": "合作伙伴"
   },
   "home": {
     "badge1": "支持7条公链",
@@ -228,7 +229,21 @@
     "typeStake": "🔒 质押",
     "connectTitle": "连接您的钱包",
     "connectDesc": "连接以查看您在 Z-PAD 上的投资组合、持仓、信誉和活动。",
-    "welcomeBack": "欢迎回来，"
+    "welcomeBack": "欢迎回来，",
+    "chartTitle": "投资组合表现",
+    "chart7d": "7天",
+    "chart30d": "30天",
+    "chartAll": "全部",
+    "allocationTitle": "投资组合分配",
+    "pnlTitle": "盈亏概览",
+    "pnlRealized": "已实现",
+    "pnlUnrealized": "未实现",
+    "pnlBestPosition": "最佳持仓",
+    "pnlWorstPosition": "最差持仓",
+    "participationsTitle": "参与历史",
+    "participationsSales": "已参与销售",
+    "participationsWinRate": "胜率",
+    "participationsAvgReturn": "平均回报"
   },
   "staking": {
     "breadcrumb": "质押",
@@ -725,7 +740,8 @@
     "linkLocker": "代币锁定",
     "linkTokenCreator": "创建代币",
     "linkAirdrop": "空投",
-    "linkOtc": "OTC 市场"
+    "linkOtc": "OTC 市场",
+    "linkPartners": "合作伙伴"
   },
   "wallet": {
     "title": "连接钱包",
@@ -1241,5 +1257,22 @@
     "cancelListing": "取消",
     "cancelConfirm": "挂单已取消",
     "feeTip": "平台费用：成交总价值的1%，在结算时向买家收取。"
+  },
+  "partners": {
+    "breadcrumb": "合作伙伴",
+    "label": "生态系统合作伙伴",
+    "title1": "我们的",
+    "title2": "合作伙伴",
+    "desc": "Z-PAD 得到了领先投资者的支持，由顶级审计师保障安全，并与Web3中最值得信赖的基础设施集成。",
+    "catAll": "全部",
+    "catVc": "投资者和风投",
+    "catAudit": "安全审计师",
+    "catDex": "DEX 和 CEX",
+    "catInfra": "基础设施",
+    "catMedia": "媒体和社区",
+    "visitWebsite": "访问网站",
+    "becomePartner": "成为合作伙伴",
+    "becomePartnerDesc": "有兴趣与Z-PAD集成或列出您的项目？请联系我们的合作团队。",
+    "contactUs": "联系我们"
   }
 }
