@@ -33,6 +33,7 @@ export async function Footer() {
         { label: t('linkLocker'), href: '/locker' },
         { label: t('linkTokenCreator'), href: '/token-creator' },
         { label: t('linkAirdrop'), href: '/airdrop' },
+        { label: t('linkOtc'), href: '/otc' },
         { label: 'Z-FINANCE', href: '#' },
         { label: 'Z-PAY', href: '#' },
         { label: 'Z-SWAP', href: '#' },

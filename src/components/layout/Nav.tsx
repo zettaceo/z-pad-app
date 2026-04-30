@@ -43,6 +43,7 @@ export function Nav() {
     { href: '/locker', label: t('locker') },
     { href: '/token-creator', label: t('tokenCreator') },
     { href: '/airdrop', label: t('airdrop') },
+    { href: '/otc', label: t('otc') },
     { href: '/staking', label: t('staking') },
     { href: '/governance', label: t('governance') },
     { href: '/rewards', label: t('rewards') },
