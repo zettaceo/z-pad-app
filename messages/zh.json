@@ -118,7 +118,12 @@
     "aiScore": "AI 评分",
     "target": "目标",
     "raised": "已募资",
-    "participants": "参与者"
+    "participants": "参与者",
+    "featuredSpotlight": "✦ 精选",
+    "endsIn": "结束于",
+    "startsIn": "开始于",
+    "noResultsDesc": "请尝试调整筛选条件或搜索词",
+    "clearFilters": "清除所有筛选"
   },
   "projectDetail": {
     "analyzedBy": "由 ZION AI 从6个维度分析",

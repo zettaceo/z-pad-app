@@ -109,10 +109,10 @@ export default function ProjectsPage() {
           <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
             <Link href={`/projects/${featured.id}`} className="group relative flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-5 bg-bg-075 border border-cyan-500/20 rounded-[16px] overflow-hidden hover:border-cyan-500/40 hover:shadow-[0_0_40px_rgba(0,212,255,0.07)] transition-all duration-[250ms]">
               <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-70" style={{ backgroundSize: '200%', animation: 'shimmer 3s linear infinite' }} />
-              <Image src={featured.logo} alt={featured.name} width={52} height={52} className="w-13 h-13 rounded-[12px] shrink-0 object-cover border border-cyan-500/25 shadow-[0_0_20px_rgba(0,212,255,0.2)]" />
+              <Image src={featured.logo} alt={featured.name} width={52} height={52} className="w-[52px] h-[52px] rounded-[12px] shrink-0 object-cover border border-cyan-500/25 shadow-[0_0_20px_rgba(0,212,255,0.2)]" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <span className="text-[0.62rem] font-bold text-cyan-400 uppercase tracking-[0.12em] bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2 py-0.5">✦ Featured</span>
+                  <span className="text-[0.62rem] font-bold text-cyan-400 uppercase tracking-[0.12em] bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2 py-0.5">{t('featuredSpotlight')}</span>
                   <Badge variant={featured.status === 'live' ? 'live' : featured.status === 'upcoming' ? 'upcoming' : 'ended'} />
                 </div>
                 <div className="font-[family-name:var(--font-display)] font-bold text-[1rem] tracking-tight truncate">{featured.name}</div>
@@ -129,12 +129,12 @@ export default function ProjectsPage() {
                 <div className="w-full h-[5px] bg-white/[0.06] rounded-full overflow-hidden">
                   <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-[0_0_8px_rgba(0,212,255,0.4)]" style={{ width: `${Math.min(100, (featured.raised / featured.target) * 100)}%` }} />
                 </div>
-                <div className="mt-1 text-[0.68rem] text-white/35 font-[family-name:var(--font-mono)]">{fmt.currency(featured.raised, { compact: true })} raised</div>
+                <div className="mt-1 text-[0.68rem] text-white/35 font-[family-name:var(--font-mono)]">{fmt.currency(featured.raised, { compact: true })} {t('raised')}</div>
               </div>
               <div className="hidden md:block shrink-0"><AiScore score={featured.aiScore} /></div>
               {featured.status !== 'ended' && (
                 <div className="hidden sm:block shrink-0 text-right min-w-[90px]">
-                  <div className="text-[0.62rem] text-white/35 uppercase tracking-[0.08em] mb-1">{featured.status === 'live' ? 'Ends in' : 'Starts in'}</div>
+                  <div className="text-[0.62rem] text-white/35 uppercase tracking-[0.08em] mb-1">{featured.status === 'live' ? t('endsIn') : t('startsIn')}</div>
                   <Countdown targetMs={(featured.status === 'live' ? featured.endsAt : featured.startsAt) * 1000} variant="inline" className={cn('text-[0.78rem] font-semibold', featured.status === 'live' ? 'text-amber-400' : 'text-cyan-400')} />
                 </div>
               )}
@@ -208,10 +208,10 @@ export default function ProjectsPage() {
                 <Search className="w-7 h-7 text-white/25" />
               </div>
               <h3 className="font-[family-name:var(--font-display)] text-[1.15rem] text-white mb-2 font-bold">{t('noResults')}</h3>
-              <p className="text-white/35 text-[0.86rem]">Try adjusting your filters or search term</p>
+              <p className="text-white/35 text-[0.86rem]">{t('noResultsDesc')}</p>
               <button onClick={() => { setStatus('all'); setChain('all'); setSearch(''); }} type="button"
                 className="mt-5 px-4 py-2 rounded-[10px] border border-white/10 text-[0.84rem] text-white/50 hover:text-white hover:border-white/25 transition-all">
-                Clear all filters
+                {t('clearFilters')}
               </button>
             </div>
           ) : view === 'grid' ? (
@@ -254,7 +254,7 @@ export default function ProjectsPage() {
                     <div className="shrink-0 min-w-[80px] text-right">
                       {!isEnded
                         ? <Countdown targetMs={(isLive ? p.endsAt : p.startsAt) * 1000} variant="inline" className={cn('text-[0.7rem]', isLive ? 'text-amber-400' : 'text-cyan-400')} />
-                        : <span className="text-[0.7rem] text-white/25 font-[family-name:var(--font-mono)]">Ended</span>
+                        : <span className="text-[0.7rem] text-white/25 font-[family-name:var(--font-mono)]">{t('tabEnded')}</span>
                       }
                     </div>
                   </Link>

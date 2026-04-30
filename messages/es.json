@@ -118,7 +118,12 @@
     "aiScore": "Puntuación IA",
     "target": "Objetivo",
     "raised": "Recaudado",
-    "participants": "Participantes"
+    "participants": "Participantes",
+    "featuredSpotlight": "✦ Destacado",
+    "endsIn": "Termina en",
+    "startsIn": "Comienza en",
+    "noResultsDesc": "Intenta ajustar tus filtros o término de búsqueda",
+    "clearFilters": "Limpiar filtros"
   },
   "projectDetail": {
     "analyzedBy": "Analizado por ZION AI en 6 dimensiones",
