@@ -25,7 +25,9 @@ export default async function HomePage() {
   const featured = PROJECTS.find((p) => p.featured);
   const featuredI18n = featured ? getProjectContent(featured.id, locale) : null;
   const featuredDesc = featuredI18n?.description ?? featured?.description;
-  const liveProjects = PROJECTS.filter((p) => p.status === 'live' || p.status === 'upcoming').slice(0, 6);
+  const allLive = PROJECTS.filter((p) => p.status === 'live' || p.status === 'upcoming');
+  const liveCount = allLive.length;
+  const liveProjects = allLive.slice(0, 6);
 
   const FEATURES = [
     { icon: Brain,       title: t('feature1Title'), desc: t('feature1Desc'), badge: 'ai' as const,         color: 'from-cyan-500/15 to-blue-500/8',    border: 'border-cyan-500/25',    text: 'text-cyan-400'   },
@@ -136,7 +138,7 @@ export default async function HomePage() {
                   <span className="text-[0.65rem] text-white/45 uppercase tracking-[0.1em] font-semibold">Live Sales</span>
                 </div>
                 <div className="font-[family-name:var(--font-display)] font-extrabold text-[1.1rem] tracking-tight text-white">
-                  {liveProjects.length} <span className="text-white/40 text-[0.8rem] font-normal">active</span>
+                  {liveCount} <span className="text-white/40 text-[0.8rem] font-normal">active</span>
                 </div>
               </div>
             </div>
@@ -282,6 +284,9 @@ export default async function HomePage() {
                 {t('liveTitle')}<span className="text-cyan-500 font-black">.</span>
               </h2>
             </div>
+            <Link href="/projects" className="inline-flex items-center gap-1.5 text-cyan-400 text-[0.88rem] font-medium hover:gap-2.5 transition-all">
+              {t('viewDetails')} <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {liveProjects.map((p) => (
