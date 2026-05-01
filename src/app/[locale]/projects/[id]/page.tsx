@@ -8,6 +8,7 @@ import { getTranslations, getLocale } from 'next-intl/server';
 import { PROJECTS } from '@/lib/mock-data';
 import { getProjectContent } from '@/lib/project-i18n';
 import { fmt } from '@/lib/format';
+import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { ChainChip } from '@/components/features/ChainChip';
@@ -17,6 +18,36 @@ import { TimeLeftInline } from '@/components/features/TimeLeftInline';
 import { InvestmentCalculator } from '@/components/features/InvestmentCalculator';
 import { AllocationTier } from '@/components/features/AllocationTier';
 import { SentimentOracle } from '@/components/features/SentimentOracle';
+
+const CHAIN_BANNER: Record<string, string> = {
+  bsc:      'from-[#f3ba2f]/20 via-[#f3ba2f]/6 to-transparent',
+  eth:      'from-[#627eea]/20 via-[#627eea]/6 to-transparent',
+  polygon:  'from-[#8247e5]/20 via-[#8247e5]/6 to-transparent',
+  arbitrum: 'from-[#28a0f0]/20 via-[#28a0f0]/6 to-transparent',
+  zetta:    'from-cyan-500/20 via-cyan-500/6 to-transparent',
+  solana:   'from-[#9945ff]/18 via-[#14f195]/6 to-transparent',
+  base:     'from-[#0052ff]/20 via-[#0052ff]/6 to-transparent',
+};
+
+const CHAIN_BAR: Record<string, string> = {
+  bsc:      'from-[#f3ba2f] to-[#e9a800]',
+  eth:      'from-[#627eea] to-[#4a5fd4]',
+  polygon:  'from-[#8247e5] to-[#6830c9]',
+  arbitrum: 'from-[#28a0f0] to-[#1785ce]',
+  zetta:    'from-cyan-400 to-blue-500',
+  solana:   'from-[#9945ff] to-[#14f195]',
+  base:     'from-[#0052ff] to-[#3a7bff]',
+};
+
+const CHAIN_GLOW: Record<string, string> = {
+  bsc:      'shadow-[0_0_14px_rgba(243,186,47,0.5)]',
+  eth:      'shadow-[0_0_14px_rgba(98,126,234,0.5)]',
+  polygon:  'shadow-[0_0_14px_rgba(130,71,229,0.5)]',
+  arbitrum: 'shadow-[0_0_14px_rgba(40,160,240,0.5)]',
+  zetta:    'shadow-[0_0_14px_rgba(0,212,255,0.55)]',
+  solana:   'shadow-[0_0_14px_rgba(153,69,255,0.5)]',
+  base:     'shadow-[0_0_14px_rgba(0,82,255,0.5)]',
+};
 
 // Revalidate every hour so mock timestamps (startsAt/endsAt) in the static
 // HTML don't drift more than ~60 min from real time. Replace with on-demand
@@ -65,35 +96,49 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   return (
     <div className="pt-[100px]">
-      <section className="pt-8">
+      {/* Chain-tinted banner */}
+      <div className={cn('w-full h-[90px] bg-gradient-to-r relative overflow-hidden', CHAIN_BANNER[p.chain] ?? 'from-cyan-500/10 to-transparent')}>
+        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+      </div>
+
+      <section className="pt-0">
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
-          <div className="flex items-center gap-2 text-[0.82rem] text-white/50 mb-4">
+          <div className="flex items-center gap-2 text-[0.82rem] text-white/45 mb-5 mt-5">
             <Link href="/" className="hover:text-cyan-400">{tc('home')}</Link>
-            <span className="text-white/30">/</span>
+            <span className="text-white/25">/</span>
             <Link href="/projects" className="hover:text-cyan-400">{tp('breadcrumb')}</Link>
-            <span className="text-white/30">/</span>
-            <span>{p.name}</span>
+            <span className="text-white/25">/</span>
+            <span className="text-white/70">{p.name}</span>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-5 items-start sm:items-center mb-6">
-            <div className="flex items-start gap-4 flex-1 min-w-0">
-              <Image
-                src={p.logo}
-                alt={p.name}
-                width={88}
-                height={88}
-                sizes="88px"
-                priority
-                className="w-[64px] h-[64px] sm:w-[88px] sm:h-[88px] rounded-full border-2 border-cyan-500/35 shadow-[0_0_32px_rgba(0,212,255,0.28)] shrink-0 object-cover"
-              />
+            <div className="flex items-start gap-5 flex-1 min-w-0">
+              <div className="relative shrink-0">
+                <Image
+                  src={p.logo}
+                  alt={p.name}
+                  width={88}
+                  height={88}
+                  sizes="88px"
+                  priority
+                  className="w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-[18px] border-2 border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] object-cover ring-1 ring-white/10"
+                />
+                <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 rounded-full bg-bg-000 border border-white/10 flex items-center justify-center">
+                  <span className={cn('w-3 h-3 rounded-full', {
+                    'bg-green-500 shadow-[0_0_6px_#00e676]': p.status === 'live',
+                    'bg-cyan-400 shadow-[0_0_6px_rgba(0,212,255,0.8)]': p.status === 'upcoming',
+                    'bg-white/20': p.status === 'ended',
+                  })} />
+                </div>
+              </div>
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-3 flex-wrap mb-2.5">
+                <div className="flex items-center gap-3 flex-wrap mb-2">
                   <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.6rem,4vw,2.6rem)] font-extrabold tracking-[-0.03em] leading-[1.05]">
                     {p.name}
                   </h1>
                   <Badge variant={p.status === 'live' ? 'live' : p.status === 'upcoming' ? 'upcoming' : 'ended'} />
                 </div>
-                <div className="flex flex-wrap gap-1.5 mb-3.5">
+                <div className="flex flex-wrap gap-1.5 mb-3">
                   <ChainChip chain={p.chain} chainName={p.chainName} />
                   <Badge variant={p.saleTypeKey} />
                   {p.kyc && <Badge variant="kyc" />}
@@ -101,7 +146,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   {p.refundable && <Badge variant="refundable" />}
                   <Badge variant="ai" />
                 </div>
-                <p className="text-white/70 max-w-[640px] leading-relaxed">{desc}</p>
+                <p className="text-white/65 max-w-[640px] leading-relaxed text-[0.95rem]">{desc}</p>
               </div>
             </div>
             <div className="flex items-center gap-4 shrink-0">
@@ -133,38 +178,28 @@ export default async function ProjectDetailPage({ params }: Props) {
               {/* Stats row */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
-                  { l: tp('raised'), v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true },
-                  { l: tp('target'), v: fmt.currency(p.target, { compact: true }), c: pd('hardCap') },
-                  { l: tp('participants'), v: fmt.number(p.participants), c: `+${Math.floor(p.participants * 0.12)} today`, up: true },
-                  { l: pd('liquidity'), v: `${p.liquidity}%`, c: pd('locked100y') },
+                  { l: tp('raised'),       v: fmt.currency(p.raised, { compact: true }), c: `${fmt.percent(progress)} of target`, up: true,  accent: 'border-t-cyan-500/50'   },
+                  { l: tp('target'),       v: fmt.currency(p.target, { compact: true }), c: pd('hardCap'),                        up: false, accent: 'border-t-blue-500/50'   },
+                  { l: tp('participants'), v: fmt.number(p.participants),                 c: `+${Math.floor(p.participants * 0.12)} today`, up: true, accent: 'border-t-violet-500/50' },
+                  { l: pd('liquidity'),    v: `${p.liquidity}%`,                         c: pd('locked100y'),                    up: false, accent: 'border-t-emerald-500/50' },
                 ].map((s) => (
-                  <div key={s.l} className="bg-bg-075 border border-white/10 rounded-[14px] p-5 relative overflow-hidden">
-                    <div className="text-[0.76rem] text-white/50 uppercase tracking-[0.08em] mb-2.5 font-semibold">
-                      {s.l}
-                    </div>
-                    <div className="font-[family-name:var(--font-display)] text-[1.8rem] font-extrabold tracking-[-0.025em] leading-[1.1] mb-1.5">
-                      {s.v}
-                    </div>
-                    <div className={`font-[family-name:var(--font-mono)] text-[0.8rem] ${s.up ? 'text-green-400' : 'text-white/50'}`}>
-                      {s.c}
-                    </div>
+                  <div key={s.l} className={cn('bg-bg-075 border border-white/[0.08] border-t-2 rounded-[14px] p-5 relative overflow-hidden', s.accent)}>
+                    <div className="text-[0.72rem] text-white/45 uppercase tracking-[0.08em] mb-2 font-semibold">{s.l}</div>
+                    <div className="font-[family-name:var(--font-display)] text-[1.7rem] font-extrabold tracking-[-0.025em] leading-[1.1] mb-1.5">{s.v}</div>
+                    <div className={cn('font-[family-name:var(--font-mono)] text-[0.77rem]', s.up ? 'text-green-400' : 'text-white/40')}>{s.c}</div>
                   </div>
                 ))}
               </div>
 
               {/* Progress panel */}
-              <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6">
+              <div className="bg-bg-075 border border-white/[0.08] rounded-[14px] p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold">
-                    {pd('saleProgress')}
-                  </div>
-                  <div className="font-[family-name:var(--font-mono)] text-cyan-400 font-bold">
-                    {fmt.percent(progress)}
-                  </div>
+                  <div className="font-[family-name:var(--font-display)] text-[1.1rem] font-bold">{pd('saleProgress')}</div>
+                  <div className="font-[family-name:var(--font-mono)] text-cyan-400 font-bold">{fmt.percent(progress)}</div>
                 </div>
-                <div className="w-full h-2.5 bg-white/5 rounded-full overflow-hidden">
+                <div className="w-full h-[8px] bg-white/[0.06] rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-[0_0_12px_rgba(0,212,255,0.4)]"
+                    className={cn('h-full bg-gradient-to-r rounded-full transition-[width] duration-700', CHAIN_BAR[p.chain] ?? 'from-cyan-400 to-blue-500', CHAIN_GLOW[p.chain] ?? '')}
                     style={{ width: `${progress}%` }}
                   />
                 </div>
@@ -457,7 +492,8 @@ export default async function ProjectDetailPage({ params }: Props) {
 
             {/* Sticky buy panel */}
             <div className="flex flex-col gap-5">
-              <div className="bg-bg-075 border border-white/10 rounded-[14px] p-6 lg:sticky lg:top-[110px]">
+              <div className="relative bg-bg-075 border border-white/[0.1] rounded-[16px] p-6 lg:sticky lg:top-[110px] shadow-[0_0_40px_rgba(0,212,255,0.04)] overflow-hidden">
+                <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500/60 to-transparent" style={{ backgroundSize: '200%', animation: 'shimmer 3s linear infinite' }} />
                 {p.status === 'live' ? (
                   <div className="flex items-center gap-2 mb-3.5">
                     <Badge variant="live">{pd('saleLive')}</Badge>
