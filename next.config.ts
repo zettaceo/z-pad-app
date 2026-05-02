@@ -91,8 +91,10 @@ const nextConfig: NextConfig = {
             value: 'same-origin',
           },
           {
+            // 'cross-origin' allows social crawlers (WhatsApp, Twitter, etc.)
+            // to fetch opengraph-image routes from external origins.
             key: 'Cross-Origin-Resource-Policy',
-            value: 'same-origin',
+            value: 'cross-origin',
           },
           // DNS prefetch control
           {
