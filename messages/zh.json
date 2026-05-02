@@ -10,7 +10,8 @@
     "confirm": "确认",
     "learnMore": "了解更多",
     "lastUpdated": "最后更新",
-    "aiScore": "AI 评分"
+    "aiScore": "AI 评分",
+    "of": "/"
   },
   "nav": {
     "dashboard": "控制台",
@@ -96,7 +97,12 @@
     "how3Title": "投资",
     "how3Desc": "浏览 AI 审核的项目。用加密货币或法币参与。",
     "how4Title": "领取 & 赚取",
-    "how4Desc": "在 TGE 领取，追踪归属，质押以获得额外奖励。"
+    "how4Desc": "在 TGE 领取，追踪归属，质押以获得额外奖励。",
+    "liveSales": "活跃销售",
+    "activeSuffix": "活跃",
+    "tokenLabel": "代币",
+    "chainLabel": "链",
+    "of": "/"
   },
   "projects": {
     "breadcrumb": "项目",
@@ -123,7 +129,9 @@
     "endsIn": "结束于",
     "startsIn": "开始于",
     "noResultsDesc": "请尝试调整筛选条件或搜索词",
-    "clearFilters": "清除所有筛选"
+    "clearFilters": "清除所有筛选",
+    "auditedBadge": "已审计",
+    "resultCount": "{count} 个项目"
   },
   "projectDetail": {
     "analyzedBy": "由 ZION AI 从6个维度分析",

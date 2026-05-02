@@ -135,7 +135,7 @@ export default function ProjectsPage() {
               {featured.status !== 'ended' && (
                 <div className="hidden sm:block shrink-0 text-right min-w-[90px]">
                   <div className="text-[0.62rem] text-white/35 uppercase tracking-[0.08em] mb-1">{featured.status === 'live' ? t('endsIn') : t('startsIn')}</div>
-                  <Countdown targetMs={(featured.status === 'live' ? featured.endsAt : featured.startsAt) * 1000} variant="inline" className={cn('text-[0.78rem] font-semibold', featured.status === 'live' ? 'text-amber-400' : 'text-cyan-400')} />
+                  <Countdown targetMs={featured.status === 'live' ? featured.endsAt : featured.startsAt} variant="inline" className={cn('text-[0.78rem] font-semibold', featured.status === 'live' ? 'text-amber-400' : 'text-cyan-400')} />
                 </div>
               )}
               <div className="hidden sm:flex shrink-0 w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/20 items-center justify-center text-cyan-400 group-hover:bg-cyan-500/20 transition-all text-sm">→</div>
@@ -199,7 +199,7 @@ export default function ProjectsPage() {
 
           {/* Result count */}
           <div className="text-[0.78rem] text-white/35 mb-5 font-[family-name:var(--font-mono)]">
-            {filtered.length} project{filtered.length !== 1 ? 's' : ''}
+            {t('resultCount', { count: filtered.length })}
           </div>
 
           {filtered.length === 0 ? (
@@ -248,12 +248,12 @@ export default function ProjectsPage() {
                     </div>
                     <div className="hidden md:block shrink-0 text-right w-[86px]">
                       <div className="font-[family-name:var(--font-mono)] font-semibold text-[0.83rem]">{isUpcoming ? '—' : fmt.currency(p.raised, { compact: true })}</div>
-                      <div className="text-[0.67rem] text-white/35">of {fmt.currency(p.target, { compact: true })}</div>
+                      <div className="text-[0.67rem] text-white/35">{tc('of')} {fmt.currency(p.target, { compact: true })}</div>
                     </div>
                     <div className="hidden lg:block shrink-0"><AiScore score={p.aiScore} /></div>
                     <div className="shrink-0 min-w-[80px] text-right">
                       {!isEnded
-                        ? <Countdown targetMs={(isLive ? p.endsAt : p.startsAt) * 1000} variant="inline" className={cn('text-[0.7rem]', isLive ? 'text-amber-400' : 'text-cyan-400')} />
+                        ? <Countdown targetMs={isLive ? p.endsAt : p.startsAt} variant="inline" className={cn('text-[0.7rem]', isLive ? 'text-amber-400' : 'text-cyan-400')} />
                         : <span className="text-[0.7rem] text-white/25 font-[family-name:var(--font-mono)]">{t('tabEnded')}</span>
                       }
                     </div>

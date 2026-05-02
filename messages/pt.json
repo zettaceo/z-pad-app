@@ -10,7 +10,8 @@
     "confirm": "Confirmar",
     "learnMore": "Saiba mais",
     "lastUpdated": "Última atualização",
-    "aiScore": "PONTUAÇÃO IA"
+    "aiScore": "PONTUAÇÃO IA",
+    "of": "de"
   },
   "nav": {
     "dashboard": "Painel",
@@ -96,7 +97,12 @@
     "how3Title": "Invista",
     "how3Desc": "Explore projetos auditados por IA. Participe com crypto ou fiat.",
     "how4Title": "Resgate & Ganhe",
-    "how4Desc": "Resgate no TGE, acompanhe o vesting, faça staking para recompensas extras."
+    "how4Desc": "Resgate no TGE, acompanhe o vesting, faça staking para recompensas extras.",
+    "liveSales": "Vendas Ativas",
+    "activeSuffix": "ativos",
+    "tokenLabel": "Token",
+    "chainLabel": "Chain",
+    "of": "de"
   },
   "projects": {
     "breadcrumb": "Projetos",
@@ -123,7 +129,9 @@
     "endsIn": "Termina em",
     "startsIn": "Começa em",
     "noResultsDesc": "Tente ajustar os filtros ou o termo de busca",
-    "clearFilters": "Limpar filtros"
+    "clearFilters": "Limpar filtros",
+    "auditedBadge": "Auditado",
+    "resultCount": "{count, plural, one {# projeto} other {# projetos}}"
   },
   "projectDetail": {
     "analyzedBy": "Analisado pelo ZION AI em 6 dimensões",

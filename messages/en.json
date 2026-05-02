@@ -10,7 +10,8 @@
     "confirm": "Confirm",
     "learnMore": "Learn More",
     "lastUpdated": "Last updated",
-    "aiScore": "AI SCORE"
+    "aiScore": "AI SCORE",
+    "of": "of"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -96,7 +97,12 @@
     "how3Title": "Invest",
     "how3Desc": "Browse AI-vetted projects. Participate with crypto or fiat.",
     "how4Title": "Claim & Earn",
-    "how4Desc": "Claim at TGE, track vesting, stake for extra rewards."
+    "how4Desc": "Claim at TGE, track vesting, stake for extra rewards.",
+    "liveSales": "Live Sales",
+    "activeSuffix": "active",
+    "tokenLabel": "Token",
+    "chainLabel": "Chain",
+    "of": "of"
   },
   "projects": {
     "breadcrumb": "Projects",
@@ -123,7 +129,9 @@
     "endsIn": "Ends in",
     "startsIn": "Starts in",
     "noResultsDesc": "Try adjusting your filters or search term",
-    "clearFilters": "Clear all filters"
+    "clearFilters": "Clear all filters",
+    "auditedBadge": "Audited",
+    "resultCount": "{count, plural, one {# project} other {# projects}}"
   },
   "projectDetail": {
     "analyzedBy": "Analyzed by ZION AI across 6 dimensions",

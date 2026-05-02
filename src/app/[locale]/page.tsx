@@ -20,7 +20,7 @@ import { ProjectCard } from '@/components/features/ProjectCard';
 import { Countdown } from '@/components/features/Countdown';
 
 export default async function HomePage() {
-  const [t, locale] = await Promise.all([getTranslations('home'), getLocale()]);
+  const [t, tc, locale] = await Promise.all([getTranslations('home'), getTranslations('common'), getLocale()]);
 
   const featured = PROJECTS.find((p) => p.featured);
   const featuredI18n = featured ? getProjectContent(featured.id, locale) : null;
@@ -128,17 +128,17 @@ export default async function HomePage() {
               <Image src="/assets/rocket.png" alt="Z-PAD Rocket" width={480} height={480} sizes="(max-width: 768px) 320px, 480px" className="max-w-[300px] md:max-w-[420px] w-full relative z-[3]" style={{ animation: 'float 6s ease-in-out infinite', filter: 'drop-shadow(0 20px 60px rgba(0,102,255,0.35))' }} priority />
               {/* Floating stat card — top left */}
               <div className="absolute top-[12%] left-[2%] z-[5] backdrop-blur-md bg-white/[0.04] border border-white/[0.12] rounded-[12px] px-3.5 py-2.5 shadow-xl hidden sm:block" style={{ animation: 'float 7s ease-in-out infinite 1s' }}>
-                <div className="text-[0.65rem] text-white/45 uppercase tracking-[0.1em] font-semibold mb-0.5">Total Raised</div>
+                <div className="text-[0.65rem] text-white/45 uppercase tracking-[0.1em] font-semibold mb-0.5">{t('statRaised')}</div>
                 <div className="font-[family-name:var(--font-display)] font-extrabold text-[1.1rem] tracking-tight bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">$48.2M</div>
               </div>
               {/* Floating stat card — bottom right */}
               <div className="absolute bottom-[14%] right-[2%] z-[5] backdrop-blur-md bg-white/[0.04] border border-white/[0.12] rounded-[12px] px-3.5 py-2.5 shadow-xl hidden sm:block" style={{ animation: 'float 8s ease-in-out infinite 0.5s' }}>
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#00e676]" style={{ animation: 'pulse-dot 1.5s ease-in-out infinite' }} />
-                  <span className="text-[0.65rem] text-white/45 uppercase tracking-[0.1em] font-semibold">Live Sales</span>
+                  <span className="text-[0.65rem] text-white/45 uppercase tracking-[0.1em] font-semibold">{t('liveSales')}</span>
                 </div>
                 <div className="font-[family-name:var(--font-display)] font-extrabold text-[1.1rem] tracking-tight text-white">
-                  {liveCount} <span className="text-white/40 text-[0.8rem] font-normal">active</span>
+                  {liveCount} <span className="text-white/40 text-[0.8rem] font-normal">{t('activeSuffix')}</span>
                 </div>
               </div>
             </div>
@@ -222,11 +222,11 @@ export default async function HomePage() {
 
                 <div className="flex sm:flex-col gap-2 w-full sm:w-auto sm:min-w-[140px]">
                   <div className="p-3 rounded-[10px] bg-white/[0.02] border border-white/10">
-                    <div className="text-[0.7rem] text-white/50 uppercase tracking-[0.08em] font-semibold mb-1">Token</div>
+                    <div className="text-[0.7rem] text-white/50 uppercase tracking-[0.08em] font-semibold mb-1">{t('tokenLabel')}</div>
                     <div className="font-[family-name:var(--font-mono)] font-extrabold">{featured.symbol}</div>
                   </div>
                   <div className="p-3 rounded-[10px] bg-white/[0.02] border border-white/10">
-                    <div className="text-[0.7rem] text-white/50 uppercase tracking-[0.08em] font-semibold mb-1">Chain</div>
+                    <div className="text-[0.7rem] text-white/50 uppercase tracking-[0.08em] font-semibold mb-1">{t('chainLabel')}</div>
                     <ChainChip chain={featured.chain} chainName={featured.chainName} />
                   </div>
                 </div>
@@ -239,7 +239,7 @@ export default async function HomePage() {
                     {fmt.currency(featured.raised)}
                   </div>
                   <div className="text-[0.9rem] text-white/50 mb-4">
-                    of <strong className="text-white font-semibold font-[family-name:var(--font-mono)]">{fmt.currency(featured.target)}</strong>
+                    {tc('of')} <strong className="text-white font-semibold font-[family-name:var(--font-mono)]">{fmt.currency(featured.target)}</strong>
                   </div>
                   <div className="w-full h-[6px] bg-white/[0.06] rounded-full overflow-hidden mb-2.5">
                     <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-[0_0_14px_rgba(0,212,255,0.5)] transition-[width] duration-700" style={{ width: `${(featured.raised / featured.target) * 100}%` }} />

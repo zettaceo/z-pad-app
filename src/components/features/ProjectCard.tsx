@@ -109,7 +109,7 @@ export function ProjectCard({ project: p }: ProjectCardProps) {
             {p.audited && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-400 text-[0.62rem] font-semibold">
                 <FileSearch className="w-2.5 h-2.5" />
-                Audited
+                {t('auditedBadge')}
               </span>
             )}
           </div>
@@ -182,7 +182,7 @@ export function ProjectCard({ project: p }: ProjectCardProps) {
           </div>
           {!isEnded && (
             <Countdown
-              targetMs={(isLive ? p.endsAt : p.startsAt) * 1000}
+              targetMs={isLive ? p.endsAt : p.startsAt}
               variant="inline"
               className={cn(
                 'text-[0.7rem]',
