@@ -118,7 +118,12 @@
     "aiScore": "AI Score",
     "target": "Target",
     "raised": "Raised",
-    "participants": "Participants"
+    "participants": "Participants",
+    "featuredSpotlight": "✦ Featured",
+    "endsIn": "Ends in",
+    "startsIn": "Starts in",
+    "noResultsDesc": "Try adjusting your filters or search term",
+    "clearFilters": "Clear all filters"
   },
   "projectDetail": {
     "analyzedBy": "Analyzed by ZION AI across 6 dimensions",

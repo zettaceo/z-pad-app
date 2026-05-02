@@ -53,7 +53,9 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="relative z-[1] border-t border-white/10 bg-bg-000/60 mt-20">
+    <footer className="relative z-[1] border-t border-white/[0.07] bg-bg-000/70 backdrop-blur-sm mt-20">
+      {/* Top shimmer */}
+      <div className="absolute top-0 left-[5%] right-[5%] h-px bg-gradient-to-r from-transparent via-cyan-500/35 to-transparent pointer-events-none" />
       {/* Main footer content */}
       <div className="max-w-[1360px] mx-auto px-6 pt-12 pb-8">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
@@ -132,7 +134,7 @@ export async function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-5 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-[0.76rem] text-white/40">
+        <div className="mt-10 pt-5 border-t border-white/[0.05] flex flex-wrap items-center justify-between gap-3 text-[0.76rem] text-white/35">
           <div>© 2026 ZETTA WORD · {t('allRights')}</div>
           <div className="flex items-center gap-5">
             <span className="inline-flex items-center gap-1.5 text-green-400">
