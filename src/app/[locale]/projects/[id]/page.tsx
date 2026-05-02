@@ -502,7 +502,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                   <div className="flex justify-between"><span className="text-white/50">{pd('maxBuy')}</span><span className="font-[family-name:var(--font-mono)]">{p.maxBuy} {currency}</span></div>
                   <div className="flex justify-between"><span className="text-white/50">{pd('saleType')}</span><span>{p.saleType}</span></div>
                   <div className="flex justify-between"><span className="text-white/50">{pd('liquidity')}</span><span>{p.liquidity}%</span></div>
-                  {p.refundable && <div className="flex justify-between"><span className="text-white/50">{pd('refundable')}</span><span className="text-green-400">48h post-TGE</span></div>}
+                  {p.refundable && <div className="flex justify-between"><span className="text-white/50">{pd('refundable')}</span><span className="text-green-400">{pd('refundableWindow')}</span></div>}
                 </div>
               </div>
 

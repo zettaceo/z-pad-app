@@ -196,7 +196,8 @@
     "lockVested": "vested",
     "teamSection": "Team",
     "ownerLabel": "Owner",
-    "verifiedAddr": "Verified address"
+    "verifiedAddr": "Verified address",
+    "refundableWindow": "48h post-TGE"
   },
   "dashboard": {
     "breadcrumb": "Dashboard",

@@ -196,7 +196,8 @@
     "lockVested": "已归属",
     "teamSection": "团队",
     "ownerLabel": "所有者",
-    "verifiedAddr": "已验证地址"
+    "verifiedAddr": "已验证地址",
+    "refundableWindow": "TGE后48小时"
   },
   "dashboard": {
     "breadcrumb": "控制台",

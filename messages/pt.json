@@ -196,7 +196,8 @@
     "lockVested": "liberado",
     "teamSection": "Equipe",
     "ownerLabel": "Proprietário",
-    "verifiedAddr": "Endereço verificado"
+    "verifiedAddr": "Endereço verificado",
+    "refundableWindow": "48h pós-TGE"
   },
   "dashboard": {
     "breadcrumb": "Painel",
