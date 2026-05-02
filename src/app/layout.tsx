@@ -31,12 +31,20 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-// VERCEL_URL is auto-injected by Vercel (e.g. "z-pad-app.vercel.app") and
-// takes priority so the OG image URL resolves to the actual deployment host,
-// not the custom domain (which may not be live yet).
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+// Build the canonical base URL for og:image and metadataBase.
+// Priority: VERCEL_PROJECT_PRODUCTION_URL (stable, e.g. z-pad-app.vercel.app)
+//         → VERCEL_URL (per-deployment, changes every deploy — avoid for og:image)
+//         → NEXT_PUBLIC_APP_URL (custom domain, may not be live yet)
+//         → localhost fallback
+const baseUrl =
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : null) ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : null) ??
+  process.env.NEXT_PUBLIC_APP_URL ??
+  'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

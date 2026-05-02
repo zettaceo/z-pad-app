@@ -67,7 +67,7 @@ export function GET(_req: NextRequest) {
               Launchpad
             </span>
             <span style={{ fontSize: 80, fontWeight: 900, color: '#ffffff', lineHeight: 1, letterSpacing: -3 }}>
-              You&apos;ll Ever Need.
+              You'll Ever Need.
             </span>
           </div>
 
